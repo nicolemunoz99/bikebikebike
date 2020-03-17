@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "react-dev": "webpack -d --watch",
     "be-start": "nodemon server.js",
-    "fe-start": "live-server ./client/dist"
+    "fe-start": "live-server ./client/dist --port=9000"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,8 @@
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "pg": "^7.18.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",

@@ -7,7 +7,7 @@ const initialState = {
 function rootReducer(state = initialState, action) {
   if (action.type === ACTION) {
     console.log('action.payload', action.payload)
-    return {...state, style: action.payload}
+    return {...state, var: action.payload}
   }
   return state;
 }

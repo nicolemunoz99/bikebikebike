@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
+const router = require('./api/routes')
 
 app.use('*', cors());
 
@@ -13,6 +14,7 @@ app.use(express.static(__dirname + '/client/dist'));
 
 
 // ...api routes...
+app.use('/', router);
 
 
 
