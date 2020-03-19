@@ -1,0 +1,27 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-bbb-dev-193457-authRole",
+            "UnauthRoleArn": "arn:aws:iam::103434209735:role/amplify-bbb-dev-193457-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::103434209735:role/amplify-bbb-dev-193457-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-bbb-dev-193457-deployment",
+            "UnauthRoleName": "amplify-bbb-dev-193457-unauthRole",
+            "StackName": "amplify-bbb-dev-193457",
+            "StackId": "arn:aws:cloudformation:us-east-2:103434209735:stack/amplify-bbb-dev-193457/d97e6b60-6981-11ea-8fb8-02ae28e83a86",
+            "AmplifyAppId": "d2dxut5d4tyu6y"
+        },
+        "categories": {
+            "function": {
+                "clientCustomMessage": {
+                    "REDIRECTURL": "http://localhost:8080/signup",
+                    "EMAILSUBJECT": "",
+                    "EMAILMESSAGE": ""
+                }
+            },
+            "auth": {
+                "client": {}
+            }
+        }
+    }
+}

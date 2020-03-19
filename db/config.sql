@@ -5,6 +5,7 @@ CREATE DATABASE bbb;
 
 CREATE TABLE IF NOT EXISTS auth(
   id INT PRIMARY KEY,
+  username VARCHAR,
   token_type VARCHAR,
   access_token VARCHAR,
   expires_at INT,

@@ -37,6 +37,23 @@ const insert = async (table, keyValues) => {
   return newEntry;
 };
 
+// table: string
+// conditions: object of key/values to match (multiple conditions )
+const get = async (table, conditions) => {
+  let whereStr = [];
+  for (key in conditions) {
+    whereStr = typeof conditions[key] === 'string' ?
+    [...whereStr, `${key} = '${conditions[key]}'`] : [...whereStr, `${key} = ${conditions[key]}`];
+  }
+  whereStr = whereStr.join(' AND ');
+  
+  let params = {
+    text: `SELECT * from ${table} WHERE ${whereStr}`
+  };
+  
+  return await dbQuery(params);
+}
 
 
-module.exports = {dbQuery, insert}
+
+module.exports = {dbQuery, insert, get}
