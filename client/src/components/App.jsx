@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import strava from '../../../strava.js';
 import urls from '../../../urls.js';
 
-// auth
+// auth imports
 import Amplify, { Auth } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 import config from "../aws-exports.js";

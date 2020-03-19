@@ -7,7 +7,7 @@ const { insert } = require('../db.js');
 
 const stravaAuth = async (req, res) => {
     // recieve exchange token after user logs in on Strava
-
+    console.log('stravaAuth')
     let stravaAccessQuery = `?client_id=${strava.clientId}` +
     `&client_secret=${strava.clientSecret}` +
     `&code=${req.query.code}` +
