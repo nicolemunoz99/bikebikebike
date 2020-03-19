@@ -1,12 +1,14 @@
 import React from 'react';
+import CustomLink from './buildingBlocks/CustomLink.jsx';
 
 const Landing = () => {
 
   return (
     <div>
-      <div className="pointer">
-        Login/Signup
-      </div>
+      Landing
+        <CustomLink to='/login' className="red">
+          Link: Login/Signup
+        </CustomLink>
     </div>
   )
 };

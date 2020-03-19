@@ -25,7 +25,7 @@ authRoute.use((req, res, next) => {
 // has user authenticated with strava?
 authRoute.use((req, res, next) => {
   console.log('req.query', req.query);
-  // if user dosn't exist | hasn't given proper strava auth
+  // if user dosn't exist in this db | hasn't given proper strava auth
     // redirect client to /authenticateWithStrava
   // otherwise
     // route request to /gear

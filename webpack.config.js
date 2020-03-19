@@ -19,8 +19,15 @@ module.exports = {
       }
     ]
   },
+  devtool: 'inline-source-map',
   output: {
     path: __dirname + '/client/dist/',
     filename: 'bundle.js'
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'client/dist/'),
+    compress: true,
+    port: 9000,
+    historyApiFallback: true
   }
 };

@@ -1,14 +1,15 @@
-import { ACTION } from './action-types.js';
+import { SET_AUTH_STATUS } from './action-types.js';
 
 const initialState = {
-  var: ''
+  isAuthenticated: false
 };
 
 function rootReducer(state = initialState, action) {
-  if (action.type === ACTION) {
-    console.log('action.payload', action.payload)
-    return {...state, var: action.payload}
+  if (action.type === SET_AUTH_STATUS) {
+    console.log(action)
+    return {...state, isAuthenticated: action.payload}
   }
+
   return state;
 }
 
