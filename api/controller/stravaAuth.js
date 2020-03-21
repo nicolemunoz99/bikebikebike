@@ -6,6 +6,7 @@ const { insert } = require('../db.js');
 
 const stravaAuth = async (req, res) => {
   // strava redirects here; recieve exchange token after user logs in on Strava
+
   if (req.query.scope !== 'read,activity:read_all,profile:read_all') {
     res.redirect(`${process.env.CLIENT}/stravaAuth`);
     return;
@@ -17,15 +18,18 @@ const stravaAuth = async (req, res) => {
   `&grant_type=authorization_code`;
 
   let tokens = (await axios.post(`https://www.strava.com/oauth/token${stravaAccessQuery}`)).data;
-  console.log('strava tokens: ', tokens)
+  
 
   // add username and tokens to db
   tokens.id = tokens.athlete.id;
   tokens.username = req.query.username;
   tokens.scope = req.query.scope
   delete tokens.athlete;
+
   await insert('strava', tokens);
   await insert('userInfo', {id: tokens.id, join_date: Date.now()});
+
+  // GET USER DATA FROM STRAVA API
 
   res.redirect(`${process.env.CLIENT}/stravaAuth`);
 };

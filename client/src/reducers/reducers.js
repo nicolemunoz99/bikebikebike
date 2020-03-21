@@ -1,23 +1,18 @@
-import { SET_AUTH_STATUS, SET_STRAVA_ACCESS_STATUS, SET_USERNAME } from './action-types.js';
+import { SET_STRAVA_ACCESS_STATUS, SET_USER_DATA } from './action-types.js';
 
 const initialState = {
-  username: '',
-  isAuthenticated: false,
-  hasStravaAccess: false
+  hasStravaAccess: true,
+  userData: {}
 };
 
 function rootReducer(state = initialState, action) {
   
-  if (action.type === SET_AUTH_STATUS) {
-    return {...state, isAuthenticated: action.payload};
-  }
-
   if (action.type === SET_STRAVA_ACCESS_STATUS) {
-    return {...state, hasStravaAccess: action.payload};
+    return { ...state, hasStravaAccess: action.payload };
   }
 
-  if (action.type === SET_USERNAME) {
-    return{...state, username: action.payload};
+  if (action.type === SET_USER_DATA) {
+    return { ...state, userData: action.payload };
   }
 
   return state;
