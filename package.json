@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "react-dev": "webpack -d --watch",
-    "be-start": "NODE_ENV=staging nodemon server.js",
-    "fe-start": "webpack-dev-server",
+    "fe-dev": "webpack-dev-server --env.ENVIRONMENT=development",
+    "build": "webpack --env.ENVIRONMENT=production --mode production",
+    "be-dev": "NODE_ENV=development nodemon server.js",
     "start": "NODE_ENV=production node server.js"
   },
   "repository": {

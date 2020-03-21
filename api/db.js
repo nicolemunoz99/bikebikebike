@@ -1,13 +1,13 @@
 const dbAccess = require('../dbAccess.js')
+require('custom-env').env(true);
 
 const{ Pool, Client } = require('pg');
 const pool = new Pool ({
   user: dbAccess.user,
-  host: '127.0.0.1',
-  // host: 'db',
-  password: dbAccess.password,
-  database: 'bbb',
-  port: '5432',
+  host: process.env.DB_host,
+  password: process.env.DB_PW,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
   max: 10
 });
 

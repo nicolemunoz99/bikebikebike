@@ -3,7 +3,7 @@ DROP DATABASE bbb;
 CREATE DATABASE bbb;
 \c bbb;
 
-CREATE TABLE IF NOT EXISTS auth(
+CREATE TABLE IF NOT EXISTS strava(
   id INT PRIMARY KEY,
   username VARCHAR,
   token_type VARCHAR,
@@ -14,22 +14,15 @@ CREATE TABLE IF NOT EXISTS auth(
   scope VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS sessions(
-  id INT REFERENCES auth (id),
-  session VARCHAR,
-  expires_at BIGINT
-);
-
 CREATE TABLE IF NOT EXISTS userInfo(
-  id INT REFERENCES auth (id),
+  id INT REFERENCES strava (id),
   join_date BIGINT,
   measurement_preference VARCHAR,
-  last_ride_id INT,
-  last_ride_name VARCHAR
+  last_ride_id INT
 );
 
 CREATE TABLE IF NOT EXISTS bikes(
-  strava_id INT REFERENCES auth (id),
+  strava_id INT REFERENCES strava (id),
   id VARCHAR PRIMARY KEY,
   name VARCHAR,
   brand_name VARCHAR,

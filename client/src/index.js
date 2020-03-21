@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Landing from './components/Landing.jsx';
 import Login from './components/Login.jsx';
 import Bikes from './components/Bikes.jsx';
+import StravaAuth from './components/StravaAuth.jsx'
 
 import './style.css'
 
@@ -22,6 +23,10 @@ render(
 
         <Route exact path="/login">
           <Login />
+        </Route>
+
+        <Route exact path="/stravaAuth">
+          <StravaAuth />
         </Route>
 
         <Route exact path="/bikes">
