@@ -1,14 +1,16 @@
 require('custom-env').env(true);
+const axios = require('axios')
 const CognitoExpress = require("cognito-express")
 const authRoute = require('express').Router();
-const { get } = require('../db.js');
+const bikes = require('../controller/bikes.js');
+const { get, update } = require('../db.js');
 
 
 const cognitoExpress = new CognitoExpress({
   region: "us-east-2",
   cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID,
   tokenUse: "access", // access | id
-  tokenExpiration: 3600000 //Up to default expiration (3600000 ms)
+  tokenExpiration: 3600000 // default expiration (3600000 ms)
 });
 
 // verify tokens with AWS Cognito
@@ -26,21 +28,43 @@ authRoute.use((req, res, next) => {
   });
 });
 
-// check if strava auth in db
+// check if strava permissions in db
 authRoute.use( async (req, res, next) => {
   console.log('req.query', {...req.query});
 
-  let user = await get('strava', {...req.query});
-  console.log('user in strava table: ', user);
-  // if user dosn't exist in db | hasn't given proper strava auth
-  if (user.length === 0 || user[0].scope !== 'read,activity:read_all,profile:read_all') {
+  let permissions = await get('strava', {...req.query});
+
+  console.log('strava table: ', permissions);
+
+  if (permissions.length === 0 || permissions[0].scope !== 'read,activity:read_all,profile:read_all') {
     res.status(201).send('user has not granted strava permissions');
     return;
   }
-  
+  req.body.permissions = permissions[0];
   next();
-  
 });
+
+// refresh strava tokens if needed
+authRoute.use( async (req, res, next) => {
+  let permissions = req.body.permissions;
+  if (permissions.expires_at > Date.now()) { // 
+    console.log('refreshing strava token')
+    let stravaRefreshQuery = `?client_id=${process.env.CLIENT_ID}` +
+      `&client_secret=${process.env.STRAVA_CLIENT_SECRET}` +
+      `&refresh_token=${permissions.refresh_token}` +
+      `&grant_type=refresh_token`;
+
+    let dataToUpdate = {
+      whereVar: {username: permissions.username},
+      updateVars: (await axios.post(`https://www.strava.com/oauth/token${stravaRefreshQuery}`)).data
+    };
+    console.log('dataToUpdate: ', dataToUpdate)
+    await update('strava', dataToUpdate)
+  }
+  next();
+});
+
+authRoute.get('/bikes', bikes.get)
 
 
 

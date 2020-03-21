@@ -1,7 +1,7 @@
 
 const bikes = {
   get: (req, res) => {
-    console.log('in gear.get')
+    console.log('in bikes.get', req.body)
     res.sendStatus(200)
   }
 };

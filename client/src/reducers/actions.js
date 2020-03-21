@@ -16,23 +16,6 @@ export const setUserData = (obj) => {
 
 // ...THUNKS...
 
-// export const getStravaAccessStatus = () => async(dispatch) => {
-//   try {
-//     let user = await Auth.currentAuthenticatedUser();
-//     console.log('username: ', user.username)
-//     let response = await axios.get(`${process.env.THIS_API}/api`, {
-//       headers: { accesstoken: user.signInUserSession.accessToken.jwtToken }
-//     });
-//     console.log('response from strava check: ', response);
-
-//     if (response.status === 200) dispatch(setStravaAccessStatus(true));
-//   }
-//   catch (err) {
-//     console.log('err', err)
-//     if (err.response.status === 401) dispatch(setStravaAccessStatus(false));
-//     // otherwise display error modal
-//   }
-// };
 
 export const getUserData = () => async (dispatch) => {
   console.log('..get user data');
@@ -53,7 +36,7 @@ export const getUserData = () => async (dispatch) => {
   }
 
   catch (err) {
-    if (err.response.status === 401) {} // user not Cognito authenticated; TODO redirect to login
+    if (err.response.status === 401) {} // user not Cognito-authenticated; TODO redirect to login
     // TODO otherwise display error modal
   }
 };

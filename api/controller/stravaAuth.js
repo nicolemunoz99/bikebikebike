@@ -29,8 +29,6 @@ const stravaAuth = async (req, res) => {
   await insert('strava', tokens);
   await insert('userInfo', {id: tokens.id, join_date: Date.now()});
 
-  // GET USER DATA FROM STRAVA API
-
   res.redirect(`${process.env.CLIENT}/stravaAuth`);
 };
 
