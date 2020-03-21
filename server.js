@@ -18,8 +18,9 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist'));
 
 // ...api routes...
-app.use('/api', authRoute);
 app.use('/stravaAuth', stravaAuth); // strava auth redirects here
+app.use('/api', authRoute);
+
 
 
 // ...client routes...

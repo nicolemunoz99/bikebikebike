@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_AUTH_STATUS, SET_STRAVA_ACCESS_STATUS, SET_USER_DATA } from './action-types.js';
+import { SET_AUTH_STATUS, SET_STRAVA_ACCESS_STATUS, SET_USERNAME, SET_USER_DATA } from './action-types.js';
 
 import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
@@ -13,6 +13,10 @@ export const setAuthStatus = (bool) => {
 export const setStravaAccessStatus = (bool) => {
   return { type: SET_STRAVA_ACCESS_STATUS, payload: bool };
 };
+
+export const setUsername = (str) => {
+  return { type: SET_USERNAME, payload: str }
+}
 
 
 
@@ -34,12 +38,16 @@ export const getAuthStatus = () => async (dispatch) => {
 export const getStravaAccessStatus = () => async(dispatch) => {
   try {
     let user = await Auth.currentAuthenticatedUser();
-    let response = await axios.get(`${process.env.THIS_API}/stravaAuth/?username=${user.username}`, {
+    dispatch(setUsername(user.username));
+    console.log('username: ', user.username)
+    let response = await axios.get(`${process.env.THIS_API}/api?username=${user.username}`, {
       headers: { accesstoken: user.signInUserSession.accessToken.jwtToken }
     });
+    console.log('response from strava check: ', response)
     if (response.status === 200) dispatch(setStravaAccessStatus(true));
   }
   catch (err) {
+    console.log('err', err)
     if (err.response.status === 401) dispatch(setStravaAccessStatus(false));
     // otherwise display error modal
   }
@@ -47,7 +55,7 @@ export const getStravaAccessStatus = () => async(dispatch) => {
 
 // export const getUserData = () => async (dispatch) => {
 //   try {
-//     let response = await axios.get(`${process.env.THIS_API}/login?username=${user.username}`, {
+//     let response = await axios.get(`${process.env.THIS_API}/api/login?username=${user.username}`, {
 //         headers: { accesstoken: user.signInUserSession.accessToken.jwtToken }
 //       });
   
