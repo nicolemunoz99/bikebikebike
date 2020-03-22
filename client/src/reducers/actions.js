@@ -21,7 +21,7 @@ export const getUserData = () => async (dispatch) => {
   console.log('..get user data');
   try {
     let user = await Auth.currentAuthenticatedUser();
-    let response = await axios.get(`${process.env.THIS_API}/api/bikes`, {
+    let response = await axios.get(`${process.env.THIS_API}/api/all-data`, {
         headers: { accesstoken: user.signInUserSession.accessToken.jwtToken }
       });
     

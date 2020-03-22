@@ -19,7 +19,7 @@ const stravaAuth = async (req, res) => {
 
   let tokens = (await axios.post(`https://www.strava.com/oauth/token${stravaAccessQuery}`)).data;
   
-
+  console.log('tokens from strava: ', tokens)
   // add username and tokens to db
   tokens.id = tokens.athlete.id;
   tokens.username = req.query.username;

@@ -2,7 +2,7 @@ require('custom-env').env(true);
 const axios = require('axios')
 const CognitoExpress = require("cognito-express")
 const authRoute = require('express').Router();
-const bikes = require('../controller/bikes.js');
+const allData = require('../controller/allData.js');
 const { get, update } = require('../db.js');
 
 
@@ -47,8 +47,10 @@ authRoute.use( async (req, res, next) => {
 // refresh strava tokens if needed
 authRoute.use( async (req, res, next) => {
   let permissions = req.body.permissions;
-  if (permissions.expires_at > Date.now()) { // 
+  console.log('permissions.expires_at', permissions.expires_at)
+  if ((permissions.expires_at)*1000 < Date.now()) {  
     console.log('refreshing strava token')
+    
     let stravaRefreshQuery = `?client_id=${process.env.CLIENT_ID}` +
       `&client_secret=${process.env.STRAVA_CLIENT_SECRET}` +
       `&refresh_token=${permissions.refresh_token}` +
@@ -64,7 +66,7 @@ authRoute.use( async (req, res, next) => {
   next();
 });
 
-authRoute.get('/bikes', bikes.get)
+authRoute.get('/all-data', allData.get)
 
 
 
