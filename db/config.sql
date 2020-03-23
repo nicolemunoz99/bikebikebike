@@ -16,8 +16,7 @@ CREATE TABLE IF NOT EXISTS strava(
 
 CREATE TABLE IF NOT EXISTS userInfo(
   id INT REFERENCES strava (id),
-  join_date BIGINT,
-  measurement_preference VARCHAR,
+  join_date BIGINT
   last_ride_id INT
 );
 
