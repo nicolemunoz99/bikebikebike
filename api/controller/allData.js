@@ -47,21 +47,19 @@ const allData = {
       stravaApi.get.calcUsage( [...newBikes, ...activeBikes] );
     }
 
-
     // add strava data to newWithUsage
-    newWithUsage = stravaBikes.map(bike => {
-      bike.bike_id = bike.id; 
-      ['id', 'primary', 'resource_state', 'distance'].forEach(el => delete bike[el]);
-      return { ...newWithUsage[bike.bike_id], ...bike };
-      // future feature: get make, model details from stravaApi;
+    let bikesToInsert = Object.keys(newWithUsage).map(id => {
+      let stravaInfo = { ...stravaBikes.find(el => el.id === id) };
+      ['id', 'primary', 'resource_state', 'distance'].forEach(el => delete stravaInfo[el]);
+      return { ...newWithUsage[id], ...stravaInfo, bike_id: id };
     });
 
-    console.log('newWithUsage', newWithUsage);
+    console.log('bikesToInsert', bikesToInsert);
 
     // ... UPDATE DB ...
     let updatePromises = [];
     // insert new bikes;
-    newWithUsage.forEach(bike => updatePromises.push(insert('bikes', {...bike, strava_id: id})))
+    bikesToInsert.forEach(bike => updatePromises.push(insert('bikes', {...bike, strava_id: id})))
     await Promise.all(updatePromises);
     // update parts: for a given bike - take difference between usage of parts in DB and activeWithUsage - add it to part in db
     // update bikes: with activeWithBike
