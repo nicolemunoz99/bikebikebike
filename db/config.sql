@@ -16,36 +16,36 @@ CREATE TABLE IF NOT EXISTS strava(
 
 CREATE TABLE IF NOT EXISTS userInfo(
   id INT REFERENCES strava (id),
-  join_date BIGINT
+  join_date BIGINT,
   last_ride_id INT
 );
 
 CREATE TABLE IF NOT EXISTS bikes(
   strava_id INT REFERENCES strava (id),
-  id VARCHAR PRIMARY KEY,
+  bike_id VARCHAR PRIMARY KEY,
   name VARCHAR,
-  brand_name VARCHAR,
-  model_name VARCHAR,
+  bike_brand VARCHAR,
+  bike_model VARCHAR,
   description VARCHAR,
   frame_type VARCHAR,
-  dist_on_add DECIMAL,
+  bike_dist_at_add DECIMAL,
+  bike_time_at_add DECIMAL,
   dist_current DECIMAL,
-  time_on_add DECIMAL,
   time_current DECIMAL,
   image_url VARCHAR,
-  date_added BIGINT
+  b_date_added BIGINT,
+  bike_status VARCHAR
 );
 
 CREATE TABLE IF NOT EXISTS parts(
-  id SERIAL primary key NOT NULL,
-  bike_id VARCHAR references bikes (id),
-  date_added BIGINT,
+  part_id SERIAL primary key NOT NULL,
+  p_bike_id VARCHAR references bikes (bike_id),
   type VARCHAR,
   custom_type VARCHAR,
-  brand VARCHAR,
-  model VARCHAR,
-  dist_at_add DECIMAL,
-  time_at_add DECIMAL,
+  part_brand VARCHAR,
+  part_model VARCHAR,
+  part_dist_at_add DECIMAL,
+  part_time_at_add DECIMAL,
   lifespan_dist DECIMAL,
   lifespan_time DECIMAL,
   tracking_method VARCHAR,
@@ -53,5 +53,7 @@ CREATE TABLE IF NOT EXISTS parts(
   current_wear_method VARCHAR,
   current_wear_dist DECIMAL,
   current_wear_time DECIMAL,
-  new_date BIGINT
+  new_date BIGINT,
+  p_date_added BIGINT,
+  part_status VARCHAR
 );

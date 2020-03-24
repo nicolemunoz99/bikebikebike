@@ -1,5 +1,6 @@
 const dbAccess = require('../dbAccess.js')
 require('custom-env').env(true);
+const _ = require('lodash');
 
 const{ Pool, Client } = require('pg');
 const pool = new Pool ({
@@ -11,9 +12,16 @@ const pool = new Pool ({
   max: 10
 });
 
+
+
+// ... GENERIC QUERY ...
+
 const dbQuery = async (params) => {
   return (await pool.query(params)).rows;
 };
+
+
+// ... PRE-DEFINED QUERIES ...
 
 const insert = async (table, keyValues) => {
   for (key in keyValues) {
@@ -79,5 +87,13 @@ const get = async (table, conditions) => {
   }
 
 
+// ... FN GETS COLUMN NAMES ...
 
-module.exports = {dbQuery, insert, get, update}
+const getCols = async (table) => {
+  return _.map(await dbQuery(`SELECT column_name FROM information_schema.COLUMNS WHERE TABLE_NAME='${table}'`), 'column_name');
+};
+
+
+
+
+module.exports = {dbQuery, insert, get, update, getCols}

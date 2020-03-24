@@ -1,61 +1,66 @@
 const axios = require('axios');
 const stravaApi = require('./stravaApi.js');
-const { dbQuery, get, insert, update } = require('../db.js'); 
+const { dbQuery, get, insert, update, getCols } = require('../db.js'); 
 const _ = require('lodash');
 
 const allData = {
   get: async (req, res) => {
 
-    console.log('in allData.get', req.body)
+    console.log('req.body in allData.get', req.body)
     let { access_token, id } = req.body.permissions;
-
-    let data = await getAllDbData(id);
-
-    let { last_ride_id } = (await dbQuery(`SELECT last_ride_id FROM userInfo WHERE id=${id}`))[0];
-    console.log('last_ride_id: ', last_ride_id)
-
 
 
     // ...DETERMINE IF ANY NEW BIKES FROM STRAVA...
     
     // Promise.all
       // stravaApi athlete/bikes
-      // db: userInfo with bikes with parts
+      // db: user with bikes with parts
     let athleteDataPromise = stravaApi.get.infoWithBikes(access_token);
-    let bikesInDbPromise = get('bikes', {strava_id: req.body.permissions.id});
-    let [{ ['data']: athleteData }, bikesInDb] = await Promise.all([athleteDataPromise, bikesInDbPromise]);
+    let userDatasetPromise = getUserWithBikesWithParts(id);
+
+    let [{ ['data']: athleteData }, userDataset] = await Promise.all([athleteDataPromise, userDatasetPromise]);
+    let { last_ride_id } = userDataset;
+    let bikesInDb = userDataset.bikes;
 
     console.log('athleteData', athleteData)
     let newBikes = [];
-    let oldBikes = [];
+    let activeBikes = [];
 
     athleteData.bikes.forEach(stravaBike => {
       let commonIndex = bikesInDb.findIndex(dbBike => {
-        return stravaBike.id === dbBike.id 
+        return stravaBike.id === dbBike.bike_id; 
       });
-      if (commonIndex >= 0 ) { oldBikes.push(stravaBike); }
-      else { newBikes.push(stravaBike) }
+      if (commonIndex >= 0 ) { activeBikes.push(stravaBike); }
+      else { newBikes.push(stravaBike); }
     });
 
 
 
     // ... GET USAGE FROM STRAVA ACTIVITY DATA ...
-    let newBikesWithUsage = await stravaApi.get.calcUsage(newBikes, access_token);
-    console.log('newBikesWithUsage: ', newBikesWithUsage)
-    let oldBikesWithLatestUsage = await stravaApi.get.calcUsage(oldBikes, access_token, last_ride_id);
-    console.log('oldBikesWithLatestUsage: ', oldBikesWithLatestUsage)
+
+    let bikesWithUsage = await Promise.all ([
+      stravaApi.get.calcUsage(newBikes, access_token),
+      stravaApi.get.calcUsage(activeBikes, access_token, last_ride_id)
+    ]);
+
+    bikesWithUsage = _.zipObject(['newBikes', 'activeBikes'], bikesWithUsage)
+    console.log('bikesWithUsage', bikesWithUsage);
+
     
-    // if user wants to refresh all data with all-time usage
-    if (false) { // TODO conditional TBD
-      updateUseagePromise = stravaApi.get.allUsage( oldBikes.map(el => ({[el.id]: {miles: 0, hours: 0}})) );
+    // future feature: if user wants to refresh all bikes with all-time usage
+    if (false) { 
+      stravaApi.get.allUsage( [...newBikes, ...activeBikes] );
     }
+
 
     // ... UPDATE DB ...
     // Promise.all:
-      // update userInfo table (measurement pref, latest ride, etc)
-      // post new bikes with all useage
-      // update existing bikes with latest usage
-      // update parts with latest usage
+      
+    // await updateUsage(id, bikesWithUsage);
+      
+      
+      // update userInfo w/ latest ride
+      
 
     // format data and send to client
 
@@ -64,20 +69,54 @@ const allData = {
 };
 
 
-const getAllDbData = async (stravaId) => {
-  console.log('stravaId: ', stravaId)
-  let queryText =  `SELECT *, userInfo.id AS strava_id FROM userInfo LEFT JOIN ` +
-    `(SELECT *, bikes.id AS bike_id FROM bikes LEFT JOIN ` +
-    `(SELECT *, parts.id AS part_id FROM parts) b ` +
-    `ON bikes.id=b.bike_id WHERE strava_id=${stravaId}) a ` +
-    `ON userInfo.id=a.strava_id WHERE userInfo.id=${stravaId}`;
 
-  // let queryText = `SELECT * from bikes LEFT JOIN parts ON bikes.id=parts.bike_id WHERE strava_id=${stravaId}`
 
-  console.log('queryText: ', queryText)
-  return await dbQuery(queryText);
+const getUserWithBikesWithParts = async (stravaId) => {
+  
+  let queryText = `SELECT * FROM userInfo LEFT JOIN ` +
+    `(SELECT * FROM bikes LEFT JOIN parts ON bikes.bike_id=parts.p_bike_id WHERE bikes.strava_id=${stravaId}) b ` +
+    `ON userInfo.id=b.strava_id WHERE userInfo.id=${stravaId}`
+    
+  let rawData = await dbQuery(queryText);
 
-};
+  // format
+  let [ userInfoCols, bikeCols, partCols ] = await Promise.all([ getCols('userinfo'), getCols('bikes'), getCols('parts') ]);
+
+  let formattedData = _.pick(rawData[0], userInfoCols);
+
+  let bikesWithParts = [];
+  let uniqBikeIdElements = _.uniqBy(rawData, 'bike_id');
+  for (let uniqEl of uniqBikeIdElements) {
+    let bikeObj = _.pick(uniqEl, bikeCols);
+    delete bikeObj.strava_id;
+    bikeObj.parts = [];
+    let partCollection = _.filter(rawData, _.matches({'p_bike_id': uniqEl.bike_id}));
+    partCollection.forEach(partEl => {
+      delete partEl.p_bike_id;
+      bikeObj.parts.push(_.pick(partEl, partCols));
+    });
+    bikesWithParts.push(bikeObj);
+  }
+  formattedData.bikes = bikesWithParts;
+
+  return formattedData;
+}
+
+const updateUsage = async (stravaId, bikes) => {
+  let promises = [];
+
+  let { newBikes, activeBikes } = bikes;
+
+  // ... UPDATE PARTS ...
+
+  
+  // ... UPDATE BIKES ...
+  // post new bikes with useage
+  // update existing bikes with latest usage
+  
+
+
+}
 
 
 
