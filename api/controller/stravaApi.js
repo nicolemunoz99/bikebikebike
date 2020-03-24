@@ -15,8 +15,7 @@ const strava = {
   
     calcUsage: async (bikes, token, lastRideId) => {
       let bikesWithData = {};
-      bikes.forEach(bike => bikesWithData[bike.id] = {distance: 0, moving_time: 0});
-
+      bikes.forEach(id => bikesWithData[id] = {dist_current: 0, time_current: 0});
       let page = 1;
 
       while (true) {
@@ -29,8 +28,8 @@ const strava = {
         for (activity of activitesPage) {
           if (lastRideId && activity.id === lastRideId) break;
           if ( activity.type === 'Ride' && activity.gear_id && Object.keys(bikesWithData).includes(activity.gear_id) ) {
-            bikesWithData[activity.gear_id].moving_time += activity.moving_time;
-            bikesWithData[activity.gear_id].distance += activity.distance;
+            bikesWithData[activity.gear_id].time_current += activity.moving_time;
+            bikesWithData[activity.gear_id].dist_current += activity.distance;
           }
         }
         page++
