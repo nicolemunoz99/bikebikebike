@@ -1,6 +1,6 @@
 const axios = require('axios');
 const stravaApi = require('./stravaApi.js');
-const { dbQuery, get, insert, update, getCols } = require('../db.js'); 
+const { dbQuery, get, insert, update, getCols } = require('../db.js');
 const _ = require('lodash');
 
 const allData = {
@@ -9,100 +9,96 @@ const allData = {
     console.log('req.body in allData.get', req.body)
     let { access_token, id } = req.body.permissions;
 
-    // ...DETERMINE IF ANY NEW BIKES FROM STRAVA...
-    
-    // Promise.all
-      // stravaApi athlete/bikes
-      // db: user with bikes with parts
+    let userDataset = await getUserWithBikesWithParts(id);
+    let { last_login } = userDataset;
+
     let athleteDataPromise = stravaApi.get.infoWithBikes(access_token);
-    let userDatasetPromise = getUserWithBikesWithParts(id);
+    let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login);
+    let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
 
-    let [{ ['data']: athleteData }, userDataset] = await Promise.all([athleteDataPromise, userDatasetPromise]);
-    let { last_ride_id } = userDataset;
-    let bikesInDb = userDataset.bikes;
-
-    console.log('athleteData', athleteData)
-    let stravaBikes = athleteData.bikes
-    let newBikes = [];
-    let activeBikes = [];
-
-    stravaBikes.forEach(stravaBike => {
-      let commonIndex = bikesInDb.findIndex(dbBike => {
-        return stravaBike.id === dbBike.bike_id; 
-      });
-      if (commonIndex >= 0 ) { activeBikes.push(stravaBike.id); }
-      else { newBikes.push(stravaBike.id); }
-      // Future feature: if bike in DB but not in stravaBikes - change status to 'retired'
+    // arrays of bike id's
+    let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active and retired bikes
+      if (bikeObj.status === 'active') return [...totArr, bikeObj.id];
+      return [...totArr];
     });
+    let athleteDataBikeIds = athleteData.bikes.map(bike => bike.id); // strava - active bikes
+    let activityLogBikeIds = Object.keys(usageSinceLastLogin); // strava - active and retired
 
-
-    // ... GET USAGE FROM STRAVA ACTIVITY DATA ...
-    let [newWithUsage, activeWithUsage] = await Promise.all ([
-      stravaApi.get.calcUsage(newBikes, access_token),
-      stravaApi.get.calcUsage(activeBikes, access_token, last_ride_id)
-    ]);
-
-    // future feature: if user wants to refresh all bikes with all-time usage
-    if (false) { 
-      stravaApi.get.calcUsage( [...newBikes, ...activeBikes] );
-    }
-
-    // add strava data to newWithUsage
-    let bikesToInsert = Object.keys(newWithUsage).map(id => {
-      let stravaInfo = { ...stravaBikes.find(el => el.id === id) };
-      ['id', 'primary', 'resource_state', 'distance'].forEach(el => delete stravaInfo[el]);
-      return { ...newWithUsage[id], ...stravaInfo, bike_id: id };
-    });
-
-    console.log('bikesToInsert', bikesToInsert);
+    let dbPromises = [];
 
     // ... UPDATE DB ...
-    let updatePromises = [];
-    // insert new bikes;
-    bikesToInsert.forEach(bike => updatePromises.push(insert('bikes', {...bike, strava_id: id})))
-    await Promise.all(updatePromises);
-    // update parts: for a given bike - take difference between usage of parts in DB and activeWithUsage - add it to part in db
-    // update bikes: with activeWithBike
-    // update userInfo w/ latest ride
-      
+    // parts: for a given bike - take difference between usage of parts in DB and activeWithUsage - add it to part usage
+
+    // for all bikes in activityLogBikeIds
+
+      // NOT in dbBikesActive && NOT in athleteDataBikes
+        // if in db as 'retired' (check userDataset)
+          // update bike & parts to 'retired'
+        // else 
+          // insert as 'retired'
+
+      // NOT in dbBikesActive && in athleteDataBikes
+        // insert as 'active'
+
+      // in dbBikesActive && NOT in athleteDataBikes
+        // update bike as 'retired'
+        // update parts as 'retired'
+
+      // in dbBikesActive && in athleteDataBikes
+        // update bike usage
+        // update parts usage
+    
+      // update userInfo w/ last_login    
+
+
+
+
+
+    res.sendStatus(200);
+    return;
 
     // one last get all updated user data from db
     let updatedDataset = await getUserWithBikesWithParts(id);
     updatedDataset.measure_pref = athleteData.measurement_preference;
     // convert distance units to measurement pref
-    // conver time to hours
+    // ?? convert time to hours
 
     res.sendStatus(200)
+
+    // future feature: if !lastLogin -> send complete userDataset w/...
+      // a note that this is 1st login, all bikes with useage, label bikes in athleteData as active, the others as retired
+      // ask user if this is correct
+
+    // future feature: if user wants to refresh all bikes with all-time usage
   }
 };
 
 
-
-
 const getUserWithBikesWithParts = async (stravaId) => {
-  
+
   let queryText = `SELECT * FROM userInfo LEFT JOIN ` +
     `(SELECT * FROM bikes LEFT JOIN parts ON bikes.bike_id=parts.p_bike_id WHERE bikes.strava_id=${stravaId}) b ` +
     `ON userInfo.id=b.strava_id WHERE userInfo.id=${stravaId}`
-  
+
 
   // format
-  let [ rawData, userInfoCols, bikeCols, partCols ] = 
-          await Promise.all([
-            dbQuery(queryText), 
-            getCols('userinfo'), 
-            getCols('bikes'), getCols('parts') 
-          ]);
+  let [rawData, userInfoCols, bikeCols, partCols] =
+    await Promise.all([
+      dbQuery(queryText),
+      getCols('userinfo'),
+      getCols('bikes'), getCols('parts')
+    ]);
 
   let formattedData = _.pick(rawData[0], userInfoCols);
 
   let bikesWithParts = [];
   let uniqBikeIdElements = _.uniqBy(rawData, 'bike_id');
   for (let uniqEl of uniqBikeIdElements) {
+    if (uniqEl.bike_id === null) break;
     let bikeObj = _.pick(uniqEl, bikeCols);
     delete bikeObj.strava_id;
     bikeObj.parts = [];
-    let partCollection = _.filter(rawData, _.matches({'p_bike_id': uniqEl.bike_id}));
+    let partCollection = _.filter(rawData, _.matches({ 'p_bike_id': uniqEl.bike_id }));
     partCollection.forEach(partEl => {
       delete partEl.p_bike_id;
       bikeObj.parts.push(_.pick(partEl, partCols));
@@ -114,24 +110,13 @@ const getUserWithBikesWithParts = async (stravaId) => {
   return formattedData;
 }
 
-const updateUsage = async (stravaId, bikes) => {
-  let { newBikes, activeBikes } = bikes;
-  
-  let updatePromises = [];
-
-
-  // ... UPDATE PARTS ...
-
-  
-  // ... UPDATE BIKES ...
-  // post new bikes with useage
-
-  // update existing bikes with latest usage
-  
-
+const insertNewBikes = (bikeObj) => {
 
 }
 
+const updateBikesAndParts = (bikeObj) => {
+
+}
 
 
 module.exports = allData;

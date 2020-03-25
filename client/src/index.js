@@ -9,7 +9,10 @@ import Login from './components/Login.jsx';
 import Bikes from './components/Bikes.jsx';
 import StravaAuth from './components/StravaAuth.jsx'
 
+import xDate from 'xdate';
 import './style.css'
+
+window.xDate = xDate;
 
 render(
   <Provider store={store}>
