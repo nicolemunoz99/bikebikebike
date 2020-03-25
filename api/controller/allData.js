@@ -20,7 +20,7 @@ const allData = {
     let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active and retired bikes
       if (bikeObj.status === 'active') return [...totArr, bikeObj.id];
       return [...totArr];
-    });
+    }, []);
     let athleteDataBikeIds = athleteData.bikes.map(bike => bike.id); // strava - active bikes
     let activityLogBikeIds = Object.keys(usageSinceLastLogin); // strava - active and retired
 
@@ -30,6 +30,7 @@ const allData = {
     // parts: for a given bike - take difference between usage of parts in DB and activeWithUsage - add it to part usage
 
     // for all bikes in activityLogBikeIds
+    for (bikeId of activityLogBikeIds) {
 
       // NOT in dbBikesActive && NOT in athleteDataBikes
         // if in db as 'retired' (check userDataset)
@@ -49,7 +50,7 @@ const allData = {
         // update parts usage
     
       // update userInfo w/ last_login    
-
+  }
 
 
 
@@ -65,11 +66,7 @@ const allData = {
 
     res.sendStatus(200)
 
-    // future feature: if !lastLogin -> send complete userDataset w/...
-      // a note that this is 1st login, all bikes with useage, label bikes in athleteData as active, the others as retired
-      // ask user if this is correct
 
-    // future feature: if user wants to refresh all bikes with all-time usage
   }
 };
 
@@ -80,15 +77,14 @@ const getUserWithBikesWithParts = async (stravaId) => {
     `(SELECT * FROM bikes LEFT JOIN parts ON bikes.bike_id=parts.p_bike_id WHERE bikes.strava_id=${stravaId}) b ` +
     `ON userInfo.id=b.strava_id WHERE userInfo.id=${stravaId}`
 
-
-  // format
-  let [rawData, userInfoCols, bikeCols, partCols] =
+  let [ rawData, userInfoCols, bikeCols, partCols ] =
     await Promise.all([
       dbQuery(queryText),
       getCols('userinfo'),
       getCols('bikes'), getCols('parts')
     ]);
 
+  // format rawData
   let formattedData = _.pick(rawData[0], userInfoCols);
 
   let bikesWithParts = [];
@@ -110,13 +106,20 @@ const getUserWithBikesWithParts = async (stravaId) => {
   return formattedData;
 }
 
-const insertNewBikes = (bikeObj) => {
+const insertNewBike = (bikeObj) => {
 
 }
 
-const updateBikesAndParts = (bikeObj) => {
+const updateBikeAndParts = (bikeObj) => {
 
 }
 
 
 module.exports = allData;
+
+
+// future feature: if !lastLogin -> send complete userDataset w/...
+  // a note that this is 1st login, all bikes with useage, label bikes in athleteData as active, the others as retired
+  // ask user if this is correct
+
+// future feature: if user wants to refresh all bikes with all-time usage

@@ -9,10 +9,14 @@ import Login from './components/Login.jsx';
 import Bikes from './components/Bikes.jsx';
 import StravaAuth from './components/StravaAuth.jsx'
 
-import xDate from 'xdate';
 import './style.css'
 
+//// DELETE ////
+import xDate from 'xdate';
 window.xDate = xDate;
+import _ from 'lodash';
+window._ = _;
+//////
 
 render(
   <Provider store={store}>
