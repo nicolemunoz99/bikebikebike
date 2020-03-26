@@ -5,19 +5,16 @@ const _ = require('lodash');
 const login = {
   get: async (req, res) => {
 
-    console.log('req.body in allData.get', req.body)
     let { access_token, id } = req.body.permissions;
 
-    let userDataset = await getUserWithBikesWithParts(id);
+    let userDataset = await getUserWithBikesWithParts(id); // db query
     let { last_login } = userDataset;
-    console.log('userDataset', userDataset);
 
 
-    let athleteDataPromise = stravaApi.get.infoWithBikes(access_token);
-    let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login);
+    let athleteDataPromise = stravaApi.get.infoWithBikes(access_token); // athlete data from strava
+    let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login); // calculate distance and time since last login per bike
 
     let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
-    console.log('athleteData', athleteData);
     
     // arrays of bike id's
     let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active bikes in db
@@ -32,13 +29,6 @@ const login = {
     let retiredViaStravaIds = _.difference(dbActiveBikeIds, athleteDataBikeIds);
     let takenOutOfRetirementViaStravaIds = _.intersection(dbRetiredBikeIds, athleteDataBikeIds);
     let dbPromises = [];
-
-    console.log('dbActiveBikeIds: ', dbActiveBikeIds);
-    console.log('dbRetiredBikeIds', dbRetiredBikeIds);
-    console.log('retiredViaStravaIds: ', retiredViaStravaIds);
-    console.log('activityLogBikeIds: ', activityLogBikeIds);
-    console.log('zeroActivityBikeIds: ', zeroActivityBikeIds);
-    console.log('takenOutOfRetirementViaStravaIds', takenOutOfRetirementViaStravaIds)
     
 
     // ... UPDATE DB ...
@@ -89,7 +79,7 @@ const login = {
   }
 };
 
-
+// user info with bikes with parts from db
 const getUserWithBikesWithParts = async (stravaId) => {
 
   let queryText = `SELECT * FROM userInfo LEFT JOIN ` +
@@ -126,6 +116,7 @@ const getUserWithBikesWithParts = async (stravaId) => {
   return formattedData;
 };
 
+// format bike to be added to db
 const formatNewBike = (newBike, latestUse, status='active') => {
 
   newBike.bike_id = newBike.id
@@ -142,11 +133,13 @@ const formatNewBike = (newBike, latestUse, status='active') => {
 };
 
 
+// update bike and parts in db
 const updateBikeAndParts = async (bikeToUpdate, latestUse, status) => {
   let promises = [];
-  console.log('bikeToUpdate: ', bikeToUpdate)
+  
   let distIncrement = latestUse ? latestUse.distSinceLastLogin : 0;
   let timeIncrement = latestUse ? latestUse.timeSinceLastLogin : 0;
+  
   // update parts
   let parts = bikeToUpdate.parts;
   parts.forEach(part => {
