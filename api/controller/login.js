@@ -18,25 +18,31 @@ const login = {
 
     let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
     console.log('athleteData', athleteData);
+    
     // arrays of bike id's
     let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active bikes in db
       if (bikeObj.b_status === 'active') { return [...totArr, bikeObj.bike_id]; }
       else { return [...totArr] };
     }, []);
+    let dbRetiredBikeIds = _.difference(userDataset.bikes.map(el => el.bike_id), dbActiveBikeIds);
+
     let athleteDataBikeIds = athleteData.bikes.map(bike => bike.id); // strava - active bikes
     let activityLogBikeIds = Object.keys(usageSinceLastLogin); // strava - active and retired
     let zeroActivityBikeIds = !last_login ? _.difference(athleteDataBikeIds, activityLogBikeIds) : []; // bikes without activity (needed for first logins)
-    let retiredBikeIds = _.difference(dbActiveBikeIds, athleteDataBikeIds);
+    let retiredViaStravaIds = _.difference(dbActiveBikeIds, athleteDataBikeIds);
+    let takenOutOfRetirementViaStravaIds = _.intersection(dbRetiredBikeIds, athleteDataBikeIds);
     let dbPromises = [];
 
     console.log('dbActiveBikeIds: ', dbActiveBikeIds);
-    console.log('retiredBikes: ', retiredBikeIds);
+    console.log('dbRetiredBikeIds', dbRetiredBikeIds);
+    console.log('retiredViaStravaIds: ', retiredViaStravaIds);
     console.log('activityLogBikeIds: ', activityLogBikeIds);
     console.log('zeroActivityBikeIds: ', zeroActivityBikeIds);
+    console.log('takenOutOfRetirementViaStravaIds', takenOutOfRetirementViaStravaIds)
     
 
     // ... UPDATE DB ...
-    let bikesToAddOrUpdate = [...activityLogBikeIds, ...zeroActivityBikeIds, ...retiredBikeIds];
+    let bikesToAddOrUpdate = [...activityLogBikeIds, ...zeroActivityBikeIds, ...retiredViaStravaIds, ...takenOutOfRetirementViaStravaIds];
 
     for (bikeId of bikesToAddOrUpdate) {
       // NOT in dbBikesActive && in athleteDataBikes
@@ -47,14 +53,14 @@ const login = {
       }
 
       // in dbBikesActive && NOT in athleteDataBikes
-      if ( (dbActiveBikeIds.includes(bikeId) && !athleteDataBikeIds.includes(bikeId)) || retiredBikeIds.includes(bikeId) ) {
+      if ( (dbActiveBikeIds.includes(bikeId) && !athleteDataBikeIds.includes(bikeId)) || retiredViaStravaIds.includes(bikeId) ) {
         // user retired bike since last login
         let bikeToUpdate = userDataset.bikes.find(el => el.bike_id === bikeId);
         dbPromises.push( updateBikeAndParts(bikeToUpdate, usageSinceLastLogin[bikeId], 'retired') );
       }
 
-      // in dbBikesActive && in athleteDataBikes
-      if (dbActiveBikeIds.includes(bikeId) && athleteDataBikeIds.includes(bikeId)) {
+      // (in dbBikesActive && in athleteDataBikes) OR taken out of retirement via strava
+      if ( (dbActiveBikeIds.includes(bikeId) && athleteDataBikeIds.includes(bikeId)) || takenOutOfRetirementViaStravaIds.includes(bikeId) ) {
         // update bike and parts useage
         let bikeToUpdate = userDataset.bikes.find(el => el.bike_id === bikeId);
         dbPromises.push( updateBikeAndParts(bikeToUpdate, usageSinceLastLogin[bikeId], 'active') );
