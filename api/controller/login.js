@@ -17,19 +17,26 @@ const login = {
     let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login);
 
     let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
-
+    console.log('athleteData', athleteData);
     // arrays of bike id's
-    let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active bikes
-      if (bikeObj.status === 'active') return [...totArr, bikeObj.id];
-      return [...totArr];
+    let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active bikes in db
+      if (bikeObj.b_status === 'active') { return [...totArr, bikeObj.bike_id]; }
+      else { return [...totArr] };
     }, []);
     let athleteDataBikeIds = athleteData.bikes.map(bike => bike.id); // strava - active bikes
     let activityLogBikeIds = Object.keys(usageSinceLastLogin); // strava - active and retired
-    let zeroActivityBikeIds = _.difference(athleteDataBikeIds, activityLogBikeIds); // bikes without activity (needed for first logins)
+    let zeroActivityBikeIds = !last_login ? _.difference(athleteDataBikeIds, activityLogBikeIds) : []; // bikes without activity (needed for first logins)
+    let retiredBikeIds = _.difference(dbActiveBikeIds, athleteDataBikeIds);
     let dbPromises = [];
 
+    console.log('dbActiveBikeIds: ', dbActiveBikeIds);
+    console.log('retiredBikes: ', retiredBikeIds);
+    console.log('activityLogBikeIds: ', activityLogBikeIds);
+    console.log('zeroActivityBikeIds: ', zeroActivityBikeIds);
+    
+
     // ... UPDATE DB ...
-    let bikesToAddOrUpdate = !last_login ? [...activityLogBikeIds, ...zeroActivityBikeIds] : activityLogBikeIds;
+    let bikesToAddOrUpdate = [...activityLogBikeIds, ...zeroActivityBikeIds, ...retiredBikeIds];
 
     for (bikeId of bikesToAddOrUpdate) {
       // NOT in dbBikesActive && in athleteDataBikes
@@ -40,20 +47,22 @@ const login = {
       }
 
       // in dbBikesActive && NOT in athleteDataBikes
-      if (dbActiveBikeIds.includes(bikeId) && !athleteDataBikeIds.includes(bikeId)) {
+      if ( (dbActiveBikeIds.includes(bikeId) && !athleteDataBikeIds.includes(bikeId)) || retiredBikeIds.includes(bikeId) ) {
         // user retired bike since last login
-        dbPromises.push( updateBikeAndParts(bikeId, usageSinceLastLogin[bikeId], 'retired') );
+        let bikeToUpdate = userDataset.bikes.find(el => el.bike_id === bikeId);
+        dbPromises.push( updateBikeAndParts(bikeToUpdate, usageSinceLastLogin[bikeId], 'retired') );
       }
 
       // in dbBikesActive && in athleteDataBikes
       if (dbActiveBikeIds.includes(bikeId) && athleteDataBikeIds.includes(bikeId)) {
         // update bike and parts useage
-        dbPromises.push( updateBikeAndParts(bikeId, usageSinceLastLogin[bikeId], 'active') );
+        let bikeToUpdate = userDataset.bikes.find(el => el.bike_id === bikeId);
+        dbPromises.push( updateBikeAndParts(bikeToUpdate, usageSinceLastLogin[bikeId], 'active') );
       }
 
       // NOT in dbBikesActive && NOT in athleteDataBikes
       if (!dbActiveBikeIds.includes(bikeId) && !athleteDataBikeIds.includes(bikeId)) {
-        // user added and retired bike since last login - ask user if they want to import
+        // user added and retired bike since last login wihout riing it - ask user if they want to import
       }
     }
 
@@ -68,7 +77,7 @@ const login = {
     // convert distance units to measurement pref
     // ?? convert time to hours
 
-    res.sendStatus(200)
+    res.send(updatedDataset);
 
 
   }
@@ -127,25 +136,23 @@ const formatNewBike = (newBike, latestUse, status='active') => {
 };
 
 
-const updateBikeAndParts = async (bikeId, latestUse, status) => {
+const updateBikeAndParts = async (bikeToUpdate, latestUse, status) => {
   let promises = [];
-  
-  let bikeInDb = userDataset.bikes.find(el => el.bike_id === bikeId);
-  let distIncrement = latestUse.distSinceLastLogin
-  let timeIncrement = latestUse.timeSinceLastLogin
-
+  console.log('bikeToUpdate: ', bikeToUpdate)
+  let distIncrement = latestUse ? latestUse.distSinceLastLogin : 0;
+  let timeIncrement = latestUse ? latestUse.timeSinceLastLogin : 0;
   // update parts
-  let parts = bikeInDb.parts;
+  let parts = bikeToUpdate.parts;
   parts.forEach(part => {
     let partId = part.part_id
-    let updatePartDist = `UPDATE parts SET p_dist_current=p_dist_current+${distIncrement}, p_status=${status} WHERE part_id=${partId}`
-    let updatePartTime = `UPDATE parts SET p_time_current=p_time_current+${timeIncrement} WHERE part_id=${partId}`
+    let updatePartDist = `UPDATE parts SET p_dist_current=p_dist_current+${distIncrement}, p_status='${status}' WHERE part_id=${partId}`;
+    let updatePartTime = `UPDATE parts SET p_time_current=p_time_current+${timeIncrement} WHERE part_id=${partId}`;
     promises.push(dbQuery(updatePartDist), dbQuery(updatePartTime));
   })
 
   // update bike
-  let updateBikeDist = `UPDATE bikes SET b_dist_current=b_dist_current+${distIncrement}, b_status=${status} WHERE bike_id=${bikeId}`;
-  let updateBikeTime = `UPDATE bikes SET b_time_current=b_time_current+${timeIncrement} WHERE bike_id=${bikeId}`;
+  let updateBikeDist = `UPDATE bikes SET b_dist_current=b_dist_current+${distIncrement}, b_status='${status}' WHERE bike_id='${bikeId}'`;
+  let updateBikeTime = `UPDATE bikes SET b_time_current=b_time_current+${timeIncrement} WHERE bike_id='${bikeId}'`;
   promises.push(dbQuery(updateBikeDist), dbQuery(updateBikeTime));
 
   return Promise.all(promises);
@@ -159,4 +166,5 @@ module.exports = login;
   // a note that this is 1st login, all bikes with useage, label bikes in athleteData as active, the others as retired
   // ask user if this is correct
 
-// future feature: if user wants to refresh all bikes with all-time usage
+// future feature: if user wants to refresh all bikes with all-time usage 
+  //(as might happen if user inserts an activity in middle of feed; current implementation updates based on last login date/time)
