@@ -18,8 +18,7 @@ const strava = {
     calcUsage: async (token, lastLogin) => {
       let bikesWithData = {};
       let page = 1;
-
-      let afterQuery = lastLogin ? `&after=${ lastLogin }` : '';
+      let afterQuery = lastLogin ? `&after=${lastLogin}` : '';
 
       while (true) {
         let activitesPage = (await (axios.get(`${process.env.STRAVA_API}/athlete/activities?page=${page}${afterQuery}`, {

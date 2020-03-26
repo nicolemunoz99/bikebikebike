@@ -2,7 +2,7 @@ require('custom-env').env(true);
 const axios = require('axios')
 const CognitoExpress = require("cognito-express")
 const authRoute = require('express').Router();
-const allData = require('../controller/allData.js');
+const login = require('../controller/login.js');
 const { get, update } = require('../db.js');
 
 
@@ -66,7 +66,7 @@ authRoute.use( async (req, res, next) => {
   next();
 });
 
-authRoute.get('/all-data', allData.get)
+authRoute.get('/login', login.get)
 
 
 

@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS bikes(
   frame_type VARCHAR,
   b_dist_at_add DECIMAL,
   b_time_at_add DECIMAL,
-  dist_current DECIMAL,
-  time_current DECIMAL,
+  b_dist_current DECIMAL,
+  b_time_current DECIMAL,
   image_url VARCHAR,
   b_date_added BIGINT,
   b_status VARCHAR
@@ -49,11 +49,12 @@ CREATE TABLE IF NOT EXISTS parts(
   lifespan_dist DECIMAL,
   lifespan_time DECIMAL,
   tracking_method VARCHAR,
-  useage_metric VARCHAR,
-  current_wear_method VARCHAR,
-  current_wear_dist DECIMAL,
-  current_wear_time DECIMAL,
+  useage_metric VARCHAR, 
+  initial_wear_method VARCHAR, -- formerly current_wear_method
+  p_dist_current DECIMAL,
+  p_time_current DECIMAL,
   new_date BIGINT,
   p_date_added BIGINT,
   p_status VARCHAR
 );
+
