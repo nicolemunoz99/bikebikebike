@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS strava(
   scope VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS userInfo(
+CREATE TABLE IF NOT EXISTS user_info(
   id INT REFERENCES strava (id),
   join_date BIGINT,
-  last_login BIGINT
+  last_login_date BIGINT
 );
 
 CREATE TABLE IF NOT EXISTS bikes(

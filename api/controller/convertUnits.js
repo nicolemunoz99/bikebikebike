@@ -1,3 +1,45 @@
 // converts all distances to user's measurement preference (miles or km)
 // converts all times to hours
+const _ = require('lodash');
+const xDate = require('xdate');
+
+const convertUnits = (dataset) => {
+
+  let distUnit = dataset.measure_pref
+
+  const findTargets = (collection) => { // keys containing 'dist', 'time', 'date'
+    _.forEach(collection, (value, key) => {
+      if (typeof value === 'object') {
+        findTargets(value)
+      } else {
+        console.log('non-object key: ', key)
+        
+        if (key.match(/dist/g)) { // dist in m (strava API default)
+          collection[key] = (distUnit === 'km' ? value / 1000 : value * 1609.34).toFixed(1);
+        }
+
+        if (key.match(/time/g)) { // time in seconds (strava API default)
+          collection[key] = (value / 3600).toFixed(1);
+        }
+
+        if (key.match(/date/g)) { // date in ms since Epoch
+          if (key === 'last_login_date') collection[key] = xDate(value).toString('MMM dd, yyyy @ hh:mm');
+          else collection[key] = xDate(value).toString('MMM dd, yyyy');
+        }
+
+      }
+    });
+  };
+  
+  findTargets(dataset);
+  console.log('converted dataset: ', dataset);
+  return dataset;
+};
+
+
+
+module.exports = convertUnits;
+
+
+
 

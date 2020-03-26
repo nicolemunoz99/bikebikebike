@@ -1,6 +1,7 @@
 const stravaApi = require('./stravaApi.js');
 const { dbQuery, insert, update, getCols } = require('../db.js');
 const _ = require('lodash');
+const convertUnits = require('./convertUnits.js');
 
 const login = {
   get: async (req, res) => {
@@ -8,14 +9,14 @@ const login = {
     let { access_token, id } = req.body.permissions;
 
     let userDataset = await getUserWithBikesWithParts(id); // db query
-    let { last_login } = userDataset;
+    let { last_login_date } = userDataset;
 
 
     let athleteDataPromise = stravaApi.get.infoWithBikes(access_token); // athlete data from strava
-    let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login); // calculate distance and time since last login per bike
-
+    let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login_date); // calculate distance and time since last login per bike
+   
     let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
-    
+    console.log('athleteData: ', athleteData)
     // arrays of bike id's
     let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active bikes in db
       if (bikeObj.b_status === 'active') { return [...totArr, bikeObj.bike_id]; }
@@ -25,7 +26,7 @@ const login = {
 
     let athleteDataBikeIds = athleteData.bikes.map(bike => bike.id); // strava - active bikes
     let activityLogBikeIds = Object.keys(usageSinceLastLogin); // strava - active and retired
-    let zeroActivityBikeIds = !last_login ? _.difference(athleteDataBikeIds, activityLogBikeIds) : []; // bikes without activity (needed for first logins)
+    let zeroActivityBikeIds = !last_login_date ? _.difference(athleteDataBikeIds, activityLogBikeIds) : []; // bikes without activity (needed for first logins)
     let retiredViaStravaIds = _.difference(dbActiveBikeIds, athleteDataBikeIds);
     let takenOutOfRetirementViaStravaIds = _.intersection(dbRetiredBikeIds, athleteDataBikeIds);
     let dbPromises = [];
@@ -35,14 +36,15 @@ const login = {
     let bikesToAddOrUpdate = [...activityLogBikeIds, ...zeroActivityBikeIds, ...retiredViaStravaIds, ...takenOutOfRetirementViaStravaIds];
 
     for (bikeId of bikesToAddOrUpdate) {
-      // NOT in dbBikesActive && in athleteDataBikes
+      // NOT in dbBikesActive && in athleteDataBikes => new bike
       if (!dbActiveBikeIds.includes(bikeId) && athleteDataBikeIds.includes(bikeId)) {
         // insert as 'active'
         let newBike = formatNewBike( athleteData.bikes.find(el => el.id === bikeId), usageSinceLastLogin[bikeId] );
+        console.log('newBike', newBike)
         dbPromises.push( insert('bikes', { ...newBike, strava_id: id }) );
       }
 
-      // in dbBikesActive && NOT in athleteDataBikes
+      // in dbBikesActive && NOT in athleteDataBikes => bike was retired
       if ( (dbActiveBikeIds.includes(bikeId) && !athleteDataBikeIds.includes(bikeId)) || retiredViaStravaIds.includes(bikeId) ) {
         // user retired bike since last login
         let bikeToUpdate = userDataset.bikes.find(el => el.bike_id === bikeId);
@@ -62,19 +64,18 @@ const login = {
       }
     }
 
-    // update userInfo w/ last_login
-    dbPromises.push( update('userInfo', { whereVar: { id }, updateVars: {last_login: Date.now()/1000 } }) );
+    // update user_info w/ last_login_date
+    dbPromises.push( update('user_info', { whereVar: { id }, updateVars: {last_login_date: Date.now() } }) );
 
     await Promise.all(dbPromises);
 
     // get all updated user data
     let updatedDataset = await getUserWithBikesWithParts(id);
-    updatedDataset.measure_pref = athleteData.measurement_preference;
-    // convert distance units to measurement pref
-    // ?? convert time to hours
+    updatedDataset.measure_pref = athleteData.measurement_preference === 'feet' ? 'mi' : 'km';
+    
+    updatedDataset = convertUnits(updatedDataset)
 
     res.send(updatedDataset);
-
 
   }
 };
@@ -82,15 +83,15 @@ const login = {
 // user info with bikes with parts from db
 const getUserWithBikesWithParts = async (stravaId) => {
 
-  let queryText = `SELECT * FROM userInfo LEFT JOIN ` +
+  let queryText = `SELECT * FROM user_info LEFT JOIN ` +
     `(SELECT * FROM bikes LEFT JOIN parts ON bikes.bike_id=parts.p_bike_id WHERE bikes.strava_id=${stravaId}) b ` +
-    `ON userInfo.id=b.strava_id WHERE userInfo.id=${stravaId}`
+    `ON user_info.id=b.strava_id WHERE user_info.id=${stravaId}`
 
   // let queryText = 'select * from bikes';
 
   let [rawData, userInfoCols, bikeCols, partCols] = await Promise.all([
       dbQuery(queryText),
-      getCols('userinfo'),
+      getCols('user_info'),
       getCols('bikes'), getCols('parts')
     ]);
 
@@ -136,7 +137,7 @@ const formatNewBike = (newBike, latestUse, status='active') => {
 // update bike and parts in db
 const updateBikeAndParts = async (bikeToUpdate, latestUse, status) => {
   let promises = [];
-  
+
   let distIncrement = latestUse ? latestUse.distSinceLastLogin : 0;
   let timeIncrement = latestUse ? latestUse.timeSinceLastLogin : 0;
   

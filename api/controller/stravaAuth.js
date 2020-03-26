@@ -27,7 +27,7 @@ const stravaAuth = async (req, res) => {
   delete tokens.athlete;
 
   await insert('strava', tokens);
-  await insert('userInfo', {id: tokens.id, join_date: Date.now()});
+  await insert('user_info', {id: tokens.id, join_date: Date.now()});
 
   res.redirect(`${process.env.CLIENT}/stravaAuth`);
 };

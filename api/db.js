@@ -1,8 +1,18 @@
 const dbAccess = require('../dbAccess.js')
 require('custom-env').env(true);
 const _ = require('lodash');
-
 const{ Pool, Client } = require('pg');
+const types = require('pg').types;
+
+types.setTypeParser(1700, function(val) { // convert pg 'numeric' to js numeric
+  return parseInt(val)
+});
+
+types.setTypeParser(20, function(val) { // convert pg 'bigint' to js numeric
+  return parseInt(val)
+})
+
+
 const pool = new Pool ({
   user: dbAccess.user,
   host: process.env.DB_host,
