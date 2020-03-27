@@ -2,6 +2,24 @@
   cursor: pointer;
 }
 
-.red {
-  color: green;
+.bike-panel {
+  outline: 1px solid black
+}
+
+.panel-title {
+  font-size: 1.2rem;
+}
+
+.text-detail {
+  font-size: 0.8rem;
+}
+
+.meter {
+  background-image: linear-gradient(to right, green, rgb(41, 128, 0), rgb(255, 230, 0), red);
+}
+
+.meter-mask {
+  background-color: white;
+  height: inherit;
+  margin-left: auto;
 }

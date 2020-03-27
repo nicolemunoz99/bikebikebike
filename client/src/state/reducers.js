@@ -27,12 +27,13 @@ const userReducer = (state = initialUserState, action) => {
 /////////////////////////////////////////
 
 const initialBikeState = {
+  list: {},
   selected: {}
 };
 
 const bikeReducer = (state = initialBikeState, action) => {
   if (action.type === SET_BIKES) {
-    return { ...state, ...action.payload };
+    return { ...state, list: {...action.payload} };
   }
   return state;
 };
@@ -40,11 +41,13 @@ const bikeReducer = (state = initialBikeState, action) => {
 /////////////////////////////////////////
 /////////////////////////////////////////
 
-const initialPartState = {};
+const initialPartState = {
+  list: {}
+};
 
 const partReducer = (state = initialPartState, action) => {
   if (action.type === SET_PARTS) {
-    return { ...state, ...action.payload}
+    return { ...state, list: {...action.payload}}
   }
   return state;
 };
@@ -55,3 +58,9 @@ export default combineReducers({
   parts: partReducer,
 });
 
+/////////////////////////////////////////
+/////////////////////////////////////////
+
+const initialModalState = {
+  
+}
