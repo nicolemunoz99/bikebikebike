@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './reducers/store.js';
+import store from './state/store.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Landing from './components/Landing.jsx';
