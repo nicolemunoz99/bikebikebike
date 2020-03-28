@@ -2,26 +2,26 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import WearMeter from './buildingBlocks/WearMeter.jsx';
 
-const Part = (props) => {
-  const part = useSelector(state => state.parts.list[props.id]);
-  console.log('part', props.id)
+const Part = ({ id, children }) => {
+  const part = useSelector(state => state.parts.list[id]);
 
   return (
-    <div className="row">
-      <div className="col-12">
-        <div className="row align-items-center">
-          <div className="col-4 text-right">
 
-            {part.type}:
+    <div className="row no-gutters align-items-center">
 
+      <div className="col-4 text-right text-detail pr-1">
+        {part.type}:
           </div>
-          <div className="col-8">
-          <WearMeter height="1rem" />
-          </div>
-        </div>
+
+      <div className="col-8">
+        <WearMeter partId={part.part_id} height="0.5rem" />
       </div>
-      {props.children}
+
+      <div className="row">
+        {children}
+      </div>
     </div>
+
   );
 };
 

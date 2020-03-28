@@ -29,7 +29,28 @@ module.exports = {
         lifespan_dist: 300,
         lifespan_time: 1000,
         tracking_method: 'custom',
-        useage_metric: 'dist',
+        usage_metric: 'dist',
+        initial_wear_method: 'new',
+        p_dist_current: 50,
+        p_time_current: 800,
+        new_date: 'Mar 01, 2019',
+        p_date_added: 'Mar 01, 2019',
+        p_status: 'active'
+
+      },
+      {
+        part_id: 2,
+        p_bike_id: 'b246653',
+        type: 'freehub',
+        custom_type: null,
+        p_brand: 'shimano',
+        p_model: 'xtr',
+        p_dist_at_add: 0,
+        p_time_at_add: 0,
+        lifespan_dist: 300,
+        lifespan_time: 1000,
+        tracking_method: 'custom',
+        usage_metric: 'time',
         initial_wear_method: 'new',
         p_dist_current: 200,
         p_time_current: 800,
@@ -37,7 +58,8 @@ module.exports = {
         p_date_added: 'Mar 01, 2019',
         p_status: 'active'
 
-      }]
+      }
+    ]
     },
     {
       bike_id: 'b75929',
@@ -53,7 +75,29 @@ module.exports = {
       image_url: null,
       b_date_added: 'Mar 26, 2020',
       b_status: 'active',
-      parts: []
+      parts: [
+        {
+          part_id: 3,
+          p_bike_id: 'b75929',
+          type: 'chain',
+          custom_type: null,
+          p_brand: 'kmc',
+          p_model: null,
+          p_dist_at_add: 0,
+          p_time_at_add: 0,
+          lifespan_dist: 300,
+          lifespan_time: 2000,
+          tracking_method: 'custom',
+          usage_metric: 'time',
+          initial_wear_method: 'new',
+          p_dist_current: 50,
+          p_time_current: 1200,
+          new_date: 'Mar 01, 2019',
+          p_date_added: 'Mar 01, 2019',
+          p_status: 'active'
+  
+        }
+      ]
     },
     {
       bike_id: 'b6854565',

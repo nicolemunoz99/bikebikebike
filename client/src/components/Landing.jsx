@@ -1,14 +1,14 @@
 import React from 'react';
-import CustomLink from './buildingBlocks/CustomLink.jsx';
+import CustomNavLink from './buildingBlocks/CustomNavLink.jsx';
 
 const Landing = () => {
 
   return (
     <div>
       Landing
-        <CustomLink to='/login' className="red">
+        <CustomNavLink to='/login' className="red">
           Link: Login/Signup
-        </CustomLink>
+        </CustomNavLink>
     </div>
   )
 };

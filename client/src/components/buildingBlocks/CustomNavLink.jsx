@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-const CustomLink = ({ history, to, onClick, tag: Tag, staticContext, className, ...rest }) => (
+const CustomNavLink = ({ history, to, onClick, tag: Tag, staticContext, className, ...rest }) => (
   <Tag
       {...rest}
       onClick={(event) => {
@@ -14,7 +14,7 @@ const CustomLink = ({ history, to, onClick, tag: Tag, staticContext, className, 
 );
 
 
-CustomLink.propTypes = {
+CustomNavLink.propTypes = {
   to: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   history: PropTypes.shape({
@@ -23,10 +23,10 @@ CustomLink.propTypes = {
   onClick: PropTypes.func
 };
 
-CustomLink.defaultProps = {
+CustomNavLink.defaultProps = {
   onClick: () => {},
   tag: 'div'
 };
 
 
-export default withRouter(CustomLink);
+export default withRouter(CustomNavLink);

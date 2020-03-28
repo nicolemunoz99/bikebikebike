@@ -2,12 +2,9 @@
   cursor: pointer;
 }
 
-.bike-panel {
-  outline: 1px solid black
-}
-
 .panel-title {
   font-size: 1.2rem;
+  margin: 1rem 0rem 0.5rem 0rem
 }
 
 .text-detail {
@@ -22,4 +19,12 @@
   background-color: white;
   height: inherit;
   margin-left: auto;
+}
+
+.outline-1 {
+  outline: 1px solid var(--grey);
+}
+
+.outline-grey {
+  outline: 1px solid rgb(233, 233, 233);
 }

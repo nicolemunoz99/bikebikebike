@@ -28,14 +28,16 @@ const Bikes = () => {
     <div className="container-md my-5">
       
       <div className="display-4">YourBikes</div>
-      
+      <div className="row justify-content-center">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6">
         {
           bikeIds.map((id) => {
             return (
             <BikePanel key={id} id={id} />)
           })
         }
-
+        </div>
+      </div>
     </div>
   )
 };
