@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap';
-import Part from './Part.jsx';
+import WearMeter from './buildingBlocks/WearMeter.jsx';
 
 
 const BikePanel = (props) => {
   const distUnit = useSelector(state => state.user.measure_pref);
   const bike = useSelector(state => state.bikes.list[props.id]);
+  const parts = useSelector(state => state.parts.list);
 
   const menu = [
     { tooltip: 'edit', icon: 'edit' },
@@ -19,6 +20,7 @@ const BikePanel = (props) => {
     <div className="shadow p-3 mb-5 bg-white rounded panel">
       <div className="row no-gutters align-items-top mb-3">
 
+{/* bike summary */}
         <div className="col-6">
 
           <div className="row">
@@ -42,6 +44,7 @@ const BikePanel = (props) => {
 
         </div>
 
+{/* menu */}
         <div className="col-6">
 
           <div className="row no-gutters justify-content-end text-right">
@@ -50,7 +53,7 @@ const BikePanel = (props) => {
                 <div key={el.icon} className="mx-1 text-sm-center">
                   <OverlayTrigger
                     placement='top'
-                    overlay={ <Tooltip id='edit'> {el.tooltip} </Tooltip> }
+                    overlay={<Tooltip id='edit'> {el.tooltip} </Tooltip>}
                   >
                     <Button className="bbb-button" size="sm">
                       <span className="material-icons panel-menu-text">{el.icon}</span>
@@ -67,20 +70,35 @@ const BikePanel = (props) => {
 
       </div>
 
+{/* parts summary */}
       <div className="row no-gutters justify-content-end">
-
-
         <div className="col-sm-6">
 
           {
-            bike.parts.map(id => {
-              return (<Part key={id} id={id} />)
+            bike.parts.map(partId => {
+              return (
+
+                <div className="row no-gutters align-items-center">
+
+                  <div className="col-4 text-right text-detail pr-1">
+                    {parts[partId].type}:
+                  </div>
+
+                  <div className="col-8">
+                    <WearMeter partId={partId} height="0.5rem" />
+                  </div>
+
+                </div>
+
+              )
+
             })
 
           }
 
         </div>
       </div>
+
     </div>
   )
 };
