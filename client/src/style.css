@@ -1,5 +1,25 @@
+:root {
+  --fade-start: rgb(240, 240, 240);
+  --fade-end: rgb(255, 255, 255);
+  --theme: linear-gradient(to right, var(--fade-end), var(--fade-end));
+}
+
+
+html {
+  background-image: var(--theme);
+}
+
+body {
+  background-color: rgba(255, 255, 255, 0);
+}
+
 .pointer {
   cursor: pointer;
+}
+
+.panel {
+  min-height: 20vh;
+
 }
 
 .panel-title {
@@ -7,7 +27,11 @@
 }
 
 .text-detail {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.panel-menu-text {
+  font-size: 1.2rem;
 }
 
 .meter {
@@ -20,10 +44,34 @@
   margin-left: auto;
 }
 
-.outline-1 {
-  outline: 1px solid var(--grey);
-}
 
 .outline-grey {
   outline: 1px solid rgb(233, 233, 233);
+}
+
+.bbb-button {
+  background-color: gray;
+  color: white;
+  border-color: gray;
+  border-radius: 50%;
+  border-width: 4px;
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
+.bbb-button:hover {
+  background-color: gray;
+  border-color: var(--gray-dark);
+}
+
+.bbb-button:active, .bbb-button:focus  {
+  background-color: white !important;
+  border-color: var(--silver) !important;
+  color: var(--fade-start) !important;
+}
+
+.test {
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
 }

@@ -8,14 +8,19 @@ const BikePanel = (props) => {
   const distUnit = useSelector(state => state.user.measure_pref);
   const bike = useSelector(state => state.bikes.list[props.id]);
 
-  const detailTextClass = 'text-detail';
+  const menu = [
+    { tooltip: 'edit', icon: 'edit' },
+    { tooltip: 'details', icon: 'description' },
+    { tooltip: 'add component', icon: 'add' }
+  ];
+
 
   return (
-    <div className="outline-1 px-3 py-2 mb-3">
+    <div className="shadow p-3 mb-5 bg-white rounded panel">
       <div className="row no-gutters align-items-top mb-3">
-        
+
         <div className="col-6">
-          
+
           <div className="row">
             <div className="col-12 panel-title">
               {bike.name}
@@ -24,14 +29,14 @@ const BikePanel = (props) => {
 
           <div className="row">
 
-          <div className="col-12 ml-3">
-            <div className={detailTextClass}>
-              {`${bike.b_dist_current} ${distUnit}`}
+            <div className="col-12 ml-3">
+              <div className="text-detail">
+                {`${bike.b_dist_current} ${distUnit}`}
+              </div>
+              <div className="text-detail">
+                {`${bike.b_time_current} hrs`}
+              </div>
             </div>
-            <div className={detailTextClass}>
-              {`${bike.b_time_current} hrs`}
-            </div>
-          </div>
 
           </div>
 
@@ -40,53 +45,26 @@ const BikePanel = (props) => {
         <div className="col-6">
 
           <div className="row no-gutters justify-content-end text-right">
-            <div className="col-sm-auto m-1">
-              <OverlayTrigger
-                placement='top'
-                overlay={
-                  <Tooltip id='edit'>
-                    add part
-                </Tooltip>
-                }
-              >
-                <Button variant="secondary" size="sm">
-                  <span className="material-icons align-top">add</span>
-                </Button>
-              </OverlayTrigger>
-            </div>
+            {menu.map(el => {
+              return (
+                <div className="mx-1 text-sm-center">
+                  <OverlayTrigger
+                    placement='top'
+                    overlay={ <Tooltip id='edit'> {el.tooltip} </Tooltip> }
+                  >
+                    <Button className="bbb-button" size="sm">
+                      <span className="material-icons panel-menu-text">{el.icon}</span>
+                    </Button>
+                  </OverlayTrigger>
+                </div>
 
-            <div className="col-sm-auto m-1">
-              <OverlayTrigger
-                placement='top'
-                overlay={
-                  <Tooltip id='edit'>
-                    edit bike
-              </Tooltip>
-                }
-              >
-                <Button variant="secondary" size="sm">
-                  <span className="material-icons align-top">edit</span>
-                </Button>
-              </OverlayTrigger>
-            </div>
-
-            <div className="col-sm-auto m-1">
-              <OverlayTrigger
-                placement='top'
-                overlay={
-                  <Tooltip id='edit'>
-                    details
-              </Tooltip>
-                }
-              >
-                <Button variant="secondary" size="sm">
-                  <span className="material-icons align-top">description</span>
-                </Button>
-              </OverlayTrigger>
-            </div>
+              )
+            })
+            }
           </div>
 
         </div>
+
       </div>
 
       <div className="row no-gutters justify-content-end">

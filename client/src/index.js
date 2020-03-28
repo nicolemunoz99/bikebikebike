@@ -19,8 +19,9 @@ window._ = _;
 //////
 
 render(
+
   <Provider store={store}>
-    App wrapper 
+
     <Router>
       <div>
 
