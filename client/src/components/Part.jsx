@@ -11,7 +11,7 @@ const Part = ({ id, children }) => {
 
       <div className="col-4 text-right text-detail pr-1">
         {part.type}:
-          </div>
+      </div>
 
       <div className="col-8">
         <WearMeter partId={part.part_id} height="0.5rem" />

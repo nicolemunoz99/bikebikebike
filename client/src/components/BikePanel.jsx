@@ -47,7 +47,7 @@ const BikePanel = (props) => {
           <div className="row no-gutters justify-content-end text-right">
             {menu.map(el => {
               return (
-                <div className="mx-1 text-sm-center">
+                <div key={el.icon} className="mx-1 text-sm-center">
                   <OverlayTrigger
                     placement='top'
                     overlay={ <Tooltip id='edit'> {el.tooltip} </Tooltip> }
