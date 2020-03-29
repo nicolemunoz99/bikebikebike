@@ -19,7 +19,10 @@ body {
 
 .panel {
   min-height: 20vh;
+}
 
+.page-title {
+  font-size: 2rem;
 }
 
 .panel-title {

@@ -6,7 +6,7 @@ const Landing = () => {
   return (
     <div>
       Landing
-        <CustomNavLink to='/login' className="red">
+        <CustomNavLink to='/login' className="">
           Link: Login/Signup
         </CustomNavLink>
     </div>

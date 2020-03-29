@@ -6,7 +6,7 @@ const WearMeter = ({ height='1rem', partId }) => {
 
 
   const usage = part.usage_metric === 'dist' ? part.p_dist_current / part.lifespan_dist : part.p_time_current / part.lifespan_time;
-  console.log('usage', usage)
+
   return (
     <div className="row no-gutters">
     <div className="col-12 wm-wrapper outline-grey">

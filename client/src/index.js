@@ -6,9 +6,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Landing from './components/Landing.jsx';
 import Login from './components/Login.jsx';
-import Bikes from './components/Bikes.jsx';
+import BikeList from './components/BikeList.jsx';
 import StravaAuth from './components/StravaAuth.jsx';
-import BikeSpec from './components/BikeSpec.jsx';
+import PartList from './components/PartList.jsx';
 
 import './style.css'
 
@@ -39,10 +39,10 @@ render(
         </Route>
 
         <Route exact path="/bikes">
-          <Bikes />
+          <BikeList />
         </Route>
 
-        <Route exact path="/bikes/:bikeId" component={BikeSpec} />
+        <Route exact path="/bikes/:bikeId" component={PartList} />
 
       </div>
     </Router>
