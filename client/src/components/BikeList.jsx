@@ -28,6 +28,7 @@ const BikeList = () => {
 
     <PageWrapper title="Bikes">
       
+      <div className="mt-3">
       
         {
           bikeIds.map((id) => {
@@ -37,7 +38,7 @@ const BikeList = () => {
           
             })
         }
-      {/* </div> */}
+      </div>
 
     </PageWrapper>
 

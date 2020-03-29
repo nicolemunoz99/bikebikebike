@@ -3,7 +3,7 @@ import {useSelector } from 'react-redux';
 import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap';
 import CustomNavLink from './CustomNavLink.jsx';
 
-const PanelWrapper = ({ children, title, distCurr, timeCurr, menu }) => {
+const PanelWrapper = ({ children, title='', distCurr='', timeCurr='', menu=[] }) => {
   const distUnit = useSelector(state => state.user.measure_pref);
   
   return (
