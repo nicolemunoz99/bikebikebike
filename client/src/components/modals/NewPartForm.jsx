@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalWrapper from '../buildingBlocks/ModalWrapper.jsx';
+import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 
 const NewPartForm = () => {
 

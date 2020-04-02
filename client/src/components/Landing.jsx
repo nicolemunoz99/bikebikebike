@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomNavLink from './buildingBlocks/CustomNavLink.jsx';
+import CustomNavLink from './wrappers/CustomNavLink.jsx';
 
 const Landing = () => {
 

@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData } from '../state/actions.js';
-import PageWrapper from './buildingBlocks/PageWrapper.jsx';
-import WearMeter from './buildingBlocks/WearMeter.jsx';
+import PageWrapper from './wrappers/PageWrapper.jsx';
+import WearMeter from './WearMeter.jsx';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import CustomNavLink from './buildingBlocks/CustomNavLink.jsx';
+import CustomNavLink from './wrappers/CustomNavLink.jsx';
 
 // aws auth stuff
 import Amplify, { Auth } from "aws-amplify";

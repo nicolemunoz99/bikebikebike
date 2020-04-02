@@ -7,7 +7,7 @@ import BikeList from './BikeList.jsx';
 import StravaAuth from './StravaAuth.jsx';
 import PartList from './PartList.jsx';
 
-import ModalIndex from './ModalIndex.jsx'
+import ModalIndex from './modals/Index.jsx'
 
 
 const App = () => {

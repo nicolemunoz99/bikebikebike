@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams} from 'react-router';
 import { getUserData } from '../state/actions.js';
-import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap';
-import PageWrapper from './buildingBlocks/PageWrapper.jsx';
-import WearMeter from './buildingBlocks/WearMeter.jsx';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import PageWrapper from './wrappers/PageWrapper.jsx';
+import WearMeter from './WearMeter.jsx';
 import { setModal }from '../state/actions.js';
 
 const PartList = () => {
@@ -123,7 +123,7 @@ const PartList = () => {
       placement='top'
       overlay={<Tooltip> details </Tooltip>}
       >
-        <span class="material-icons md-48">arrow_drop_down</span>
+        <span className="material-icons md-48">arrow_drop_down</span>
       </OverlayTrigger>
     </div>
     </div>
