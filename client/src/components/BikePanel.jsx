@@ -15,7 +15,7 @@ const BikePanel = ({ id }) => {
     <div className="shadow p-3 mb-5 bg-white rounded panel">
       <div className="row no-gutters align-items-top">
 
-        {/* bike summary */}
+{/* bike summary */}
         <div className="col-6">
           <CustomNavLink to={`/bikes/${id}`}>
             <div className="row">
@@ -38,7 +38,7 @@ const BikePanel = ({ id }) => {
           </CustomNavLink>
         </div>
 
-        {/* menu */}
+{/* add button */}
         <div className="col-6">
 
           <div className="row no-gutters justify-content-end text-right">
@@ -57,7 +57,6 @@ const BikePanel = ({ id }) => {
       </div>
 
 
-
       <div className="row no-gutters justify-content-end">
         <div className="col-sm-6">
 
@@ -74,16 +73,14 @@ const BikePanel = ({ id }) => {
                     <WearMeter partId={partId} height="0.5rem" />
                   </div>
                 </div>
+
+
               )
             })
           }
 
         </div>
       </div>
-
-
-
-
 
     </div>
   )
