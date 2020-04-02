@@ -11,13 +11,6 @@ const BikePanel = ({ id }) => {
   const bike = useSelector(state => state.bikes.list[id]);
   const parts = useSelector(state => state.parts.list);
 
-  const menu = [
-    { tooltip: 'edit bike', icon: 'edit', link: '.' },
-    { tooltip: 'details', icon: 'description', link: `/bikes/${id}` },
-    { tooltip: 'add component', icon: 'add', link: `${useLocation().pathname}/new` }
-  ];
-
-
   return (
     <div className="shadow p-3 mb-5 bg-white rounded panel">
       <div className="row no-gutters align-items-top">
@@ -63,11 +56,6 @@ const BikePanel = ({ id }) => {
         </div>
       </div>
 
-
-      <div className="row text-detail">
-
-
-      </div>
 
 
       <div className="row no-gutters justify-content-end">

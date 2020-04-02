@@ -4,6 +4,7 @@
   --theme: linear-gradient(to right, var(--fade-end), var(--fade-end));
 }
 
+.material-icons.md-48 { font-size: 32px; }
 
 html {
   background-image: var(--theme);
@@ -17,8 +18,13 @@ body {
   cursor: pointer;
 }
 
-.panel {
+/* .panel {
   min-height: 20vh;
+} */
+
+.part-panel {
+  border-style: solid none solid none;
+  border-width: 1px
 }
 
 .page-title {
@@ -31,11 +37,6 @@ body {
 
 .text-detail {
   font-size: 0.9em;
-  /* font-size: 10px; */
-}
-
-.panel-menu-text {
-  font-size: 1.2rem;
 }
 
 .meter {
@@ -74,11 +75,6 @@ body {
   color: var(--fade-start) !important;
 }
 
-/* .test {
-  text-align: center;
-  vertical-align: middle;
-  display: table-cell;
-} */
 
 .modal-wrapper {
   z-index: 1000;
