@@ -64,8 +64,8 @@ module.exports = {
     {
       bike_id: 'b75929',
       name: 'airborne',
-      b_brand: null,
-      b_model: null,
+      b_brand: 'Airborne',
+      b_model: 'Somemodel',
       description: null,
       frame_type: null,
       b_dist_at_add: '634.9',
