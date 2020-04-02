@@ -26,11 +26,12 @@ body {
 }
 
 .panel-title {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .text-detail {
-  font-size: 0.9rem;
+  font-size: 0.9em;
+  /* font-size: 10px; */
 }
 
 .panel-menu-text {
@@ -73,8 +74,19 @@ body {
   color: var(--fade-start) !important;
 }
 
-.test {
+/* .test {
   text-align: center;
   vertical-align: middle;
   display: table-cell;
+} */
+
+.modal-wrapper {
+  z-index: 1000;
+  background-color: rgba(105, 41, 41, 0.507);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
 }

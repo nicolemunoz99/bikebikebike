@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_STRAVA_ACCESS_STATUS, SET_USER, SET_BIKES, SET_PARTS } from './action-types.js';
+import { SET_STRAVA_ACCESS_STATUS, SET_USER, SET_BIKES, SET_PARTS, SET_MODAL } from './action-types.js';
 import devData from './data.js'
 import { normalize, schema } from 'normalizr';
 
@@ -14,7 +14,11 @@ export const setStravaAccessStatus = (bool) => {
 };
 
 export const setUser = (userInfo) => {
-  return { type: SET_USER, payload: userInfo }
+  return { type: SET_USER, payload: userInfo };
+};
+
+export const setModal = (modalType) => {
+  return { type: SET_MODAL, payload: modalType };
 }
 
 export const setBikes = (bikes) => {

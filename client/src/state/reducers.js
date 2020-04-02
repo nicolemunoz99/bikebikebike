@@ -1,5 +1,14 @@
-import { SET_STRAVA_ACCESS_STATUS, SET_USER, SET_BIKES, SET_PARTS } from './action-types.js';
+import { SET_STRAVA_ACCESS_STATUS, SET_USER, SET_MODAL, SET_BIKES, SET_PARTS } from './action-types.js';
 import { combineReducers } from 'redux';
+
+const initialModalState = '';
+
+const modalReducer = (state = initialModalState, action) => {
+  if (action.type === SET_MODAL) {
+    return action.payload;
+  }
+  return state;
+ };
 
 const initialUserState = {
   hasStravaAccess: true,
@@ -53,6 +62,7 @@ const partReducer = (state = initialPartState, action) => {
 };
 
 export default combineReducers({
+  modal: modalReducer,
   user: userReducer, 
   bikes: bikeReducer,
   parts: partReducer,
@@ -60,7 +70,3 @@ export default combineReducers({
 
 /////////////////////////////////////////
 /////////////////////////////////////////
-
-const initialModalState = {
-  
-}

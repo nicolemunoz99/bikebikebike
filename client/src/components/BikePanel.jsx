@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import WearMeter from './buildingBlocks/WearMeter.jsx';
-
 import PanelWrapper from './buildingBlocks/PanelWrapper.jsx'
 
 
@@ -12,21 +11,33 @@ const BikePanel = ({ id }) => {
   const parts = useSelector(state => state.parts.list);
 
   const menu = [
-    { tooltip: 'edit bike', icon: 'edit', link: '/' },
+    { tooltip: 'edit bike', icon: 'edit', link: '.' },
     { tooltip: 'details', icon: 'description', link: `/bikes/${id}` },
-    { tooltip: 'add component', icon: 'add', link: '/' }
+    { tooltip: 'add component', icon: 'add', link: `${useLocation().pathname}/new` }
   ];
 
 
   return (
     <PanelWrapper 
       title={bike.name}
-      distCurr={bike.b_dist_current}
-      timeCurr={bike.b_time_current}
+      subTitle={`${bike.b_brand ? bike.b_brand : 'brand'} ${bike.b_model ? bike.b_model : 'model'}`}
       menu={menu}
     >
 
 {/* parts summary */}
+
+      <div className="row text-detail">
+
+        <div className="col-12">
+          <div>
+            {`${bike.b_dist_current} ${distUnit}`}
+          </div>
+          <div>
+            {`${bike.b_time_current} hrs`}
+          </div>
+        </div>
+
+      </div>
       <div className="row no-gutters justify-content-end">
         <div className="col-sm-6">
 

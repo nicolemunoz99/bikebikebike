@@ -2,13 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './state/store.js';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Landing from './components/Landing.jsx';
-import Login from './components/Login.jsx';
-import BikeList from './components/BikeList.jsx';
-import StravaAuth from './components/StravaAuth.jsx';
-import PartList from './components/PartList.jsx';
+import App from './components/App.jsx';
 
 import './style.css'
 
@@ -22,8 +17,22 @@ window._ = _;
 render(
 
   <Provider store={store}>
+    
+    {/* <Router>
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/stravaAuth" component={StravaAuth} />
+        <Route exact path="/bikes" component={BikeList} />
+        <Route exact path="/bikes/:bikeId" component={PartList} />
+        <Route exact path="/modal" component={ModalWrapper} />
+      </Switch>
+    </Router> */}
+    
+    <App />
 
-    <Router>
+
+    {/* <Router>
       <div>
 
         <Route exact path="/">
@@ -42,10 +51,16 @@ render(
           <BikeList />
         </Route>
 
-        <Route exact path="/bikes/:bikeId" component={PartList} />
+        <Route path="/bikes/:bikeId">
+          <PartList/>
+        </Route>
 
+        <Route path="/bikes/:bikeId/new">
+          <ModalWrapper/>
+        </Route>
+        
       </div>
-    </Router>
+    </Router> */}
     
   </Provider>,
   document.getElementById('root')

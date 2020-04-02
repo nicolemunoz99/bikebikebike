@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams} from 'react-router';
 import { getUserData } from '../state/actions.js';
 import PageWrapper from './buildingBlocks/PageWrapper.jsx';
 import PartPanel from './PartPanel.jsx';
 
 const PartList = (props) => {
-  const bike = useSelector(state => state.bikes.list[props.match.params.bikeId])
+  const bike = useSelector(state => state.bikes.list[useParams().bikeId])
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
+  console.log()
+
   useEffect(() => {
     dispatch(getUserData());
-
   }, []);
 
   return (
@@ -22,7 +24,7 @@ const PartList = (props) => {
           <PageWrapper title={bike.name}>
 
             <div className="row no-gutters text-detail">
-              <div className="row text-detail">
+              <div className="row">
                 <div className="col-sm-auto">{bike.b_brand}</div>
                 <div className="col-sm-auto">{bike.b_model}</div>
                 <div className="col-sm-auto">{bike.frame_type}</div>

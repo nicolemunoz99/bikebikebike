@@ -1,21 +1,34 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setModal } from '../../state/actions.js';
 import { withRouter } from 'react-router-dom';
 
-const CustomNavLink = ({ history, to, onClick, tag: Tag, staticContext, className, ...rest }) => (
+const CustomNavLink = ({ history, to, modal=false, onClick, tag: Tag, staticContext, className, ...rest }) => {
+  const dispatch = useDispatch();
+  
+
+  return (
+
   <Tag
       {...rest}
       onClick={(event) => {
+          console.log('to: ', to)
+          console.log('modal', modal)
+          if (modal) {
+            dispatch(setModal(modal));
+            return;
+          }
           onClick(event);
           history.push(to)
       }}
       className={`pointer ${className}`}
   />
-);
+)};
 
 
 CustomNavLink.propTypes = {
-  to: PropTypes.string.isRequired,
+  to: PropTypes.string,
   children: PropTypes.node.isRequired,
   history: PropTypes.shape({
       push: PropTypes.func.isRequired
@@ -25,7 +38,8 @@ CustomNavLink.propTypes = {
 
 CustomNavLink.defaultProps = {
   onClick: () => {},
-  tag: 'div'
+  tag: 'div',
+  to: '/'
 };
 
 
