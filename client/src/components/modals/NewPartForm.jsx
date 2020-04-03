@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateForm, resetFields } from '../../state/actions.js';
 
 const NewPartForm = () => {
-  // const [inputs, setInputs] = useState(initForm);
-  // const [errorList, setErrors] = useState([]);
   const inputs = useSelector(state => state.form);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
@@ -256,9 +254,17 @@ const NewPartForm = () => {
         <Col sm="8">
           <Form.Control 
             type="text" 
-            placeholder={inputs.usage_metric === 'dist' ? distUnit : 'hours' }
-            id={inputs.tracking_method === 'dist' ? 'lifespan_dist' : 'lifespan_time' }
+            placeholder={`hours ${inputs.usage_metric === 'dist' ? '(optional)' : ''}` }
+            id='lifespan_time'
             onChange={recordInput} 
+            className="mb-1"
+          />
+          <Form.Control 
+            type="text" 
+            placeholder={`${distUnit} ${inputs.usage_metric === 'time' ? '(optional)' : ''}` }
+            id='lifespan_dist'
+            onChange={recordInput} 
+            className="mb-1"
           />
         </Col> 
       </Form.Group>
