@@ -4,7 +4,12 @@ import thunk from 'redux-thunk';
 
 import rootReducer from './reducers.js';
 
-const store = createStore(rootReducer, composeWithDevTools(
+const composeEnhancers = composeWithDevTools({ 
+  trace: true, 
+  traceLimit: 8 
+}); 
+
+const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)
 ));
 

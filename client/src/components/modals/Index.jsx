@@ -4,11 +4,10 @@ import NewPartForm from './NewPartForm.jsx';
 
 const ModalIndex = () => {
   const modal = useSelector(state => state.modal);
-  console.log('modal in Index', modal)
 
   return (
     <div>
-      { true ?
+      {  modal === 'newPartForm' ?
         <NewPartForm />
         :
         null
@@ -18,3 +17,5 @@ const ModalIndex = () => {
 };
 
 export default ModalIndex;
+
+// modal === 'newPartForm'

@@ -46,7 +46,7 @@ const PartList = () => {
                 </div>
                 <div 
                   className="col-auto m-auto pointer"
-                  onClick={()=>dispatch(setModal(newPartForm))}
+                  onClick={()=>dispatch(setModal('newPartForm'))}
                 >
                   <OverlayTrigger
                   placement='left'
