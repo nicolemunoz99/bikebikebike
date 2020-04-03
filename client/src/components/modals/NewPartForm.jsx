@@ -15,10 +15,14 @@ const NewPartForm = () => {
   const selectDropdown = (e) => {
     console.log(e.target.id, e.target.getAttribute('data-name'))
     dispatch(updateForm({[e.target.getAttribute('data-name')]: e.target.id}))
+    if (e.target.getAttribute('data-name') === 'init_wear_method') {
+      dispatch(resetFields(['p_dist_current', 'p_time_current', 'new_date']))
+    }
   }
 
   const recordInput = (e) => {
     console.log(e.target.id, e.target.value, e.target.type)
+    if (e.target.id === 'tracking_method') dispatch(resetFields(['init_wear_method', 'usage_metric']))
     dispatch(updateForm({[e.target.id]: e.target.value}))
   }
 
@@ -252,7 +256,7 @@ const NewPartForm = () => {
         <Col sm="8">
           <Form.Control 
             type="text" 
-            placeholder={inputs.tracking_method === 'dist' ? distUnit : 'hours' }
+            placeholder={inputs.usage_metric === 'dist' ? distUnit : 'hours' }
             id={inputs.tracking_method === 'dist' ? 'lifespan_dist' : 'lifespan_time' }
             onChange={recordInput} 
           />

@@ -22,7 +22,7 @@ const formReducer = (state = initialFormState, action) => {
   }
   if (action.type === RESET_FIELDS) {
     let tempState = { ...state }
-    for (field of action.payload) tempState[field] = initialFormState[field];
+    for (let field of action.payload) tempState[field] = initialFormState[field];
     return tempState;
   }
   return state;
