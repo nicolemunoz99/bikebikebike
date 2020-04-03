@@ -1,4 +1,9 @@
-import { SET_STRAVA_ACCESS_STATUS, SET_USER, SET_MODAL, CLOSE_MODAL, SET_BIKES, SET_PARTS, UPDATE_FORM } from './action-types.js';
+import { 
+  SET_STRAVA_ACCESS_STATUS, SET_USER, 
+  SET_MODAL, CLOSE_MODAL, 
+  SET_BIKES, SET_PARTS, 
+  UPDATE_FORM, RESET_FIELDS
+} from './action-types.js';
 import { combineReducers } from 'redux';
 
 
@@ -14,6 +19,11 @@ const initialFormState = {
 const formReducer = (state = initialFormState, action) => {
   if (action.type === UPDATE_FORM) {
     return { ...state, ...action.payload };
+  }
+  if (action.type === RESET_FIELDS) {
+    let tempState = { ...state }
+    for (field of action.payload) tempState[field] = initialFormState[field];
+    return tempState;
   }
   return state;
 }

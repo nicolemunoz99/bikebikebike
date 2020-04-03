@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { SET_STRAVA_ACCESS_STATUS, SET_USER, SET_BIKES, SET_PARTS, SET_MODAL, CLOSE_MODAL, UPDATE_FORM } from './action-types.js';
+import { 
+  SET_STRAVA_ACCESS_STATUS, SET_USER, 
+  SET_BIKES, SET_PARTS, 
+  SET_MODAL, CLOSE_MODAL, 
+  UPDATE_FORM, RESET_FIELDS
+} from './action-types.js';
+
 import devData from './data.js'
 import { normalize, schema } from 'normalizr';
 
@@ -35,6 +41,10 @@ export const setParts = (parts) => {
 
 export const updateForm = (newKeyPairs) => {
  return { type: UPDATE_FORM, payload: newKeyPairs}
+}
+
+export const resetFields = (fieldsArr) => {
+  return { type: RESET_FIELDS, payload: fieldsArr }
 }
 
 

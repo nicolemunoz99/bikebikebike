@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateForm } from '../../state/actions.js';
+import { updateForm, resetFields } from '../../state/actions.js';
 
 const NewPartForm = () => {
   // const [inputs, setInputs] = useState(initForm);
