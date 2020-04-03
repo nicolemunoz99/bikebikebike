@@ -86,8 +86,9 @@ const NewPartForm = () => {
             name="tracking_method"
             id="tracking_method"
             value="default"
-            checked={inputs.tracking_method==="default" ? true : false}
+            checked={inputs.tracking_method==='default' ? true : false}
             onChange={recordInput}
+            disabled={inputs.type !== 'custom' ? false : true}
           />
         </Col>
         <Col sm="auto">
@@ -97,7 +98,7 @@ const NewPartForm = () => {
             name="tracking_method"
             id="tracking_method"
             value="custom"
-            checked={inputs.tracking_method==="custom" ? true : false}
+            checked={inputs.type == 'custom' || inputs.tracking_method==='custom' ? true : false}
             onChange={recordInput}
           />
       </Col>
