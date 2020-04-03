@@ -6,8 +6,8 @@ const initialFormState = {
   type: '', custom_type: '', p_brand: '', p_model: '',
   p_dist_at_add: '', p_time_at_add: '', 
   lifespan_dist: '', lifespan_time: '',
-  tracking_method: null, useage_metric: null,
-  initial_wear_method: '', p_dist_current: '', p_time_current: '', 
+  tracking_method: null, usage_metric: null,
+  init_wear_method: '', p_dist_current: '', p_time_current: '', 
   new_date: '', p_date_added: ''
 };
 

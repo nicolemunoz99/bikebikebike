@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS parts(
   lifespan_time DECIMAL,
   tracking_method VARCHAR,
   usage_metric VARCHAR, 
-  initial_wear_method VARCHAR, -- formerly current_wear_method
+  init_wear_method VARCHAR, -- formerly current_wear_method
   p_dist_current DECIMAL,
   p_time_current DECIMAL,
   new_date BIGINT,

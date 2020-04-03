@@ -6,7 +6,7 @@ import rootReducer from './reducers.js';
 
 const composeEnhancers = composeWithDevTools({ 
   trace: true, 
-  traceLimit: 8 
+  traceLimit: 12 
 }); 
 
 const store = createStore(rootReducer, composeEnhancers(

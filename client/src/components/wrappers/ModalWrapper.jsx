@@ -6,7 +6,9 @@ const ModalWrapper = ({ children }) => {
   const dispatch = useDispatch();
   
   const closeHandler = (e) => {
-    if (e.target === e.currentTarget) closeModal();
+    if (e.target === e.currentTarget) {
+      dispatch(closeModal())
+    };
   }
   
   return (
