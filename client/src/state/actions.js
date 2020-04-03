@@ -3,7 +3,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  UPDATE_FORM, RESET_FIELDS
+  UPDATE_FORM, RESET_FIELDS, RESET_FORM
 } from './action-types.js';
 
 import devData from './data.js'
@@ -45,6 +45,10 @@ export const updateForm = (newKeyPairs) => {
 
 export const resetFields = (fieldsArr) => {
   return { type: RESET_FIELDS, payload: fieldsArr }
+}
+
+export const resetForm = () => {
+  return { type: RESET_FORM }
 }
 
 

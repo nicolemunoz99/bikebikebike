@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
-import { closeModal } from '../../state/actions.js';
+import { closeModal, resetForm } from '../../state/actions.js';
 
 const ModalWrapper = ({ children }) => {
   const dispatch = useDispatch();
   
   const closeHandler = (e) => {
     if (e.target === e.currentTarget) {
-      dispatch(closeModal())
+      dispatch(closeModal());
+      dispatch(resetForm());
     };
   }
   
