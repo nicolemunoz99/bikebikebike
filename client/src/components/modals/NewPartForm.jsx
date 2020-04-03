@@ -8,6 +8,7 @@ const NewPartForm = () => {
   // const [inputs, setInputs] = useState(initForm);
   // const [errorList, setErrors] = useState([]);
   const inputs = useSelector(state => state.form);
+  const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
 
@@ -165,34 +166,111 @@ const NewPartForm = () => {
       Current wear:
     </Form.Label>
     <Col sm="8">
-    <Row>
-      <Col xs="12" className="mb-1">
-        <DropdownButton
-          id="init_wear_method"
-          size="sm"
-          variant="info"
-          title={inputs.init_wear_method ? wearMethods[inputs.init_wear_method].title : 'Select'}
-        >
-          {Object.keys(wearMethods).map(methodKey => {
-            return (
-              <Dropdown.Item onClick={selectDropdown} data-name="init_wear_method" key={methodKey} id={methodKey}>
-                {wearMethods[methodKey].title}
-              </Dropdown.Item> 
-            )
-          })}
-        </DropdownButton>
-      </Col>
-    </Row>
+      <Row>
+        <Col xs="12" className="mb-1">
+          <DropdownButton
+            id="init_wear_method"
+            size="sm"
+            variant="info"
+            title={inputs.init_wear_method ? wearMethods[inputs.init_wear_method].title : 'Select'}
+          >
+            {Object.keys(wearMethods).map(methodKey => {
+              return (
+                <Dropdown.Item onClick={selectDropdown} data-name="init_wear_method" key={methodKey} id={methodKey}>
+                  {wearMethods[methodKey].title}
+                </Dropdown.Item> 
+              )
+            })}
+          </DropdownButton>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs="12" className="mb-1">
+
+        {inputs.init_wear_method === 'est' ?
+          <>
+            <Form.Control 
+              type="text" 
+              placeholder={`Estimated current wear in hours`} 
+              id={`p_time_current`} 
+              onChange={recordInput} 
+              value={inputs.p_time_current} 
+              className="mb-1"
+            />
+            <Form.Control 
+              type="text" 
+              placeholder={`Estimated current wear in ${distUnit}`} 
+              id={'p_dist_current'} 
+              onChange={recordInput} 
+              value={inputs.p_dist_current} 
+              className="mb-1"
+            />
+          </>
+        :
+        null
+        }
+
+        {inputs.init_wear_method === 'strava' ?
+        <>
+          <Form.Control 
+            type="date" 
+            id={`new_date`} 
+            onChange={recordInput} 
+          />
+            <div>
+              When was this part new/last serviced? This component's useage as of now will be calculated from your Strava activities 
+              and assuming the component was new on the date you enter above. Your first activity will be 
+              used if the date you enter precedes your first Strava activity.
+            </div>
+          </>
+        :
+        null
+        }
+
+        {inputs.init_wear_method === 'new' ?
+          <div>Distance/time will be calculated starting with your next activity.</div>
+        :
+        null
+        }
+        </Col>
+      </Row>
 
     </Col>
   </Form.Group> 
-  
   :
   null
   }
 
+  {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
+    (inputs.init_wear_method === 'strava' && inputs.new_date) ||
+    inputs.init_wear_method === 'new' ?
+      <Form.Group as={Row}>
+        <Form.Label column sm="4">
+          Life/service interval:
+        </Form.Label>
+        <Col sm="8">
+          <Form.Control 
+            type="text" 
+            placeholder={inputs.tracking_method === 'dist' ? distUnit : 'hours' }
+            id={inputs.tracking_method === 'dist' ? 'lifespan_dist' : 'lifespan_time' }
+            onChange={recordInput} 
+          />
+        </Col> 
+      </Form.Group>
+    :
+    null
+  }
 
-
+  {inputs.lifespan_dist || inputs.lifespan_time ?
+  <Row>
+    <Col>
+      <button className="w-100">Submit</button>
+    </Col>
+  </Row>
+  :
+  null
+  }
 
 
 </Form>
@@ -200,6 +278,15 @@ const NewPartForm = () => {
     </ModalWrapper>
   )
 };
+
+// const initialFormState = {
+//   type: '', custom_type: '', p_brand: '', p_model: '',
+//   p_dist_at_add: '', p_time_at_add: '', 
+//   lifespan_dist: '', lifespan_time: '',
+//   tracking_method: null, usage_metric: null,
+//   init_wear_method: '', p_dist_current: '', p_time_current: '', 
+//   new_date: '', p_date_added: ''
+// };
 
 const partList = {
   chain: {title: 'Chain'},
@@ -209,14 +296,6 @@ const partList = {
   custom: {title: '-- Custom --'}
 };
 
-// const initForm = {
-//   type: '', custom_type: '', p_brand: '', p_model: '',
-//   p_dist_at_add: '', p_time_at_add: '', 
-//   lifespan_dist: '', lifespan_time: '',
-//   tracking_method: null, useage_metric: null,
-//   init_wear_method: '', p_dist_current: '', p_time_current: '', 
-//   new_date: '', p_date_added: ''
-// };
 
 const wearMethods = {
   strava: {title: 'Calculate from Strava'},
