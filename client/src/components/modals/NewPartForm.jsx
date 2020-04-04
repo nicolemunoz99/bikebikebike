@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
-import { Form, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateForm, resetFields } from '../../state/actions.js';
 
@@ -19,6 +19,7 @@ const NewPartForm = () => {
   }
 
   const recordInput = (e) => {
+    if (e.target.value.length > 20) return;
     console.log(e.target.id, e.target.value, e.target.type)
     if (e.target.id === 'tracking_method') dispatch(resetFields(['init_wear_method', 'usage_metric']))
     dispatch(updateForm({[e.target.id]: e.target.value}))
@@ -27,7 +28,7 @@ const NewPartForm = () => {
   return (
     <ModalWrapper title="New Component">
       <div className="modal-style mx-auto col-10 p-3">
-<Form>
+<Form id="part-form">
 
   <Form.Group as={Row}>
     <Form.Label column sm="4">
@@ -44,7 +45,6 @@ const NewPartForm = () => {
             title={inputs.type ? partList[inputs.type].title : 'Type'}
           >
             {Object.keys(partList).map(partKey => {
-              console.log('partKey', partKey)
               return (
                 <Dropdown.Item onClick={selectDropdown} data-name="type" key={partKey} id={partKey}>
                   {partList[partKey].title}
@@ -75,7 +75,33 @@ const NewPartForm = () => {
   {inputs.type ?
   <Form.Group as={Row}>
     <Form.Label column sm="4">
-      Default or custom tracking?
+      Default or custom tracking
+
+      <OverlayTrigger
+        trigger="click"
+        placement="right"
+        overlay={
+          <Popover id="tracking">
+            <Popover.Content>
+              <div>
+                <p>
+                "Default" assumes this is a new part.
+                </p>
+                <p>
+                  "Custom" allows you to specify a current wear, and whether you 
+                  want to track usage by distance and/or time.
+                </p>
+
+              </div>
+            </Popover.Content>
+          </Popover>
+        }
+      >
+        <span className="material-icons">info</span>
+      </OverlayTrigger>
+
+
+
     </Form.Label>
     <Col sm="8">
       <Row>
@@ -113,14 +139,7 @@ const NewPartForm = () => {
   {inputs.tracking_method === 'default' ?
     <Row>
       <Col sm="12">
-        <p>
-        "Default" tacking assumes this component is new. If you would like
-        to specify the current wear, select "custom" tracking above.
-        </p>
-        <p>
-        The default service/replacement intervale for a {inputs.type} is [TODO]
-        </p>
-
+        The default lifespan for a {inputs.type} is: [TODO]
       </Col>
     </Row>
   :
@@ -192,24 +211,30 @@ const NewPartForm = () => {
         <Col xs="12" className="mb-1">
 
         {inputs.init_wear_method === 'est' ?
-          <>
+          <Row>
+            <Col 
+              sm="6"
+              xs={12, {order: inputs.usage_metric==='time' ? 'first' : 'last'}} 
+              className="mb-1"
+            >
             <Form.Control 
-              type="text" 
-              placeholder={`Estimated current wear in hours`} 
+              type="number" 
+              placeholder={`hrs ${inputs.usage_metric==='dist' ? '(optional)' : ''}`} 
               id={`p_time_current`} 
               onChange={recordInput} 
-              value={inputs.p_time_current} 
-              className="mb-1"
+              value={inputs.p_time_current}
             />
+            </Col>
+            <Col sm="6" className="mb-1">
             <Form.Control 
-              type="text" 
-              placeholder={`Estimated current wear in ${distUnit}`} 
+              type="number" 
+              placeholder={`${distUnit} ${inputs.usage_metric==='time' ? '(optional)' : ''}`}
               id={'p_dist_current'} 
               onChange={recordInput} 
               value={inputs.p_dist_current} 
-              className="mb-1"
             />
-          </>
+            </Col>
+          </Row>
         :
         null
         }
@@ -253,20 +278,31 @@ const NewPartForm = () => {
           Life/service interval:
         </Form.Label>
         <Col sm="8">
-          <Form.Control 
-            type="text" 
-            placeholder={`hours ${inputs.usage_metric === 'dist' ? '(optional)' : ''}` }
-            id='lifespan_time'
-            onChange={recordInput} 
-            className="mb-1"
-          />
-          <Form.Control 
-            type="text" 
-            placeholder={`${distUnit} ${inputs.usage_metric === 'time' ? '(optional)' : ''}` }
-            id='lifespan_dist'
-            onChange={recordInput} 
-            className="mb-1"
-          />
+          <Row>
+            <Col 
+              sm="6"
+              xs={12, {order: inputs.usage_metric==='time' ? 'first' : 'last'}} 
+              className="mb-1"
+            >
+              <Form.Control 
+                type="number" 
+                placeholder={`hrs ${inputs.usage_metric === 'dist' ? '(optional)' : ''}` }
+                id='lifespan_time'
+                onChange={recordInput} 
+              />
+            </Col>
+            <Col 
+              sm="6"
+              className="mb-1"
+            >
+              <Form.Control 
+                type="number" 
+                placeholder={`${distUnit} ${inputs.usage_metric === 'time' ? '(optional)' : ''}` }
+                id='lifespan_dist'
+                onChange={recordInput}
+              />
+            </Col>
+          </Row>
         </Col> 
       </Form.Group>
     :

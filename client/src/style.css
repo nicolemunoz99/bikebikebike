@@ -95,12 +95,13 @@ body {
   top: 50%;
   transform: translateY(-50%);
   max-height:80%;
-
+  overflow: auto;
 }
 
 .modal-style {
   background-color: rgb(121, 120, 120);
   color: rgb(0, 0, 0);
+  
 }
 
 .dropdown > button {
