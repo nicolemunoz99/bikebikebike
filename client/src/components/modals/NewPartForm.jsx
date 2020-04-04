@@ -9,28 +9,100 @@ const NewPartForm = () => {
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
-
-  const selectDropdown = (e) => {
-    console.log(e.target.id, e.target.getAttribute('data-name'))
-    dispatch(updateForm({[e.target.getAttribute('data-name')]: e.target.id}))
-    if (e.target.getAttribute('data-name') === 'init_wear_method') {
-      dispatch(resetFields(['p_dist_current', 'p_time_current', 'new_date']))
-    }
-  }
-
   const recordInput = (e) => {
-    if (e.target.value.length > 20) return;
-    console.log(e.target.id, e.target.value, e.target.type)
-    if (e.target.id === 'tracking_method') dispatch(resetFields(['init_wear_method', 'usage_metric']))
-    dispatch(updateForm({[e.target.id]: e.target.value}))
+    let payload = {
+      dropdown: e.target.getAttribute('data-dropdown'),
+      id: e.target.id,
+      value: e.target.value
+    };
+    dispatch(updateForm(payload))
   }
 
   return (
     <ModalWrapper title="New Component">
       <div className="modal-style mx-auto col-10 p-3">
+
 <Form id="part-form">
 
-  <Form.Group as={Row}>
+  <Basics />
+  
+  
+  {inputs.type ?
+ <TrackingMethod />
+  :
+  null
+  }
+
+  {inputs.tracking_method === 'default' ?
+    <Row>
+      <Col sm="12">
+        The default lifespan for a {inputs.type} is: [TODO]
+      </Col>
+    </Row>
+  :
+  null
+  }
+
+  {inputs.tracking_method === 'custom' ?
+    <UsageMetric />
+  :
+  null
+  }
+
+  {inputs.usage_metric ?
+  <CurrentWear />
+  :
+  null
+  }
+
+  {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
+    (inputs.init_wear_method === 'strava' && inputs.new_date) ||
+    inputs.init_wear_method === 'new' ?
+      <Lifespan />
+    :
+    null
+  }
+
+  {inputs.lifespan_dist || inputs.lifespan_time ?
+  <Row>
+    <Col>
+      <button className="w-100">Submit</button>
+    </Col>
+  </Row>
+  :
+  null
+  }
+
+
+</Form>
+      </div>
+    </ModalWrapper>
+  )
+};
+
+/*
+#####################
+Basics
+#####################
+*/
+
+const Basics = () => {
+  const inputs = useSelector(state => state.form);
+  const distUnit = useSelector(state => state.user.measure_pref);
+  const dispatch = useDispatch();
+
+  const recordInput = (e) => {
+    let payload = {
+      dropdown: e.target.getAttribute('data-dropdown'),
+      id: e.target.id,
+      value: e.target.value
+    };
+    dispatch(updateForm(payload));
+  };
+
+
+  return (
+<Form.Group as={Row}>
     <Form.Label column sm="4">
       Basics:
     </Form.Label>
@@ -46,7 +118,7 @@ const NewPartForm = () => {
           >
             {Object.keys(partList).map(partKey => {
               return (
-                <Dropdown.Item onClick={selectDropdown} data-name="type" key={partKey} id={partKey}>
+                <Dropdown.Item onClick={recordInput} data-dropdown="type" key={partKey} id={partKey}>
                   {partList[partKey].title}
                 </Dropdown.Item> 
               )
@@ -70,10 +142,33 @@ const NewPartForm = () => {
       </Row>
     </Col>
   </Form.Group>
-  
-  
-  {inputs.type ?
-  <Form.Group as={Row}>
+
+
+  );
+}
+
+/*
+#####################
+TrackingMethod
+#####################
+*/
+
+const TrackingMethod = () => {
+  const inputs = useSelector(state => state.form);
+  const distUnit = useSelector(state => state.user.measure_pref);
+  const dispatch = useDispatch();
+
+  const recordInput = (e) => {
+    let payload = {
+      dropdown: e.target.getAttribute('data-dropdown'),
+      id: e.target.id,
+      value: e.target.value
+    };
+    dispatch(updateForm(payload));
+  }
+
+  return(
+    <Form.Group as={Row}>
     <Form.Label column sm="4">
       Default or custom tracking
 
@@ -132,22 +227,33 @@ const NewPartForm = () => {
     </Col>
     
   </Form.Group>
-  :
-  null
-  }
+  )
+};
 
-  {inputs.tracking_method === 'default' ?
-    <Row>
-      <Col sm="12">
-        The default lifespan for a {inputs.type} is: [TODO]
-      </Col>
-    </Row>
-  :
-  null
-  }
 
-  {inputs .tracking_method === 'custom' ?
-    <Form.Group as={Row}>
+
+/*
+#####################
+UsageMetric
+#####################
+*/
+
+const UsageMetric = () => {
+  const inputs = useSelector(state => state.form);
+  const distUnit = useSelector(state => state.user.measure_pref);
+  const dispatch = useDispatch();
+
+  const recordInput = (e) => {
+    let payload = {
+      dropdown: e.target.getAttribute('data-dropdown'),
+      id: e.target.id,
+      value: e.target.value
+    };
+    dispatch(updateForm(payload));
+  };
+
+  return(
+<Form.Group as={Row}>
       <Form.Label column sm="4">
         Usage Metric:
       </Form.Label>
@@ -178,12 +284,32 @@ const NewPartForm = () => {
         </Row>
     </Col>
     </Form.Group> 
-  :
-  null
-  }
+  );
+};
 
-  {inputs.usage_metric ?
-  <Form.Group as={Row}>
+
+/*
+#####################
+CurrentWear
+#####################
+*/
+
+const CurrentWear = () => {
+  const inputs = useSelector(state => state.form);
+  const distUnit = useSelector(state => state.user.measure_pref);
+  const dispatch = useDispatch();
+
+  const recordInput = (e) => {
+    let payload = {
+      dropdown: e.target.getAttribute('data-dropdown'),
+      id: e.target.id,
+      value: e.target.value
+    };
+    dispatch(updateForm(payload));
+  };
+
+  return(
+<Form.Group as={Row}>
     <Form.Label column sm="4">
       Current wear:
     </Form.Label>
@@ -198,7 +324,7 @@ const NewPartForm = () => {
           >
             {Object.keys(wearMethods).map(methodKey => {
               return (
-                <Dropdown.Item onClick={selectDropdown} data-name="init_wear_method" key={methodKey} id={methodKey}>
+                <Dropdown.Item onClick={recordInput} data-dropdown="init_wear_method" key={methodKey} id={methodKey}>
                   {wearMethods[methodKey].title}
                 </Dropdown.Item> 
               )
@@ -266,14 +392,31 @@ const NewPartForm = () => {
 
     </Col>
   </Form.Group> 
-  :
-  null
-  }
+  );
+};
 
-  {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
-    (inputs.init_wear_method === 'strava' && inputs.new_date) ||
-    inputs.init_wear_method === 'new' ?
-      <Form.Group as={Row}>
+/*
+#####################
+Lifespan
+#####################
+*/
+
+const Lifespan = () => {
+  const inputs = useSelector(state => state.form);
+  const distUnit = useSelector(state => state.user.measure_pref);
+  const dispatch = useDispatch();
+
+  const recordInput = (e) => {
+    let payload = {
+      dropdown: e.target.getAttribute('data-dropdown'),
+      id: e.target.id,
+      value: e.target.value
+    };
+    dispatch(updateForm(payload));
+  };
+
+  return(
+    <Form.Group as={Row}>
         <Form.Label column sm="4">
           Life/service interval:
         </Form.Label>
@@ -305,35 +448,9 @@ const NewPartForm = () => {
           </Row>
         </Col> 
       </Form.Group>
-    :
-    null
-  }
-
-  {inputs.lifespan_dist || inputs.lifespan_time ?
-  <Row>
-    <Col>
-      <button className="w-100">Submit</button>
-    </Col>
-  </Row>
-  :
-  null
-  }
-
-
-</Form>
-      </div>
-    </ModalWrapper>
-  )
+  );
 };
 
-// const initialFormState = {
-//   type: '', custom_type: '', p_brand: '', p_model: '',
-//   p_dist_at_add: '', p_time_at_add: '', 
-//   lifespan_dist: '', lifespan_time: '',
-//   tracking_method: null, usage_metric: null,
-//   init_wear_method: '', p_dist_current: '', p_time_current: '', 
-//   new_date: '', p_date_added: ''
-// };
 
 const partList = {
   chain: {title: 'Chain'},

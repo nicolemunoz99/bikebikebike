@@ -39,8 +39,8 @@ export const setParts = (parts) => {
   return { type: SET_PARTS, payload: parts };
 }
 
-export const updateForm = (newKeyPairs) => {
- return { type: UPDATE_FORM, payload: newKeyPairs}
+export const updateForm = (newKeyPair) => {
+ return { type: UPDATE_FORM, payload: newKeyPair}
 }
 
 export const resetFields = (fieldsArr) => {

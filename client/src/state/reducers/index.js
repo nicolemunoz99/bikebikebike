@@ -1,40 +1,12 @@
 import { 
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_MODAL, CLOSE_MODAL, 
-  SET_BIKES, SET_PARTS, 
-  UPDATE_FORM, RESET_FIELDS, RESET_FORM
-} from './action-types.js';
+  SET_BIKES, SET_PARTS
+} from '../action-types.js';
+
+import formReducer from './formReducer.js'
 import { combineReducers } from 'redux';
 
-
-const initialFormState = {
-  type: '', custom_type: '', p_brand: '', p_model: '',
-  p_dist_at_add: '', p_time_at_add: '', 
-  lifespan_dist: '', lifespan_time: '',
-  tracking_method: null, usage_metric: null,
-  init_wear_method: '', p_dist_current: '', p_time_current: '', 
-  new_date: '', p_date_added: ''
-};
-
-const formReducer = (state = initialFormState, action) => {
-  if (action.type === UPDATE_FORM) {
-    return { ...state, ...action.payload };
-  }
-  if (action.type === RESET_FIELDS) {
-    let tempState = { ...state }
-    for (let field of action.payload) tempState[field] = initialFormState[field];
-    return tempState;
-  }
-  if (action.type === RESET_FORM) {
-    return initialFormState
-  }
-  return state;
-}
-
-
-
-/////////////////////////////////////////
-/////////////////////////////////////////
 
 const initialModalState = '';
 
