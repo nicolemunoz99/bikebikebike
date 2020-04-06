@@ -44,8 +44,6 @@ CREATE TABLE IF NOT EXISTS parts(
   custom_type VARCHAR,
   p_brand VARCHAR,
   p_model VARCHAR,
-  p_dist_at_add DECIMAL,
-  p_time_at_add DECIMAL,
   lifespan_dist DECIMAL,
   lifespan_time DECIMAL,
   tracking_method VARCHAR,

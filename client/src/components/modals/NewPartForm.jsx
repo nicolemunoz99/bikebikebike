@@ -5,78 +5,65 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateForm, resetFields } from '../../state/actions.js';
 
 const NewPartForm = () => {
-  const inputs = useSelector(state => state.form);
-  const distUnit = useSelector(state => state.user.measure_pref);
+  const inputs = useSelector(state => state.form.fields);
   const dispatch = useDispatch();
 
-  const recordInput = (e) => {
-    let payload = {
-      dropdown: e.target.getAttribute('data-dropdown'),
-      id: e.target.id,
-      value: e.target.value
-    };
-    dispatch(updateForm(payload))
-  }
 
   return (
-    <ModalWrapper title="New Component">
-      <div className="modal-style mx-auto col-10 p-3">
+  <ModalWrapper title="New Component">
+    <div className="modal-style mx-auto col-10 p-3">
 
-<Form id="part-form">
+      <Form id="part-form">
 
-  <Basics />
-  
-  
-  {inputs.type ?
- <TrackingMethod />
-  :
-  null
-  }
+        <Basics />
+        
+        
+        {inputs.type && (inputs.type !== 'custom' || inputs.custom_type) ?
+          <TrackingMethod />
+        :
+        null
+        }
 
-  {inputs.tracking_method === 'default' ?
-    <Row>
-      <Col sm="12">
-        The default lifespan for a {inputs.type} is: [TODO]
-      </Col>
-    </Row>
-  :
-  null
-  }
+        {inputs.tracking_method === 'default' ?
+          <Row>
+            <Col sm="12">
+              The default lifespan for a {inputs.type} is: [TODO]
+            </Col>
+          </Row>
+        :
+        null
+        }
 
-  {inputs.tracking_method === 'custom' ?
-    <UsageMetric />
-  :
-  null
-  }
+        { inputs.tracking_method === 'custom' && <UsageMetric /> }
 
-  {inputs.usage_metric ?
-  <CurrentWear />
-  :
-  null
-  }
+        {inputs.usage_metric ?
+          <CurrentWear />
+        :
+        null
+        }
 
-  {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
-    (inputs.init_wear_method === 'strava' && inputs.new_date) ||
-    inputs.init_wear_method === 'new' ?
-      <Lifespan />
-    :
-    null
-  }
+        {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
+          (inputs.init_wear_method === 'strava' && inputs.new_date) ||
+          inputs.init_wear_method === 'new' ?
+            <Lifespan />
+          :
+          null
+        }
 
-  {inputs.lifespan_dist || inputs.lifespan_time ?
-  <Row>
-    <Col>
-      <button className="w-100">Submit</button>
-    </Col>
-  </Row>
-  :
-  null
-  }
+        {inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
+          <Row>
+            <Col>
+              <button className="w-100">Submit</button>
+            </Col>
+          </Row>
+        :
+        null
+        }
 
 
-</Form>
-      </div>
-    </ModalWrapper>
+      </Form>
+    </div>
+  </ModalWrapper>
   )
 };
 
@@ -87,9 +74,16 @@ Basics
 */
 
 const Basics = () => {
-  const inputs = useSelector(state => state.form);
-  const distUnit = useSelector(state => state.user.measure_pref);
+  const inputs = useSelector(state => state.form.fields);
   const dispatch = useDispatch();
+
+  const partList = {
+    chain: {title: 'Chain'},
+    freehub: {title: 'Freehub'},
+    fork: {title: 'Suspension fork'},
+    cassette: {title: 'Cassette'},
+    custom: {title: '-- Custom --'}
+  };
 
   const recordInput = (e) => {
     let payload = {
@@ -133,10 +127,10 @@ const Basics = () => {
         null
         }
         <Col sm="6" className="mb-1">
-          <Form.Control type="text" placeholder="Brand" id="p_brand" onChange={recordInput} value={inputs.p_brand} />
+          <Form.Control type="text" placeholder="Brand (optional)" id="p_brand" onChange={recordInput} value={inputs.p_brand} />
         </Col>
         <Col sm="6" className="mb-1">
-          <Form.Control type="text" placeholder="Model" id="p_model" onChange={recordInput} />
+          <Form.Control type="text" placeholder="Model (optional)" id="p_model" onChange={recordInput} value={inputs.p_model}/>
         </Col>
 
       </Row>
@@ -154,8 +148,7 @@ TrackingMethod
 */
 
 const TrackingMethod = () => {
-  const inputs = useSelector(state => state.form);
-  const distUnit = useSelector(state => state.user.measure_pref);
+  const inputs = useSelector(state => state.form.fields);
   const dispatch = useDispatch();
 
   const recordInput = (e) => {
@@ -196,7 +189,6 @@ const TrackingMethod = () => {
       </OverlayTrigger>
 
 
-
     </Form.Label>
     <Col sm="8">
       <Row>
@@ -219,7 +211,7 @@ const TrackingMethod = () => {
             name="tracking_method"
             id="tracking_method"
             value="custom"
-            checked={inputs.type == 'custom' || inputs.tracking_method==='custom' ? true : false}
+            checked={inputs.tracking_method==='custom' ? true : false}
             onChange={recordInput}
           />
       </Col>
@@ -239,8 +231,7 @@ UsageMetric
 */
 
 const UsageMetric = () => {
-  const inputs = useSelector(state => state.form);
-  const distUnit = useSelector(state => state.user.measure_pref);
+  const inputs = useSelector(state => state.form.fields);
   const dispatch = useDispatch();
 
   const recordInput = (e) => {
@@ -295,9 +286,15 @@ CurrentWear
 */
 
 const CurrentWear = () => {
-  const inputs = useSelector(state => state.form);
+  const inputs = useSelector(state => state.form.fields);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
+
+  const wearMethods = {
+    strava: {title: 'Calculate from Strava'},
+    est: {title: 'Estimate'},
+    new: {title: 'New'}
+  };
 
   const recordInput = (e) => {
     let payload = {
@@ -402,7 +399,7 @@ Lifespan
 */
 
 const Lifespan = () => {
-  const inputs = useSelector(state => state.form);
+  const inputs = useSelector(state => state.form.fields);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -452,22 +449,12 @@ const Lifespan = () => {
 };
 
 
-const partList = {
-  chain: {title: 'Chain'},
-  freehub: {title: 'Freehub'},
-  fork: {title: 'Suspension fork'},
-  cassette: {title: 'Cassette'},
-  custom: {title: '-- Custom --'}
-};
-
-
-const wearMethods = {
-  strava: {title: 'Calculate from Strava'},
-  est: {title: 'Estimate'},
-  new: {title: 'New'}
-};
 
 
 
 
-export default NewPartForm
+
+
+
+
+export default NewPartForm;

@@ -1,9 +1,10 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { 
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  UPDATE_FORM, RESET_FIELDS, RESET_FORM
+  UPDATE_FORM, FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM
 } from './action-types.js';
 
 import devData from './data.js'
@@ -14,6 +15,9 @@ import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
 Amplify.configure(config);
 
+/* **************************
+User
+************************** */
 
 export const setStravaAccessStatus = (bool) => {
   return { type: SET_STRAVA_ACCESS_STATUS, payload: bool };
@@ -23,13 +27,21 @@ export const setUser = (userInfo) => {
   return { type: SET_USER, payload: userInfo };
 };
 
+/* **************************
+Modal
+************************** */
+
 export const setModal = (modalType) => {
   return { type: SET_MODAL, payload: modalType };
 };
 
 export const closeModal = () => {
-  return { type: CLOSE_MODAL }
-}
+  return { type: CLOSE_MODAL };
+};
+
+/* **************************
+Bikes and parts
+************************** */
 
 export const setBikes = (bikes) => {
   return { type: SET_BIKES, payload: bikes };
@@ -37,23 +49,44 @@ export const setBikes = (bikes) => {
 
 export const setParts = (parts) => {
   return { type: SET_PARTS, payload: parts };
-}
+};
 
-export const updateForm = (newKeyPair) => {
- return { type: UPDATE_FORM, payload: newKeyPair}
-}
+/* **************************
+Form
+************************** */
 
-export const resetFields = (fieldsArr) => {
-  return { type: RESET_FIELDS, payload: fieldsArr }
-}
+export const formInput = (keyValue) => {
+ return { type: FORM_INPUT, payload: keyValue};
+};
+
+export const checkValid = () => {
+  return { type: CHECK_VALID };
+};
+
+export const resetSubseqFields = (field) => {
+  // resets fields that follow 'field'
+  return { type: RESET_SUBSEQ_FIELDS, payload: field };
+};
 
 export const resetForm = () => {
-  return { type: RESET_FORM }
-}
+  return { type: RESET_FORM };
+};
 
 
 
 // ...THUNKS...
+
+export const updateForm = (target) => (dispatch) => {
+  let newData = {};
+  if (target.dropdown) {
+    dispatch(resetSubseqFields(target.dropdown));
+    newData = {[target.dropdown]: target.id}; // dropdowns
+  } else {
+    if (target.value.length > 20) return state;
+    newData = {[target.id]: target.value}; // text input and radios
+  }
+  dispatch(formInput(newData));
+};
 
 
 export const getUserData = () => async (dispatch) => {
@@ -98,6 +131,9 @@ export const getUserData = () => async (dispatch) => {
     {bikes: [bike]},
     {idAttribute: 'id'}
   );
+   
+  // end DEV DATASET
+  /////////////////
 
   const normalUserData = normalize(userData, user);
 
