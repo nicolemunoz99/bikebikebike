@@ -4,7 +4,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  UPDATE_FORM, FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, VALIDATE
 } from './action-types.js';
 
 import devData from './data.js'
@@ -59,12 +59,9 @@ export const formInput = (keyValue) => {
  return { type: FORM_INPUT, payload: keyValue};
 };
 
-export const checkValid = () => {
-  return { type: CHECK_VALID };
-};
 
 export const resetSubseqFields = (field) => {
-  // resets fields that follow 'field'
+  // resets fields that follow the parameter 'field'
   return { type: RESET_SUBSEQ_FIELDS, payload: field };
 };
 
@@ -72,20 +69,23 @@ export const resetForm = () => {
   return { type: RESET_FORM };
 };
 
-
+export const validate = (keyValue) => {
+  return{ type: VALIDATE, payload: keyValue };
+}
 
 // ...THUNKS...
 
 export const updateForm = (target) => (dispatch) => {
-  let newData = {};
+  let newData;
   if (target.dropdown) {
-    dispatch(resetSubseqFields(target.dropdown));
+    dispatch(resetSubseqFields(target.dropdown)); // reset fields
     newData = {[target.dropdown]: target.id}; // dropdowns
   } else {
     if (target.value.length > 20) return state;
     newData = {[target.id]: target.value}; // text input and radios
   }
   dispatch(formInput(newData));
+  dispatch(validate(newData));
 };
 
 

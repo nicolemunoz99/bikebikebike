@@ -1,19 +1,26 @@
 import React from 'react';
+import _ from 'lodash';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
-import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateForm, resetFields } from '../../state/actions.js';
+import { updateForm } from '../../state/actions.js';
+
+import CustomInput from './CustomInput.jsx'
 
 const NewPartForm = () => {
   const inputs = useSelector(state => state.form.fields);
   const dispatch = useDispatch();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('submit');
+  }
 
   return (
   <ModalWrapper title="New Component">
     <div className="modal-style mx-auto col-10 p-3">
-
-      <Form id="part-form">
+      
+      <Form onSubmit={handleSubmit} id="part-form" >
 
         <Basics />
         
@@ -34,31 +41,36 @@ const NewPartForm = () => {
         null
         }
 
-        { inputs.tracking_method === 'custom' && <UsageMetric /> }
+        { inputs.tracking_method === 'custom' ?
+        <>
+          <UsageMetric />
+          {inputs.usage_metric ?
+            <CurrentWear />
+          :
+          null
+          }
 
-        {inputs.usage_metric ?
-          <CurrentWear />
-        :
-        null
-        }
+          {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
+            (inputs.init_wear_method === 'strava' && inputs.new_date) ||
+            inputs.init_wear_method === 'new' ?
+              <Lifespan />
+            :
+            null
+          }
 
-        {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
-          (inputs.init_wear_method === 'strava' && inputs.new_date) ||
-          inputs.init_wear_method === 'new' ?
-            <Lifespan />
+          {inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
+            <Row>
+              <Col>
+                <Button className="w-100" type="submit">Submit</Button>
+              </Col>
+            </Row>
           :
           null
         }
-
-        {inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
-          <Row>
-            <Col>
-              <button className="w-100">Submit</button>
-            </Col>
-          </Row>
+        </>
         :
         null
-        }
+      }
 
 
       </Form>
@@ -75,6 +87,7 @@ Basics
 
 const Basics = () => {
   const inputs = useSelector(state => state.form.fields);
+  const errs = useSelector(state => state.form.errs);
   const dispatch = useDispatch();
 
   const partList = {
@@ -94,7 +107,6 @@ const Basics = () => {
     dispatch(updateForm(payload));
   };
 
-
   return (
 <Form.Group as={Row}>
     <Form.Label column sm="4">
@@ -109,10 +121,13 @@ const Basics = () => {
             size="sm"
             variant="info"
             title={inputs.type ? partList[inputs.type].title : 'Type'}
+            
           >
             {Object.keys(partList).map(partKey => {
               return (
-                <Dropdown.Item onClick={recordInput} data-dropdown="type" key={partKey} id={partKey}>
+                <Dropdown.Item  data-dropdown="type" key={partKey} id={partKey} 
+                  onClick={recordInput}
+                >
                   {partList[partKey].title}
                 </Dropdown.Item> 
               )
@@ -121,16 +136,37 @@ const Basics = () => {
         </Col>
         {inputs.type === 'custom' ?
         <Col sm="12" className="mb-1">
-          <Form.Control type="text" placeholder="Your custom part" id="custom_type" onChange={recordInput} />
+          <Form.Control 
+            as={CustomInput}
+            err={errs.custom_type}
+            type="text" 
+            placeholder="Your custom part" 
+            id="custom_type" 
+            onChange={recordInput}
+            value={inputs.custom_type}
+          />
         </Col>
         :
         null
         }
+
         <Col sm="6" className="mb-1">
-          <Form.Control type="text" placeholder="Brand (optional)" id="p_brand" onChange={recordInput} value={inputs.p_brand} />
+          <Form.Control 
+            type="text" 
+            placeholder="Brand (optional)"
+            id="p_brand"
+            onChange={recordInput}
+            value={inputs.p_model}
+          />
         </Col>
         <Col sm="6" className="mb-1">
-          <Form.Control type="text" placeholder="Model (optional)" id="p_model" onChange={recordInput} value={inputs.p_model}/>
+          <Form.Control 
+            type="text" 
+            placeholder="Model (optional)" 
+            id="p_model" 
+            onChange={recordInput} 
+            value={inputs.p_model}
+          />
         </Col>
 
       </Row>
@@ -192,7 +228,7 @@ const TrackingMethod = () => {
     </Form.Label>
     <Col sm="8">
       <Row>
-        <Col sm="auto">
+        <Col sm="4">
           <Form.Check
             type="radio"
             label="Default"
@@ -204,7 +240,7 @@ const TrackingMethod = () => {
             disabled={inputs.type !== 'custom' ? false : true}
           />
         </Col>
-        <Col sm="auto">
+        <Col sm="4">
           <Form.Check
             type="radio"
             label="Custom"
@@ -250,7 +286,7 @@ const UsageMetric = () => {
       </Form.Label>
       <Col sm="8">
         <Row>
-          <Col sm="auto">
+          <Col sm="4">
             <Form.Check
               type="radio"
               label="Distance"
@@ -272,6 +308,17 @@ const UsageMetric = () => {
               onChange={recordInput}
             />
           </Col>
+          <Col sm="auto">
+            <Form.Check
+              type="radio"
+              label="Whichever comes first"
+              name="usage_metric"
+              id="usage_metric"
+              value="both"
+              checked={inputs.usage_metric==='both' ? true : false}
+              onChange={recordInput}
+            />
+          </Col>
         </Row>
     </Col>
     </Form.Group> 
@@ -287,6 +334,7 @@ CurrentWear
 
 const CurrentWear = () => {
   const inputs = useSelector(state => state.form.fields);
+  const errs = useSelector(state => state.form.errs);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -335,28 +383,41 @@ const CurrentWear = () => {
 
         {inputs.init_wear_method === 'est' ?
           <Row>
+
             <Col 
               sm="6"
               xs={12, {order: inputs.usage_metric==='time' ? 'first' : 'last'}} 
-              className="mb-1"
+              className="mb-3"
             >
-            <Form.Control 
+            <Form.Control
+              as={CustomInput}
+              err={errs.p_time_current} 
               type="number" 
-              placeholder={`hrs ${inputs.usage_metric==='dist' ? '(optional)' : ''}`} 
+              placeholder='' 
               id={`p_time_current`} 
               onChange={recordInput} 
               value={inputs.p_time_current}
             />
+            <Form.Text className="text-muted">
+              {`hours ${inputs.usage_metric==='dist' ? '(Optional)' : '(Required)'}`}
+            </Form.Text>
             </Col>
-            <Col sm="6" className="mb-1">
-            <Form.Control 
+
+            <Col sm="6" className="mb-3">
+            <Form.Control
+              as={CustomInput}
+              err={errs.p_dist_current}  
               type="number" 
-              placeholder={`${distUnit} ${inputs.usage_metric==='time' ? '(optional)' : ''}`}
+              placeholder=''
               id={'p_dist_current'} 
               onChange={recordInput} 
               value={inputs.p_dist_current} 
             />
+            <Form.Text className="text-muted">
+              {`${distUnit} ${inputs.usage_metric==='time' ? '(Optional)' : '(Required)'}`}
+            </Form.Text>
             </Col>
+
           </Row>
         :
         null
@@ -365,9 +426,12 @@ const CurrentWear = () => {
         {inputs.init_wear_method === 'strava' ?
         <>
           <Form.Control 
+            as={CustomInput}
+            err={errs.new_date} 
             type="date" 
             id={`new_date`} 
-            onChange={recordInput} 
+            onChange={recordInput}
+            value={inputs.new_date} 
           />
             <div>
               When was this part new/last serviced? This component's useage as of now will be calculated from your Strava activities 
@@ -400,6 +464,7 @@ Lifespan
 
 const Lifespan = () => {
   const inputs = useSelector(state => state.form.fields);
+  const errs = useSelector(state => state.form.errs);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -422,25 +487,39 @@ const Lifespan = () => {
             <Col 
               sm="6"
               xs={12, {order: inputs.usage_metric==='time' ? 'first' : 'last'}} 
-              className="mb-1"
+              className="mb-3"
             >
-              <Form.Control 
+              <Form.Control
+                as={CustomInput}
+                err={errs.lifespan_time}  
                 type="number" 
-                placeholder={`hrs ${inputs.usage_metric === 'dist' ? '(optional)' : ''}` }
+                placeholder=''
                 id='lifespan_time'
                 onChange={recordInput} 
+                value={inputs.lifespan_time}
               />
+              <Form.Text className="text-muted">
+                {`hours ${inputs.usage_metric === 'dist' ? '(Optional)' : '(Required)'}` }
+              </Form.Text>
             </Col>
             <Col 
               sm="6"
-              className="mb-1"
+              className="mb-3"
             >
-              <Form.Control 
+              <Form.Control
+                as={CustomInput}
+                err={errs.lifespan_dist}   
+                required
                 type="number" 
-                placeholder={`${distUnit} ${inputs.usage_metric === 'time' ? '(optional)' : ''}` }
+                placeholder=''
                 id='lifespan_dist'
                 onChange={recordInput}
+                value={inputs.lifespan_dist}
               />
+              <Form.Text className="text-muted">
+                {`${distUnit} ${inputs.usage_metric === 'time' ? '(Optional)' : '(Required)'}` }
+              </Form.Text>
+              
             </Col>
           </Row>
         </Col> 
