@@ -1,12 +1,12 @@
 
 export const isValid = {
-  // type: (val) => !!val, 
+  type: (val) => !!val, 
   custom_type: (val) => !!val,
-  // p_brand: () => true,
-  // p_model: () => true,
-  // tracking_method: (val) => !!val,
-  // usage_metric: (val) => !!val,
-  // init_wear_method: (val) => !!val, 
+  p_brand: () => true,
+  p_model: () => true,
+  tracking_method: (val) => !!val,
+  usage_metric: (val) => !!val,
+  init_wear_method: (val) => !!val, 
   p_dist_current: (val) => !!val && val >= 0,
   p_time_current: (val) => !!val && val >= 0, 
   new_date: (val) => !!val && val <= Date.now(),

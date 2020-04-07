@@ -9,8 +9,8 @@ import { isValid } from './validation.js';
 import CustomInput from './CustomInput.jsx'
 
 const NewPartForm = () => {
-  const inputs = useSelector(state => state.form.inputs);
-  const dispatch = useDispatch();
+  const { inputs, errs } = useSelector(state => state.form);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -158,7 +158,7 @@ const Basics = () => {
             placeholder="Brand (optional)"
             id="p_brand"
             onChange={recordInput}
-            value={inputs.p_model}
+            value={inputs.p_brand}
           />
         </Col>
         <Col sm="6" className="mb-1">
@@ -241,7 +241,7 @@ const TrackingMethod = () => {
             value="default"
             checked={inputs.tracking_method==='default' ? true : false}
             onChange={recordInput}
-            disabled={inputs.type !== 'custom' ? false : true}
+            disabled={inputs.type == 'custom' ? true : false}
           />
         </Col>
         <Col sm="4">
@@ -398,31 +398,28 @@ const CurrentWear = () => {
             >
             <Form.Control
               as={CustomInput}
-              err={errs.p_time_current && !isValid.p_time_current(inputs.p_time_current) ? errs.p_time_current : ''} 
+              err={errs.p_time_current && !isValid.p_time_current(inputs.p_time_current) ? errs.p_time_current : ''}
+              subText={`hours ${errs.p_time_current ? '' : '(Optional)'}`} 
               type="number" 
               placeholder='' 
               id={`p_time_current`} 
               onChange={recordInput} 
               value={inputs.p_time_current}
             />
-            <Form.Text className="text-muted">
-              {`hours ${inputs.usage_metric==='dist' ? '(Optional)' : '(Required)'}`}
-            </Form.Text>
+
             </Col>
 
             <Col sm="6" className="mb-3">
             <Form.Control
               as={CustomInput}
               err={errs.p_dist_current && !isValid.p_dist_current(inputs.p_dist_current) ? errs.p_dist_current : '' }  
+              subText={`${distUnit} ${errs.p_dist_current ? '' : '(Optional)'}`}
               type="number" 
               placeholder=''
               id={'p_dist_current'} 
               onChange={recordInput} 
               value={inputs.p_dist_current} 
             />
-            <Form.Text className="text-muted">
-              {`${distUnit} ${inputs.usage_metric==='time' ? '(Optional)' : '(Required)'}`}
-            </Form.Text>
             </Col>
 
           </Row>
@@ -500,15 +497,13 @@ const Lifespan = () => {
               <Form.Control
                 as={CustomInput}
                 err={errs.lifespan_time && !isValid.lifespan_time(inputs.lifespan_time) ? errs.lifespan_time : ''}  
+                subText={`hours ${errs.lifespan_time ? '' : '(Optional)'}` }
                 type="number" 
                 placeholder=''
                 id='lifespan_time'
                 onChange={recordInput} 
                 value={inputs.lifespan_time}
               />
-              <Form.Text className="text-muted">
-                {`hours ${inputs.usage_metric === 'dist' ? '(Optional)' : '(Required)'}` }
-              </Form.Text>
             </Col>
             <Col 
               sm="6"
@@ -517,17 +512,14 @@ const Lifespan = () => {
               <Form.Control
                 as={CustomInput}
                 err={errs.lifespan_dist && !isValid.lifespan_dist(inputs.lifespan_dist) ? errs.lifespan_dist : ''}   
+                subText={`${distUnit} ${errs.lifespan_dist ? '' : '(Optional)'}` }
                 required
                 type="number" 
                 placeholder=''
                 id='lifespan_dist'
                 onChange={recordInput}
                 value={inputs.lifespan_dist}
-              />
-              <Form.Text className="text-muted">
-                {`${distUnit} ${inputs.usage_metric === 'time' ? '(Optional)' : '(Required)'}` }
-              </Form.Text>
-              
+              />              
             </Col>
           </Row>
         </Col> 

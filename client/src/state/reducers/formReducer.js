@@ -4,9 +4,10 @@ import {
   FORM_INPUT, 
   RESET_SUBSEQ_FIELDS, 
   RESET_FORM,
-  UPDATE_REQS
+  UPDATE_REQS,
+  VALIDATE
 } from '../action-types.js';
-import { errMsgs } from '../../components/modals/validation.js';
+import { isValid, errMsgs } from '../../components/modals/validation.js';
 
 
 const initialInputState = {
@@ -43,7 +44,7 @@ const fieldReducer = (state = initialInputState, action) => {
 
 const initialErrState = {
   // type: '', 
-  custom_type: errMsgs.custom_type,
+  custom_type: '',
   // p_brand: '',
   // p_model: '',
   // tracking_method: '',
@@ -54,9 +55,10 @@ const initialErrState = {
   new_date: '',
   lifespan_dist: '', 
   lifespan_time: ''
-}
+};
 
 const errReducer = (state = initialErrState, action) => {
+  
   if (action.type === UPDATE_REQS) {
     let newErrState = {...state}
     _.forEach(action.payload, (value, key) => {
@@ -64,9 +66,38 @@ const errReducer = (state = initialErrState, action) => {
     });
     return newErrState;
   }
+
+  if (action.type === VALIDATE) {
+    let fieldName = Object.keys(action.payload)[0];
+    let value = action.payload[fieldName];
+    return { ...state, [fieldName]: !isValid[fieldName](value) ? errMsgs[fieldName] : '' };
+  }
   
   return state;
 };
+
+// const initialValidationState = {
+//     err: {
+//       type: '', 
+//       custom_type: '',
+//       p_brand: '',
+//       p_model: '',
+//       tracking_method: '',
+//       usage_metric: '',
+//       init_wear_method: '', 
+//       p_dist_current: '', 
+//       p_time_current: '', 
+//       new_date: '',
+//       lifespan_dist: '', 
+//       lifespan_time: ''
+//     },
+//     isReq: {
+
+//     },
+//     isValid: {
+
+//     }
+// }
 
 
 export default combineReducers({

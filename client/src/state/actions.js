@@ -4,7 +4,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE
 } from './action-types.js';
 
 import devData from './data.js'
@@ -73,21 +73,28 @@ export const updateReqs = (reqs) => {
   return { type: UPDATE_REQS, payload: reqs }
 };
 
+export const validate = (keyPair) => {
+  return { type: VALIDATE, payload: keyPair }
+}
+
 
 // ...THUNKS...
 
 export const updateForm = (target) => (dispatch) => {
   let newData;
-  let reqs;
+
   if (target.dropdown) {
     // dropdowns
     dispatch(resetSubseqFields(target.dropdown)); // reset fields
     newData = {[target.dropdown]: target.id}; 
+    if (target.id === 'custom') dispatch(updateReqs({custom_type: true}));
   } else { 
     // text input and radios
+    let reqs;
+
     if (target.value.length > 20) return state;
     
-    newData = {[target.id]: target.value}; 
+    newData = {[target.id]: target.value};
     
     if (target.id === 'usage_metric') {
       if (target.value === 'time') {
@@ -117,6 +124,7 @@ export const updateForm = (target) => (dispatch) => {
       dispatch(updateReqs(reqs));
     }
   }
+  dispatch(validate(newData));
   dispatch(formInput(newData));
 };
 

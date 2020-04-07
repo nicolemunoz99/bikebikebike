@@ -1,9 +1,7 @@
 import React from 'react';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 
-//type, placeholder, id, className, onChange, value
-const CustomInput = ({err, className, ...bootstrapProps}) => {
-  console.log('err: ', err)
+const CustomInput = ({ err, subText, className, ...bootstrapProps }) => {
 
   return (
     <>
@@ -11,12 +9,12 @@ const CustomInput = ({err, className, ...bootstrapProps}) => {
         {...bootstrapProps}
         className={`${className} ${err ? 'input-err' : ''}`}
       />
-      {err ?
-        <div className='err-msg'>{err}</div>
-      :
-      null
-      }
-      
+      <Form.Text className="text-muted">
+        { subText }
+      </Form.Text>
+      <Form.Text className="err-msg">
+        { err }
+      </Form.Text>
     </>
 
   )
