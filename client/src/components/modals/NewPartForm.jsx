@@ -4,6 +4,7 @@ import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateForm } from '../../state/actions.js';
+import { isValid } from './validation.js';
 
 import CustomInput from './CustomInput.jsx'
 
@@ -138,7 +139,7 @@ const Basics = () => {
         <Col sm="12" className="mb-1">
           <Form.Control 
             as={CustomInput}
-            err={errs.custom_type}
+            err={errs.custom_type && !isValid.custom_type(inputs.custom_type) ? errs.custom_type : ''}
             type="text" 
             placeholder="Your custom part" 
             id="custom_type" 
@@ -391,7 +392,7 @@ const CurrentWear = () => {
             >
             <Form.Control
               as={CustomInput}
-              err={errs.p_time_current} 
+              err={errs.p_time_current && !isValid.p_time_current(inputs.p_time_current) ? errs.p_time_current : ''} 
               type="number" 
               placeholder='' 
               id={`p_time_current`} 
@@ -406,7 +407,7 @@ const CurrentWear = () => {
             <Col sm="6" className="mb-3">
             <Form.Control
               as={CustomInput}
-              err={errs.p_dist_current}  
+              err={errs.p_dist_current && !isValid.p_dist_current(inputs.p_dist_current) ? errs.p_dist_current : '' }  
               type="number" 
               placeholder=''
               id={'p_dist_current'} 
@@ -427,7 +428,7 @@ const CurrentWear = () => {
         <>
           <Form.Control 
             as={CustomInput}
-            err={errs.new_date} 
+            err={errs.new_date && !isValid.new_date(inputs.new_date) ? errs.new_date : ''} 
             type="date" 
             id={`new_date`} 
             onChange={recordInput}
@@ -491,7 +492,7 @@ const Lifespan = () => {
             >
               <Form.Control
                 as={CustomInput}
-                err={errs.lifespan_time}  
+                err={errs.lifespan_time && !isValid.lifespan_time(inputs.lifespan_time) ? errs.lifespan_time : ''}  
                 type="number" 
                 placeholder=''
                 id='lifespan_time'
@@ -508,7 +509,7 @@ const Lifespan = () => {
             >
               <Form.Control
                 as={CustomInput}
-                err={errs.lifespan_dist}   
+                err={errs.lifespan_dist && !isValid.lifespan_dist(inputs.lifespan_dist) ? errs.lifespan_dist : ''}   
                 required
                 type="number" 
                 placeholder=''
