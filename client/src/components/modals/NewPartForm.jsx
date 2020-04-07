@@ -9,7 +9,7 @@ import { isValid } from './validation.js';
 import CustomInput from './CustomInput.jsx'
 
 const NewPartForm = () => {
-  const inputs = useSelector(state => state.form.fields);
+  const inputs = useSelector(state => state.form.inputs);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -81,14 +81,15 @@ const NewPartForm = () => {
 };
 
 /*
-#####################
+##########################################
+##########################################
 Basics
-#####################
+##########################################
+##########################################
 */
 
 const Basics = () => {
-  const inputs = useSelector(state => state.form.fields);
-  const errs = useSelector(state => state.form.errs);
+  const { inputs, errs } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   const partList = {
@@ -179,13 +180,15 @@ const Basics = () => {
 }
 
 /*
-#####################
+##########################################
+##########################################
 TrackingMethod
-#####################
+##########################################
+##########################################
 */
 
 const TrackingMethod = () => {
-  const inputs = useSelector(state => state.form.fields);
+  const { inputs, errs } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   const recordInput = (e) => {
@@ -262,13 +265,15 @@ const TrackingMethod = () => {
 
 
 /*
-#####################
+##########################################
+##########################################
 UsageMetric
-#####################
+##########################################
+##########################################
 */
 
 const UsageMetric = () => {
-  const inputs = useSelector(state => state.form.fields);
+  const { inputs, errs } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   const recordInput = (e) => {
@@ -328,14 +333,15 @@ const UsageMetric = () => {
 
 
 /*
-#####################
+##########################################
+##########################################
 CurrentWear
-#####################
+##########################################
+##########################################
 */
 
 const CurrentWear = () => {
-  const inputs = useSelector(state => state.form.fields);
-  const errs = useSelector(state => state.form.errs);
+  const { inputs, errs } = useSelector(state => state.form);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -458,14 +464,15 @@ const CurrentWear = () => {
 };
 
 /*
-#####################
+##########################################
+##########################################
 Lifespan
-#####################
+##########################################
+##########################################
 */
 
 const Lifespan = () => {
-  const inputs = useSelector(state => state.form.fields);
-  const errs = useSelector(state => state.form.errs);
+  const { inputs, errs } = useSelector(state => state.form);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -527,13 +534,6 @@ const Lifespan = () => {
       </Form.Group>
   );
 };
-
-
-
-
-
-
-
 
 
 
