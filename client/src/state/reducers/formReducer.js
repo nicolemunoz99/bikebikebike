@@ -2,6 +2,7 @@ import {
   FORM_INPUT, 
   RESET_SUBSEQ_FIELDS, 
   RESET_FORM,
+  UPDATE_REQS,
   VALIDATE 
 } from '../action-types.js';
 import { combineReducers } from 'redux';
@@ -85,10 +86,19 @@ const initialErrState = {
 }
 
 const errReducer = (state = initialErrState, action) => {
+  if (action.type === UPDATE_REQS) {
+    let newErrState = {...state}
+    _.forEach(action.payload, (value, key) => {
+      newErrState[key] = value ? errMsgs[key] : '';
+    });
+    return newErrState;
+  }
+  
   if (action.type === VALIDATE) {
     let field = Object.keys(action.payload)[0];
-    if (initialErrState[field] === undefined) return state;
     let value = Object.values(action.payload)[0];
+    if (isValid[field] === undefined) return state;
+    
     return { ...state, [field]: isValid[field](value) ? '' : errMsgs[field] };
   }
 

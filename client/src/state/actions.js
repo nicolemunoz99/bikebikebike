@@ -4,7 +4,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, VALIDATE
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE
 } from './action-types.js';
 
 import devData from './data.js'
@@ -69,6 +69,10 @@ export const resetForm = () => {
   return { type: RESET_FORM };
 };
 
+export const updateReqs = (reqs) => {
+  return { type: UPDATE_REQS, payload: reqs }
+};
+
 export const validate = (keyValue) => {
   return{ type: VALIDATE, payload: keyValue };
 }
@@ -77,12 +81,44 @@ export const validate = (keyValue) => {
 
 export const updateForm = (target) => (dispatch) => {
   let newData;
+  let reqs;
   if (target.dropdown) {
+    // dropdowns
     dispatch(resetSubseqFields(target.dropdown)); // reset fields
-    newData = {[target.dropdown]: target.id}; // dropdowns
-  } else {
+    newData = {[target.dropdown]: target.id}; 
+  } else { 
+    // text input and radios
     if (target.value.length > 20) return state;
-    newData = {[target.id]: target.value}; // text input and radios
+    
+    newData = {[target.id]: target.value}; 
+    
+    if (target.id === 'usage_metric') {
+      if (target.value === 'time') {
+        reqs = {
+          p_dist_current: false, 
+          p_time_current: true,
+          lifespan_dist: false,
+          lifespan_time: true
+        };
+      }
+      else if (target.value === 'dist'){
+        reqs = {
+          p_dist_current: true, 
+          p_time_current: false,
+          lifespan_dist: true,
+          lifespan_time: false
+        };
+      }
+      else {
+        reqs = {
+          p_dist_current: true, 
+          p_time_current: true,
+          lifespan_dist: true,
+          lifespan_time: true
+        };
+      }
+      dispatch(updateReqs(reqs));
+    }
   }
   dispatch(formInput(newData));
   dispatch(validate(newData));
