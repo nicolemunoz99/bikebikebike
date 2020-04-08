@@ -127,8 +127,8 @@ export const updateForm = (target) => (dispatch) => {
       dispatch(updateReqs(reqs));
     }
   }
-  dispatch(validate(newData));
   dispatch(formInput(newData));
+  dispatch(validate(newData));
 };
 
 
