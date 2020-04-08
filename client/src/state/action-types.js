@@ -12,3 +12,4 @@ export const RESET_SUBSEQ_FIELDS = "RESET_SUBSEQ_FIELDS";
 export const RESET_FORM = "RESET_FORM";
 export const UPDATE_REQS = "UPDATE_REQS";
 export const VALIDATE = "VALIDATE";
+export const CHECK_SUBMIT = "CHECK_SUBMIT";

@@ -4,18 +4,19 @@ import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateForm } from '../../state/actions.js';
-import { isValid } from './validation.js';
+import { errMsgs } from './validation.js';
 
 import CustomInput from './CustomInput.jsx'
 
 const NewPartForm = () => {
-  const { inputs, errs } = useSelector(state => state.form);
-
+  const { inputs, isReq, isOk } = useSelector(state => state.form);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit');
-  }
+  };
+
+
 
   return (
   <ModalWrapper title="New Component">
@@ -59,16 +60,17 @@ const NewPartForm = () => {
             null
           }
 
-          {inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
-            <Row>
-              <Col>
-                <Button className="w-100" type="submit">Submit</Button>
-              </Col>
-            </Row>
-          :
-          null
-        }
         </>
+        :
+        null
+      }
+
+      { inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
+          <Row>
+            <Col>
+              <Button className="w-100" type="submit">Submit</Button>
+            </Col>
+          </Row>
         :
         null
       }
@@ -89,7 +91,7 @@ Basics
 */
 
 const Basics = () => {
-  const { inputs, errs } = useSelector(state => state.form);
+  const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   const partList = {
@@ -140,7 +142,7 @@ const Basics = () => {
         <Col sm="12" className="mb-1">
           <Form.Control 
             as={CustomInput}
-            err={errs.custom_type && !isValid.custom_type(inputs.custom_type) ? errs.custom_type : ''}
+            err={isReq.custom_type && !isOk.custom_type ? errMsgs.custom_type : ''}
             type="text" 
             placeholder="Your custom part" 
             id="custom_type" 
@@ -153,18 +155,22 @@ const Basics = () => {
         }
 
         <Col sm="6" className="mb-1">
-          <Form.Control 
+          <Form.Control
+            as={CustomInput} 
+            subText="Brand (Optional)"
             type="text" 
-            placeholder="Brand (optional)"
+            placeholder=""
             id="p_brand"
             onChange={recordInput}
             value={inputs.p_brand}
           />
         </Col>
         <Col sm="6" className="mb-1">
-          <Form.Control 
+          <Form.Control
+            as={CustomInput} 
+            subText="Model (Optional)"
             type="text" 
-            placeholder="Model (optional)" 
+            placeholder="" 
             id="p_model" 
             onChange={recordInput} 
             value={inputs.p_model}
@@ -188,7 +194,7 @@ TrackingMethod
 */
 
 const TrackingMethod = () => {
-  const { inputs, errs } = useSelector(state => state.form);
+  const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   const recordInput = (e) => {
@@ -273,7 +279,7 @@ UsageMetric
 */
 
 const UsageMetric = () => {
-  const { inputs, errs } = useSelector(state => state.form);
+  const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   const recordInput = (e) => {
@@ -341,7 +347,7 @@ CurrentWear
 */
 
 const CurrentWear = () => {
-  const { inputs, errs } = useSelector(state => state.form);
+  const { inputs, isReq, isOk } = useSelector(state => state.form);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -398,8 +404,8 @@ const CurrentWear = () => {
             >
             <Form.Control
               as={CustomInput}
-              err={errs.p_time_current && !isValid.p_time_current(inputs.p_time_current) ? errs.p_time_current : ''}
-              subText={`hours ${errs.p_time_current ? '' : '(Optional)'}`} 
+              err={isReq.p_time_current && !isOk.p_time_current ? errMsgs.p_time_current : ''}
+              subText={`hours ${isReq.p_time_current ? '' : '(Optional)'}`} 
               type="number" 
               placeholder='' 
               id={`p_time_current`} 
@@ -412,8 +418,8 @@ const CurrentWear = () => {
             <Col sm="6" className="mb-3">
             <Form.Control
               as={CustomInput}
-              err={errs.p_dist_current && !isValid.p_dist_current(inputs.p_dist_current) ? errs.p_dist_current : '' }  
-              subText={`${distUnit} ${errs.p_dist_current ? '' : '(Optional)'}`}
+              err={isReq.p_dist_current && !isOk.p_dist_current ? errMsgs.p_dist_current : ''}  
+              subText={`${distUnit} ${isReq.p_dist_current ? '' : '(Optional)'}`}
               type="number" 
               placeholder=''
               id={'p_dist_current'} 
@@ -431,7 +437,7 @@ const CurrentWear = () => {
         <>
           <Form.Control 
             as={CustomInput}
-            err={errs.new_date && !isValid.new_date(inputs.new_date) ? errs.new_date : ''} 
+            err={isReq.new_date && !isOk.new_date ? errMsgs.new_date : ''} 
             type="date" 
             id={`new_date`} 
             onChange={recordInput}
@@ -469,7 +475,7 @@ Lifespan
 */
 
 const Lifespan = () => {
-  const { inputs, errs } = useSelector(state => state.form);
+  const { inputs, isReq, isOk } = useSelector(state => state.form);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -496,8 +502,8 @@ const Lifespan = () => {
             >
               <Form.Control
                 as={CustomInput}
-                err={errs.lifespan_time && !isValid.lifespan_time(inputs.lifespan_time) ? errs.lifespan_time : ''}  
-                subText={`hours ${errs.lifespan_time ? '' : '(Optional)'}` }
+                err={isReq.lifespan_time && !isOk.lifespan_time ? errMsgs.lifespan_time : ''}  
+                subText={`hours ${isReq.lifespan_time ? '' : '(Optional)'}` }
                 type="number" 
                 placeholder=''
                 id='lifespan_time'
@@ -511,8 +517,8 @@ const Lifespan = () => {
             >
               <Form.Control
                 as={CustomInput}
-                err={errs.lifespan_dist && !isValid.lifespan_dist(inputs.lifespan_dist) ? errs.lifespan_dist : ''}   
-                subText={`${distUnit} ${errs.lifespan_dist ? '' : '(Optional)'}` }
+                err={isReq.lifespan_dist && !isOk.lifespan_dist ? errMsgs.lifespan_dist : ''}   
+                subText={`${distUnit} ${isReq.lifespan_dist ? '' : '(Optional)'}` }
                 required
                 type="number" 
                 placeholder=''

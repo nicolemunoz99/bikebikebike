@@ -16,14 +16,14 @@ export const isValid = {
 
 export const errMsgs = {
   type: 'Please select a part type.', 
-  custom_type: 'Please specify your part type.',
+  custom_type: 'Please specify.',
   p_brand: '',
   p_model: '',
   tracking_method: '',
   usage_metric: '',
   init_wear_method: `Select how you want to determine current wear.`, 
-  p_dist_current: `Specify distance for current wear.`, 
-  p_time_current: `Specify hours for current wear.`, 
+  p_dist_current: `Specify distance.`, 
+  p_time_current: `Specify hours.`, 
   new_date: `Specify a valid date.`,
   lifespan_dist: `Indicate lifespan in terms of distance.`, 
   lifespan_time: `Indicate lifespan in terms of hours.`

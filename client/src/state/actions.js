@@ -4,7 +4,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE, CHECK_SUBMIT
 } from './action-types.js';
 
 import devData from './data.js'
@@ -59,7 +59,6 @@ export const formInput = (keyValue) => {
  return { type: FORM_INPUT, payload: keyValue};
 };
 
-
 export const resetSubseqFields = (field) => {
   // resets fields that follow the parameter 'field'
   return { type: RESET_SUBSEQ_FIELDS, payload: field };
@@ -75,7 +74,11 @@ export const updateReqs = (reqs) => {
 
 export const validate = (keyPair) => {
   return { type: VALIDATE, payload: keyPair }
-}
+};
+
+// export const checkSubmit = () => {
+//   return { type: CHECK_SUBMIT }
+// }
 
 
 // ...THUNKS...
