@@ -18,6 +18,7 @@ const NewPartForm = () => {
 
 
 
+
   return (
   <ModalWrapper title="New Component">
     <div className="modal-style mx-auto col-10 p-3">
@@ -102,7 +103,7 @@ const Basics = () => {
     custom: {title: '-- Custom --'}
   };
 
-  const recordInput = (e) => {
+  const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
       id: e.target.id,
@@ -130,7 +131,7 @@ const Basics = () => {
             {Object.keys(partList).map(partKey => {
               return (
                 <Dropdown.Item  data-dropdown="type" key={partKey} id={partKey} 
-                  onClick={recordInput}
+                  onClick={handleInput}
                 >
                   {partList[partKey].title}
                 </Dropdown.Item> 
@@ -146,7 +147,7 @@ const Basics = () => {
             type="text" 
             placeholder="Your custom part" 
             id="custom_type" 
-            onChange={recordInput}
+            onChange={handleInput}
             value={inputs.custom_type}
           />
         </Col>
@@ -161,7 +162,7 @@ const Basics = () => {
             type="text" 
             placeholder=""
             id="p_brand"
-            onChange={recordInput}
+            onChange={handleInput}
             value={inputs.p_brand}
           />
         </Col>
@@ -172,7 +173,7 @@ const Basics = () => {
             type="text" 
             placeholder="" 
             id="p_model" 
-            onChange={recordInput} 
+            onChange={handleInput} 
             value={inputs.p_model}
           />
         </Col>
@@ -197,7 +198,7 @@ const TrackingMethod = () => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  const recordInput = (e) => {
+  const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
       id: e.target.id,
@@ -246,7 +247,7 @@ const TrackingMethod = () => {
             id="tracking_method"
             value="default"
             checked={inputs.tracking_method==='default' ? true : false}
-            onChange={recordInput}
+            onChange={handleInput}
             disabled={inputs.type == 'custom' ? true : false}
           />
         </Col>
@@ -258,7 +259,7 @@ const TrackingMethod = () => {
             id="tracking_method"
             value="custom"
             checked={inputs.tracking_method==='custom' ? true : false}
-            onChange={recordInput}
+            onChange={handleInput}
           />
       </Col>
       </Row>
@@ -282,7 +283,7 @@ const UsageMetric = () => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  const recordInput = (e) => {
+  const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
       id: e.target.id,
@@ -306,7 +307,7 @@ const UsageMetric = () => {
               id="usage_metric"
               value="dist"
               checked={inputs.usage_metric==='dist' ? true : false}
-              onChange={recordInput}
+              onChange={handleInput}
             />
           </Col>
           <Col sm="auto">
@@ -317,7 +318,7 @@ const UsageMetric = () => {
               id="usage_metric"
               value="time"
               checked={inputs.usage_metric==='time' ? true : false}
-              onChange={recordInput}
+              onChange={handleInput}
             />
           </Col>
           <Col sm="auto">
@@ -328,7 +329,7 @@ const UsageMetric = () => {
               id="usage_metric"
               value="both"
               checked={inputs.usage_metric==='both' ? true : false}
-              onChange={recordInput}
+              onChange={handleInput}
             />
           </Col>
         </Row>
@@ -357,7 +358,7 @@ const CurrentWear = () => {
     new: {title: 'New'}
   };
 
-  const recordInput = (e) => {
+  const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
       id: e.target.id,
@@ -382,7 +383,7 @@ const CurrentWear = () => {
           >
             {Object.keys(wearMethods).map(methodKey => {
               return (
-                <Dropdown.Item onClick={recordInput} data-dropdown="init_wear_method" key={methodKey} id={methodKey}>
+                <Dropdown.Item onClick={handleInput} data-dropdown="init_wear_method" key={methodKey} id={methodKey}>
                   {wearMethods[methodKey].title}
                 </Dropdown.Item> 
               )
@@ -409,7 +410,7 @@ const CurrentWear = () => {
               type="number" 
               placeholder='' 
               id={`p_time_current`} 
-              onChange={recordInput} 
+              onChange={handleInput} 
               value={inputs.p_time_current}
             />
 
@@ -423,7 +424,7 @@ const CurrentWear = () => {
               type="number" 
               placeholder=''
               id={'p_dist_current'} 
-              onChange={recordInput} 
+              onChange={handleInput} 
               value={inputs.p_dist_current} 
             />
             </Col>
@@ -440,7 +441,7 @@ const CurrentWear = () => {
             err={isReq.new_date && !isOk.new_date ? errMsgs.new_date : ''} 
             type="date" 
             id={`new_date`} 
-            onChange={recordInput}
+            onChange={handleInput}
             value={inputs.new_date} 
           />
             <div>
@@ -479,7 +480,7 @@ const Lifespan = () => {
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
-  const recordInput = (e) => {
+  const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
       id: e.target.id,
@@ -507,7 +508,7 @@ const Lifespan = () => {
                 type="number" 
                 placeholder=''
                 id='lifespan_time'
-                onChange={recordInput} 
+                onChange={handleInput} 
                 value={inputs.lifespan_time}
               />
             </Col>
@@ -523,7 +524,7 @@ const Lifespan = () => {
                 type="number" 
                 placeholder=''
                 id='lifespan_dist'
-                onChange={recordInput}
+                onChange={handleInput}
                 value={inputs.lifespan_dist}
               />              
             </Col>

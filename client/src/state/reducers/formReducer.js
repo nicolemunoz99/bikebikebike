@@ -37,17 +37,17 @@ const initialFormState = {
   },
   isOk: {
     type: false, 
-    custom_type: false,
-    p_brand: true,
-    p_model: true,
+    custom_type: null,
+    p_brand: null,
+    p_model: null,
     tracking_method: false,
-    usage_metric: false,
-    init_wear_method: false, 
-    p_dist_current: false, 
-    p_time_current: false, 
-    new_date: false,
-    lifespan_dist: false, 
-    lifespan_time: false
+    usage_metric: null,
+    init_wear_method: null, 
+    p_dist_current: null, 
+    p_time_current: null, 
+    new_date: null,
+    lifespan_dist: null, 
+    lifespan_time: null
   }
 };
 
@@ -62,7 +62,7 @@ const formReducer = (state = initialFormState, action) => {
   if (action.type === RESET_SUBSEQ_FIELDS) {
     let targetField = action.payload;
     let fieldsToReset = 
-        _.dropWhile(Object.keys(state), (item) => item !== targetField).slice(1);
+        _.dropWhile(Object.keys(state.inputs), (item) => item !== targetField).slice(1);
     let resetFields = _.pick(initialFormState.inputs, fieldsToReset);
     return { ...state, inputs: { ...state.inputs, ...resetFields } };
   }
@@ -76,7 +76,7 @@ const formReducer = (state = initialFormState, action) => {
 
   if (action.type === VALIDATE) {
     let newIsOkState =_.mapValues(state.isReq, (isReq, key) => {
-      if (!isReq) return true;
+      if (!isReq) return null;
       return isValid[key](state.inputs[key]);
     });
     return { ...state, isOk: newIsOkState };
