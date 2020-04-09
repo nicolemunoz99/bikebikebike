@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateForm } from '../../state/actions.js';
+import { updateForm, resetForm, setBikeMod } from '../../state/actions.js';
 import { errMsgs } from './validation.js';
 
-import CustomInput from './CustomInput.jsx'
+import CustomInput from './CustomInput.jsx';
 
-const NewPartForm = () => {
+const PartForm = () => {
   const { inputs, isReq, isOk, formIsValid } = useSelector(state => state.form);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetForm());
+      dispatch(setBikeMod(''));
+    };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -534,4 +542,4 @@ const Lifespan = () => {
 
 
 
-export default NewPartForm;
+export default PartForm;

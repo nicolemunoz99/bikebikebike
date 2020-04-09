@@ -5,7 +5,7 @@ import { getUserData } from '../state/actions.js';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
-import { setModal }from '../state/actions.js';
+import { showPartForm }from '../state/actions.js';
 
 const PartList = () => {
   const bikeId = useParams().bikeId
@@ -13,6 +13,8 @@ const PartList = () => {
   const allParts = useSelector(state => state.parts.list);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
+
+  
 
   useEffect(() => {
     dispatch(getUserData()); // for page refresh
@@ -46,7 +48,7 @@ const PartList = () => {
                 </div>
                 <div 
                   className="col-auto m-auto pointer"
-                  onClick={()=>dispatch(setModal('newPartForm'))}
+                  onClick={()=>dispatch(showPartForm(bikeId))}
                 >
                   <OverlayTrigger
                   placement='left'
@@ -82,7 +84,7 @@ const PartList = () => {
         <div className="row no-gutters justify-content-end text-right">
           <div 
             className="col-auto mx-1 text-sm-center pointer" 
-            onClick={()=>dispatch(setModal('editPartForm'))}
+            onClick={()=>dispatch(showPartForm(bikeId, id))}
           >
             <OverlayTrigger
               placement='top'

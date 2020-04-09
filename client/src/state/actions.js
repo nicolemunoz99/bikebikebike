@@ -2,7 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { 
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
-  SET_BIKES, SET_PARTS, 
+  SET_BIKES, SET_PARTS, SET_BIKE_MOD,
   SET_MODAL, CLOSE_MODAL, 
   FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
 } from './action-types.js';
@@ -51,6 +51,14 @@ export const setParts = (parts) => {
   return { type: SET_PARTS, payload: parts };
 };
 
+export const setBikeMod = (bikeId) => {
+  return { type: SET_BIKE_MOD, payload: bikeId };
+};
+
+// export const showPartForm = (bikeId) => {
+
+// }
+
 /* **************************
 Form
 ************************** */
@@ -82,6 +90,11 @@ export const validateForm = () => {
 
 
 // ...THUNKS...
+
+export const showPartForm = (bikeId) => (dispatch) => {
+  dispatch(setModal('partForm'));
+  dispatch(setBikeMod(bikeId));
+}
 
 export const updateForm = (target) => (dispatch) => {
   let fieldName;

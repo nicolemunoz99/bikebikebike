@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserData } from '../state/actions.js';
+import { getUserData, showPartForm } from '../state/actions.js';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
@@ -73,10 +73,10 @@ const BikeList = () => {
     </div>
 
     {/* add part button */}
-    <div className="col-6">
+    <div className="col-6" >
 
       <div className="row no-gutters justify-content-end text-right">
-        <div className="col-auto mx-1 text-sm-center pointer">
+        <div className="col-auto mx-1 text-sm-center pointer" onClick={() => dispatch(showPartForm(id))}>
           <OverlayTrigger
             placement='top'
             overlay={<Tooltip> add part </Tooltip>}
@@ -118,13 +118,6 @@ const BikeList = () => {
   </div>
 
 </div>
-
-
-
-
-
-
-
 
 
             )

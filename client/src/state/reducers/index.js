@@ -1,7 +1,7 @@
 import { 
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_MODAL, CLOSE_MODAL, 
-  SET_BIKES, SET_PARTS
+  SET_BIKES, SET_PARTS, SET_BIKE_MOD
 } from '../action-types.js';
 
 import formReducer from './formReducer.js'
@@ -50,13 +50,18 @@ const userReducer = (state = initialUserState, action) => {
 
 const initialBikeState = {
   list: {},
-  selected: {}
+  bikeMod: ''
 };
 
 const bikeReducer = (state = initialBikeState, action) => {
   if (action.type === SET_BIKES) {
     return { ...state, list: {...action.payload} };
   }
+
+  if (action.type === SET_BIKE_MOD) {
+    return { ...state, bikeMod: action.payload };
+  }
+
   return state;
 };
 

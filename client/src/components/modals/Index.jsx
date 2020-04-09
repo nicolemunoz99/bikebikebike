@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import NewPartForm from './NewPartForm.jsx';
+import PartForm from './PartForm.jsx';
 
 const ModalIndex = () => {
   const modal = useSelector(state => state.modal);
 
   return (
     <div>
-      {  modal === 'newPartForm' ?
-        <NewPartForm />
+      {  modal === 'partForm' ?
+        <PartForm />
         :
         null
       }
@@ -17,5 +17,3 @@ const ModalIndex = () => {
 };
 
 export default ModalIndex;
-
-// modal === 'newPartForm'

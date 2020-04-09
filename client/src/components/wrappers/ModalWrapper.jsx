@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch} from 'react-redux';
-import { closeModal, resetForm } from '../../state/actions.js';
+import { useDispatch} from 'react-redux';
+import { closeModal } from '../../state/actions.js';
 
 const ModalWrapper = (props) => {
   const dispatch = useDispatch();
@@ -8,7 +8,6 @@ const ModalWrapper = (props) => {
   const closeHandler = (e) => {
     if (e.target === e.currentTarget) {
       dispatch(closeModal());
-      dispatch(resetForm());
     };
   }
   
@@ -16,7 +15,7 @@ const ModalWrapper = (props) => {
     <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>
 
         <div className="modal-body col-8">
-        <div className="display-4">
+        <div className="display-4 mb-4">
           {props.title}
         </div>
         {props. children}
