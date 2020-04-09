@@ -68,12 +68,12 @@ export const resetForm = () => {
   return { type: RESET_FORM };
 };
 
-export const updateReqs = (reqs) => {
-  return { type: UPDATE_REQS, payload: reqs }
+export const updateReqs = (fieldName, value) => {
+  return { type: UPDATE_REQS, payload: {fieldName, value} }
 };
 
-export const validate = (keyPair) => {
-  return { type: VALIDATE, payload: keyPair }
+export const validate = () => {
+  return { type: VALIDATE }
 };
 
 // export const checkSubmit = () => {
@@ -85,50 +85,85 @@ export const validate = (keyPair) => {
 
 export const updateForm = (target) => (dispatch) => {
   let newData;
+  let fieldName;
+  let value;
 
   if (target.dropdown) {
-    // dropdowns
     dispatch(resetSubseqFields(target.dropdown)); // reset fields
-    newData = {[target.dropdown]: target.id}; 
-    if (target.id === 'custom') dispatch(updateReqs({custom_type: true}));
-  } else { 
-    // text input and radios
-    let reqs;
-
-    if (target.value.length > 20) return state;
-    
-    newData = {[target.id]: target.value};
-    
-    if (target.id === 'usage_metric') {
-      if (target.value === 'time') {
-        reqs = {
-          p_dist_current: false, 
-          p_time_current: true,
-          lifespan_dist: false,
-          lifespan_time: true
-        };
-      }
-      else if (target.value === 'dist'){
-        reqs = {
-          p_dist_current: true, 
-          p_time_current: false,
-          lifespan_dist: true,
-          lifespan_time: false
-        };
-      }
-      else {
-        reqs = {
-          p_dist_current: true, 
-          p_time_current: true,
-          lifespan_dist: true,
-          lifespan_time: true
-        };
-      }
-      dispatch(updateReqs(reqs));
-    }
   }
-  dispatch(formInput(newData));
-  dispatch(validate(newData));
+  if (target.radio) {
+    console.log('radio')
+    dispatch(resetSubseqFields(target.radio))
+  }
+
+  // if (target.dropdown) {
+  //   // dropdowns
+  //   dispatch(resetSubseqFields(target.dropdown)); // reset fields
+  //   newData = {[target.dropdown]: target.id}; 
+  //   if (target.id === 'custom') dispatch(updateReqs({custom_type: true}));
+  // } else { 
+  //   // text input and radios
+  //   let reqs = {};
+
+  //   if (target.value.length > 20) return;
+    
+  //   newData = {[target.id]: target.value};
+
+  //   if (target.id === 'tracking_method' && target.value === 'default') {
+  //     dispatch(resetSubseqFields('tracking_method'));
+  //   }
+
+  //   if (target.id === 'tracking_method' && target.value === 'custom') {
+  //     reqs = {
+  //       usage_metric: true,
+  //       init_wear_method: true
+  //     };
+  //   }
+    
+  //   if (target.id === 'usage_metric') {
+  //     if (target.value === 'time') {
+  //       reqs = {
+  //         p_dist_current: false, 
+  //         p_time_current: true,
+  //         lifespan_dist: false,
+  //         lifespan_time: true
+  //       };
+  //     }
+  //     else if (target.value === 'dist'){
+  //       reqs = {
+  //         p_dist_current: true, 
+  //         p_time_current: false,
+  //         lifespan_dist: true,
+  //         lifespan_time: false
+  //       };
+  //     }
+  //     else {
+  //       reqs = {
+  //         p_dist_current: true, 
+  //         p_time_current: true,
+  //         lifespan_dist: true,
+  //         lifespan_time: true
+  //       };
+  //     }
+  //   }
+
+  //   if (target.id === 'init_wear_method') {
+  //     if (target.value === 'strava') reqs = {new_date: true}
+  //   }
+
+  //   dispatch(updateReqs(reqs));
+  // }
+
+  if (target.dropdown) {
+    fieldName = target.dropdown;
+    value = target.id;
+  } else {
+    fieldName = target.id;
+    value = target.value;
+  }
+  dispatch(formInput({[fieldName]: value}));
+  dispatch(updateReqs(fieldName, value));
+  dispatch(validate());
 };
 
 

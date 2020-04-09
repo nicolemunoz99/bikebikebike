@@ -16,7 +16,15 @@ const NewPartForm = () => {
     console.log('submit');
   };
 
+  const checkForm = () => {
+    let check = _.every(isReq, (value, key) => {
+      if (!value) return true
+      return value && isOk[key]
+    });
+    return check
+  }
 
+  checkForm()
 
 
   return (
@@ -27,8 +35,8 @@ const NewPartForm = () => {
 
         <Basics />
         
-        
-        {inputs.type && (inputs.type !== 'custom' || inputs.custom_type) ?
+        {/* inputs.type && (inputs.type !== 'custom' || inputs.custom_type) */}
+        { isOk.type && (!isReq.custom_type || isOk.custom_type) ?
           <TrackingMethod />
         :
         null
@@ -43,30 +51,22 @@ const NewPartForm = () => {
         :
         null
         }
-
-        { inputs.tracking_method === 'custom' ?
-        <>
-          <UsageMetric />
-          {inputs.usage_metric ?
-            <CurrentWear />
-          :
-          null
-          }
-
-          {( inputs.init_wear_method === 'est' && (inputs.p_dist_current || inputs.p_time_current) ) ||
-            (inputs.init_wear_method === 'strava' && inputs.new_date) ||
-            inputs.init_wear_method === 'new' ?
-              <Lifespan />
-            :
-            null
-          }
-
-        </>
+        {isReq.usage_metric && isOk.tracking_method && <UsageMetric /> }
+        {isReq.init_wear_method && isOk.usage_metric && <CurrentWear />}
+        {(isReq.lifespan_dist || isReq.lifespan_time) && isOk.init_wear_method && <Lifespan />}
+  
+        { checkForm() ?
+          <Row>
+          <Col>
+            <Button className="w-100" type="submit">Submit</Button>
+          </Col>
+        </Row>
         :
         null
-      }
+        
+        }
 
-      { inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
+      {/* { inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
           <Row>
             <Col>
               <Button className="w-100" type="submit">Submit</Button>
@@ -74,7 +74,7 @@ const NewPartForm = () => {
           </Row>
         :
         null
-      }
+      } */}
 
 
       </Form>
@@ -106,6 +106,7 @@ const Basics = () => {
   const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
+      radio: e.target.getAttribute('data-radio'),
       id: e.target.id,
       value: e.target.value
     };
@@ -201,6 +202,7 @@ const TrackingMethod = () => {
   const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
+      radio: e.target.getAttribute('data-radio'),
       id: e.target.id,
       value: e.target.value
     };
@@ -241,6 +243,7 @@ const TrackingMethod = () => {
       <Row>
         <Col sm="4">
           <Form.Check
+            data-radio="default"
             type="radio"
             label="Default"
             name="tracking_method"
@@ -253,6 +256,7 @@ const TrackingMethod = () => {
         </Col>
         <Col sm="4">
           <Form.Check
+            data-radio="custom"
             type="radio"
             label="Custom"
             name="tracking_method"
@@ -286,6 +290,7 @@ const UsageMetric = () => {
   const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
+      radio: e.target.getAttribute('data-radio'),
       id: e.target.id,
       value: e.target.value
     };
@@ -302,6 +307,7 @@ const UsageMetric = () => {
           <Col sm="4">
             <Form.Check
               type="radio"
+              data-radio="distance"
               label="Distance"
               name="usage_metric"
               id="usage_metric"
@@ -312,6 +318,7 @@ const UsageMetric = () => {
           </Col>
           <Col sm="auto">
             <Form.Check
+              data-radio="time"
               type="radio"
               label="Time"
               name="usage_metric"
@@ -323,6 +330,7 @@ const UsageMetric = () => {
           </Col>
           <Col sm="auto">
             <Form.Check
+              data-radio="both"
               type="radio"
               label="Whichever comes first"
               name="usage_metric"
@@ -361,6 +369,7 @@ const CurrentWear = () => {
   const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
+      radio: e.target.getAttribute('data-radio'),
       id: e.target.id,
       value: e.target.value
     };
@@ -483,6 +492,7 @@ const Lifespan = () => {
   const handleInput = (e) => {
     let payload = {
       dropdown: e.target.getAttribute('data-dropdown'),
+      radio: e.target.getAttribute('data-radio'),
       id: e.target.id,
       value: e.target.value
     };

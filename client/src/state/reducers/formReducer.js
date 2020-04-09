@@ -63,20 +63,72 @@ const formReducer = (state = initialFormState, action) => {
     let targetField = action.payload;
     let fieldsToReset = 
         _.dropWhile(Object.keys(state.inputs), (item) => item !== targetField).slice(1);
-    let resetFields = _.pick(initialFormState.inputs, fieldsToReset);
-    return { ...state, inputs: { ...state.inputs, ...resetFields } };
+    let resetInputs = _.pick(initialFormState.inputs, fieldsToReset);
+    let resetIsReq = _.pick(initialFormState.isReq, fieldsToReset);
+    let resetIsOk = _.pick(initialFormState.isOk, fieldsToReset)
+    return { 
+      ...state, 
+      inputs: { ...state.inputs, ...resetInputs },
+      isOk: { ...state.isOk, ...resetIsOk},
+      isReq: { ...state.isReq, ...resetIsReq}
+    };
   }
 
   // validation
 
   if (action.type === UPDATE_REQS) {
-    let updatedRequiredFields = {...state.isReq, ...action.payload}
-    return { ...state, isReq: updatedRequiredFields };
+    // let updatedRequiredFields = {...state.isReq, ...action.payload}
+    // return { ...state, isReq: updatedRequiredFields };
+    let {fieldName, value} = action.payload;
+    let newReqs = {};
+
+    if (state.inputs.type === 'custom') {
+      newReqs = {custom_type: true}
+    }
+    if (fieldName === 'tracking_method' && value === 'custom') {
+      newReqs = {
+        usage_metric: true,
+        init_wear_method: true
+      };
+    }
+
+    // if (fieldName === 'usage_metric') {
+      if (state.inputs.usage_metric === 'time') {
+        newReqs = {
+          // p_dist_current: false, 
+          p_time_current: true,
+          // lifespan_dist: false,
+          lifespan_time: true
+        };
+      }
+      if (state.inputs.usage_metric === 'dist'){
+        newReqs = {
+          p_dist_current: true, 
+          // p_time_current: false,
+          lifespan_dist: true
+          // lifespan_time: false
+        };
+      }
+      if (state.inputs.usage_metric === 'both') {
+        newReqs = {
+          p_dist_current: true, 
+          p_time_current: true,
+          lifespan_dist: true,
+          lifespan_time: true
+        };
+      }
+    // }
+    if (state.inputs.init_wear_method === 'strava') {
+      newReqs = {new_date: true}
+    }
+
+    return { ...state, isReq:{ ...state.isReq, ...newReqs }  };
+
   }
 
   if (action.type === VALIDATE) {
     let newIsOkState =_.mapValues(state.isReq, (isReq, key) => {
-      if (!isReq) return null;
+      if (!isReq) return initialFormState.isOk[key];
       return isValid[key](state.inputs[key]);
     });
     return { ...state, isOk: newIsOkState };
