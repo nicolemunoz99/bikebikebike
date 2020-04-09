@@ -9,34 +9,12 @@ import { errMsgs } from './validation.js';
 import CustomInput from './CustomInput.jsx'
 
 const NewPartForm = () => {
-  const { inputs, isReq, isOk } = useSelector(state => state.form);
+  const { inputs, isReq, isOk, formIsValid } = useSelector(state => state.form);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit');
   };
-
-  const checkForm = () => {
-    let check = _.every(isReq, (value, key) => {
-      if (!value) return true
-      return value && isOk[key]
-    });
-    return check
-  }
-
-
-  let currWearTest = (inputs.init_wear_method === 'new') ||
-  (inputs.init_wear_method === 'strava' && isOk.new_date) ||
-  (inputs.init_wear_method === 'est' && (
-    (inputs.usage_metric === 'both' && isOk.p_dist_current && isOk.p_time_current) ||
-    (inputs.usage_metric === 'dist' && isOk.p_dist_current) ||
-    (inputs.usage_metric === 'time' && isOk.p_time_current)
-  )) ;
-  
-  console.log('currWearTest', currWearTest)
-
-  checkForm()
-
 
   return (
   <ModalWrapper title="New Component">
@@ -79,14 +57,12 @@ const NewPartForm = () => {
 
         }
   
-        { checkForm() ?
+        { formIsValid &&
           <Row>
-          <Col>
-            <Button className="w-100" type="submit">Submit</Button>
-          </Col>
-        </Row>
-        :
-        null
+            <Col>
+              <Button className="w-100" type="submit">Submit</Button>
+            </Col>
+          </Row>
         }
 
       </Form>

@@ -11,4 +11,5 @@ export const FORM_INPUT = "FORM_INPUT";
 export const RESET_SUBSEQ_FIELDS = "RESET_SUBSEQ_FIELDS";
 export const UPDATE_REQS = "UPDATE_REQS";
 export const VALIDATE_FIELD = "VALIDATE_FIELD";
+export const VALIDATE_FORM = "VALIDATE_FORM";
 export const RESET_FORM = "RESET_FORM";

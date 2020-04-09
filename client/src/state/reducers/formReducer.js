@@ -1,12 +1,11 @@
-import { combineReducers } from 'redux';
 import _ from 'lodash';
-import xDate from 'xdate';
 import { 
   FORM_INPUT, 
   RESET_SUBSEQ_FIELDS, 
   RESET_FORM,
   UPDATE_REQS,
-  VALIDATE_FIELD
+  VALIDATE_FIELD,
+  VALIDATE_FORM
 } from '../action-types.js';
 import { isValid } from '../../components/modals/validation.js';
 
@@ -48,7 +47,8 @@ const initialFormState = {
     new_date: null,
     lifespan_dist: null, 
     lifespan_time: null
-  }
+  },
+  formIsValid: false
 };
 
 const formReducer = (state = initialFormState, action) => {
@@ -153,6 +153,15 @@ const formReducer = (state = initialFormState, action) => {
       return isValid[key](state.inputs[key]);
     });
     return { ...state, isOk: newIsOkState };
+  }
+
+  if (action.type === VALIDATE_FORM) {
+    let { isReq, isOk } = state;
+    let formIsValid = _.every(isReq, (req, key) => {
+      if (!req) return true;
+      return isOk[key];
+    });
+    return { ...state, formIsValid };
   }
 
   // reset

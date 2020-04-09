@@ -4,7 +4,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
 } from './action-types.js';
 
 import devData from './data.js'
@@ -69,13 +69,16 @@ export const resetForm = () => {
 };
 
 export const updateReqs = (fieldName, value) => {
-  return { type: UPDATE_REQS, payload: {fieldName, value} }
+  return { type: UPDATE_REQS, payload: {fieldName, value} };
 };
 
 export const validateField = () => {
-  return { type: VALIDATE_FIELD }
+  return { type: VALIDATE_FIELD };
 };
 
+export const validateForm = () => {
+  return { type: VALIDATE_FORM };
+}
 
 
 // ...THUNKS...
@@ -103,6 +106,7 @@ export const updateForm = (target) => (dispatch) => {
   dispatch(formInput({[fieldName]: value}));
   dispatch(updateReqs(fieldName, value));
   dispatch(validateField());
+  dispatch(validateForm());
 };
 
 
