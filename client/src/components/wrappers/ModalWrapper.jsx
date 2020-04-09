@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { closeModal, resetForm } from '../../state/actions.js';
 
-const ModalWrapper = ({ children }) => {
+const ModalWrapper = (props) => {
   const dispatch = useDispatch();
   
   const closeHandler = (e) => {
@@ -13,13 +13,14 @@ const ModalWrapper = ({ children }) => {
   }
   
   return (
-    <div className="modal-wrapper" onClick={closeHandler}>
+    <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>
 
-      <div className="modal-body row">
-        
-            {children}
+        <div className="modal-body col-8">
+        <div className="display-4">
+          {props.title}
+        </div>
+        {props. children}
       </div>
-
     </div>
   )
 };

@@ -18,7 +18,7 @@ const NewPartForm = () => {
 
   return (
   <ModalWrapper title="New Component">
-    <div className="modal-style mx-auto col-10 p-3">
+
       
       <Form onSubmit={handleSubmit} id="part-form" >
 
@@ -66,7 +66,7 @@ const NewPartForm = () => {
         }
 
       </Form>
-    </div>
+
   </ModalWrapper>
   )
 };
