@@ -9,7 +9,6 @@ export const SET_PARTS = "SET_PARTS";
 
 export const FORM_INPUT = "FORM_INPUT";
 export const RESET_SUBSEQ_FIELDS = "RESET_SUBSEQ_FIELDS";
-export const RESET_FORM = "RESET_FORM";
 export const UPDATE_REQS = "UPDATE_REQS";
-export const VALIDATE = "VALIDATE";
-export const UPDATE_SHOW_COMPONENTS = "UPDATE_SHOW_COMPONENTS";
+export const VALIDATE_FIELD = "VALIDATE_FIELD";
+export const RESET_FORM = "RESET_FORM";

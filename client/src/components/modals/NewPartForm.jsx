@@ -46,10 +46,8 @@ const NewPartForm = () => {
 
         <Basics />
         
-        { isOk.type && (!isReq.custom_type || isOk.custom_type) ?
+        {isOk.type && (!isReq.custom_type || isOk.custom_type) &&
           <TrackingMethod />
-        :
-        null
         }
 
         {inputs.tracking_method === 'default' ?
@@ -67,17 +65,18 @@ const NewPartForm = () => {
         {isReq.init_wear_method && isOk.usage_metric && <CurrentWear />}
         
         { 
-          (inputs.init_wear_method === 'new') ||
-          (inputs.init_wear_method === 'strava' && isOk.new_date) ||
-          (inputs.init_wear_method === 'est' && (
-            (inputs.usage_metric === 'both' && isOk.p_dist_current && isOk.p_time_current) ||
-            (inputs.usage_metric === 'dist' && isOk.p_dist_current) ||
-            (inputs.usage_metric === 'time' && isOk.p_time_current)
-          )) 
-           ?
+          (
+            (inputs.init_wear_method === 'new') ||
+            (inputs.init_wear_method === 'strava' && isOk.new_date) ||
+            (inputs.init_wear_method === 'est' && (
+              (inputs.usage_metric === 'both' && isOk.p_dist_current && isOk.p_time_current) ||
+              (inputs.usage_metric === 'dist' && isOk.p_dist_current) ||
+              (inputs.usage_metric === 'time' && isOk.p_time_current)
+            ))
+          ) 
+           &&
           <Lifespan />
-          :
-          null
+
         }
   
         { checkForm() ?
@@ -88,7 +87,6 @@ const NewPartForm = () => {
         </Row>
         :
         null
-        
         }
 
       </Form>

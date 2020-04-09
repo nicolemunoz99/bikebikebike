@@ -6,8 +6,7 @@ import {
   RESET_SUBSEQ_FIELDS, 
   RESET_FORM,
   UPDATE_REQS,
-  VALIDATE,
-  UPDATE_SHOW_COMPONENTS
+  VALIDATE_FIELD
 } from '../action-types.js';
 import { isValid } from '../../components/modals/validation.js';
 
@@ -148,7 +147,7 @@ const formReducer = (state = initialFormState, action) => {
 
   }
 
-  if (action.type === VALIDATE) {
+  if (action.type === VALIDATE_FIELD) {
     let newIsOkState =_.mapValues(state.isReq, (isReq, key) => {
       if (!isReq) return initialFormState.isOk[key];
       return isValid[key](state.inputs[key]);
