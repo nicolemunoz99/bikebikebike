@@ -4,7 +4,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER, 
   SET_BIKES, SET_PARTS, 
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE, CHECK_SUBMIT
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE, UPDATE_SHOW_COMPONENTS
 } from './action-types.js';
 
 import devData from './data.js'
@@ -76,83 +76,25 @@ export const validate = () => {
   return { type: VALIDATE }
 };
 
-// export const checkSubmit = () => {
-//   return { type: CHECK_SUBMIT }
-// }
+export const updateShowComponents = () => {
+  return { type: UPDATE_SHOW_COMPONENTS }
+}
 
 
 // ...THUNKS...
 
 export const updateForm = (target) => (dispatch) => {
-  let newData;
   let fieldName;
   let value;
 
+  // reset all fields following a dropdown/radio that was changed
   if (target.dropdown) {
-    dispatch(resetSubseqFields(target.dropdown)); // reset fields
+    dispatch(resetSubseqFields(target.dropdown));
   }
-  if (target.radio) {
+  if (target.radio && target.id !== 'usage_metric') {
     console.log('radio')
     dispatch(resetSubseqFields(target.radio))
   }
-
-  // if (target.dropdown) {
-  //   // dropdowns
-  //   dispatch(resetSubseqFields(target.dropdown)); // reset fields
-  //   newData = {[target.dropdown]: target.id}; 
-  //   if (target.id === 'custom') dispatch(updateReqs({custom_type: true}));
-  // } else { 
-  //   // text input and radios
-  //   let reqs = {};
-
-  //   if (target.value.length > 20) return;
-    
-  //   newData = {[target.id]: target.value};
-
-  //   if (target.id === 'tracking_method' && target.value === 'default') {
-  //     dispatch(resetSubseqFields('tracking_method'));
-  //   }
-
-  //   if (target.id === 'tracking_method' && target.value === 'custom') {
-  //     reqs = {
-  //       usage_metric: true,
-  //       init_wear_method: true
-  //     };
-  //   }
-    
-  //   if (target.id === 'usage_metric') {
-  //     if (target.value === 'time') {
-  //       reqs = {
-  //         p_dist_current: false, 
-  //         p_time_current: true,
-  //         lifespan_dist: false,
-  //         lifespan_time: true
-  //       };
-  //     }
-  //     else if (target.value === 'dist'){
-  //       reqs = {
-  //         p_dist_current: true, 
-  //         p_time_current: false,
-  //         lifespan_dist: true,
-  //         lifespan_time: false
-  //       };
-  //     }
-  //     else {
-  //       reqs = {
-  //         p_dist_current: true, 
-  //         p_time_current: true,
-  //         lifespan_dist: true,
-  //         lifespan_time: true
-  //       };
-  //     }
-  //   }
-
-  //   if (target.id === 'init_wear_method') {
-  //     if (target.value === 'strava') reqs = {new_date: true}
-  //   }
-
-  //   dispatch(updateReqs(reqs));
-  // }
 
   if (target.dropdown) {
     fieldName = target.dropdown;

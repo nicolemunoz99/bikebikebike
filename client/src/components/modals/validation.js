@@ -1,3 +1,4 @@
+import xDate from 'xdate';
 
 export const isValid = {
   type: (val) => !!val, 
@@ -9,7 +10,12 @@ export const isValid = {
   init_wear_method: (val) => !!val, 
   p_dist_current: (val) => !!val && val >= 0,
   p_time_current: (val) => !!val && val >= 0, 
-  new_date: (val) => !!val && val <= Date.now(),
+  new_date: (yyyymmdd) => {
+    if (!yyyymmdd) return false;
+    let [year, mo, day] = yyyymmdd.split('-')
+    let date = xDate(Number(year), Number(mo-1), Number(day)).getTime();
+    return date <= Date.now();
+  },
   lifespan_dist: (val) => !!val && val >= 0, 
   lifespan_time: (val) => !!val && val >= 0
 };

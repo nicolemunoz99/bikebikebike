@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
 import _ from 'lodash';
+import xDate from 'xdate';
 import { 
   FORM_INPUT, 
   RESET_SUBSEQ_FIELDS, 
   RESET_FORM,
   UPDATE_REQS,
   VALIDATE,
-  CHECK_SUBMIT
+  UPDATE_SHOW_COMPONENTS
 } from '../action-types.js';
 import { isValid } from '../../components/modals/validation.js';
 
@@ -65,7 +66,8 @@ const formReducer = (state = initialFormState, action) => {
         _.dropWhile(Object.keys(state.inputs), (item) => item !== targetField).slice(1);
     let resetInputs = _.pick(initialFormState.inputs, fieldsToReset);
     let resetIsReq = _.pick(initialFormState.isReq, fieldsToReset);
-    let resetIsOk = _.pick(initialFormState.isOk, fieldsToReset)
+    let resetIsOk = _.pick(initialFormState.isOk, fieldsToReset);
+
     return { 
       ...state, 
       inputs: { ...state.inputs, ...resetInputs },
@@ -74,52 +76,72 @@ const formReducer = (state = initialFormState, action) => {
     };
   }
 
+
   // validation
 
   if (action.type === UPDATE_REQS) {
-    // let updatedRequiredFields = {...state.isReq, ...action.payload}
-    // return { ...state, isReq: updatedRequiredFields };
-    let {fieldName, value} = action.payload;
     let newReqs = {};
 
     if (state.inputs.type === 'custom') {
       newReqs = {custom_type: true}
     }
-    if (fieldName === 'tracking_method' && value === 'custom') {
-      newReqs = {
-        usage_metric: true,
-        init_wear_method: true
-      };
+    if (state.inputs.tracking_method === 'custom') {
+      newReqs = {usage_metric: true};
     }
 
-    // if (fieldName === 'usage_metric') {
+    if (state.inputs.usage_metric) {
+      newReqs = { ...newReqs, init_wear_method: true };
       if (state.inputs.usage_metric === 'time') {
         newReqs = {
-          // p_dist_current: false, 
-          p_time_current: true,
-          // lifespan_dist: false,
+          ...newReqs,
+          lifespan_dist: false,
           lifespan_time: true
+        }
+      }
+      
+      else if (state.inputs.usage_metric === 'dist') {
+        newReqs = {
+          ...newReqs,
+          lifespan_dist: true,
+          lifespan_time: false
+        }
+      }
+      else {
+        newReqs = {
+          ...newReqs,
+          lifespan_dist: true,
+          lifespan_time: true
+        }
+      }
+    };
+
+    if (state.inputs.init_wear_method === 'est') {
+      if (state.inputs.usage_metric === 'time') {
+        newReqs = {
+          ...newReqs,
+          p_dist_current: false, 
+          p_time_current: true
         };
       }
-      if (state.inputs.usage_metric === 'dist'){
+      else if (state.inputs.usage_metric === 'dist'){
         newReqs = {
+          ...newReqs,
           p_dist_current: true, 
-          // p_time_current: false,
-          lifespan_dist: true
-          // lifespan_time: false
+          p_time_current: false
         };
       }
-      if (state.inputs.usage_metric === 'both') {
+      else {
         newReqs = {
+          ...newReqs,
           p_dist_current: true, 
           p_time_current: true,
           lifespan_dist: true,
           lifespan_time: true
         };
       }
-    // }
+    }
     if (state.inputs.init_wear_method === 'strava') {
-      newReqs = {new_date: true}
+      newReqs = { ...newReqs, new_date: true };
     }
 
     return { ...state, isReq:{ ...state.isReq, ...newReqs }  };

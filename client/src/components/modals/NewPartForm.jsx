@@ -24,6 +24,17 @@ const NewPartForm = () => {
     return check
   }
 
+
+  let currWearTest = (inputs.init_wear_method === 'new') ||
+  (inputs.init_wear_method === 'strava' && isOk.new_date) ||
+  (inputs.init_wear_method === 'est' && (
+    (inputs.usage_metric === 'both' && isOk.p_dist_current && isOk.p_time_current) ||
+    (inputs.usage_metric === 'dist' && isOk.p_dist_current) ||
+    (inputs.usage_metric === 'time' && isOk.p_time_current)
+  )) ;
+  
+  console.log('currWearTest', currWearTest)
+
   checkForm()
 
 
@@ -35,7 +46,6 @@ const NewPartForm = () => {
 
         <Basics />
         
-        {/* inputs.type && (inputs.type !== 'custom' || inputs.custom_type) */}
         { isOk.type && (!isReq.custom_type || isOk.custom_type) ?
           <TrackingMethod />
         :
@@ -51,9 +61,24 @@ const NewPartForm = () => {
         :
         null
         }
+
         {isReq.usage_metric && isOk.tracking_method && <UsageMetric /> }
+        
         {isReq.init_wear_method && isOk.usage_metric && <CurrentWear />}
-        {(isReq.lifespan_dist || isReq.lifespan_time) && isOk.init_wear_method && <Lifespan />}
+        
+        { 
+          (inputs.init_wear_method === 'new') ||
+          (inputs.init_wear_method === 'strava' && isOk.new_date) ||
+          (inputs.init_wear_method === 'est' && (
+            (inputs.usage_metric === 'both' && isOk.p_dist_current && isOk.p_time_current) ||
+            (inputs.usage_metric === 'dist' && isOk.p_dist_current) ||
+            (inputs.usage_metric === 'time' && isOk.p_time_current)
+          )) 
+           ?
+          <Lifespan />
+          :
+          null
+        }
   
         { checkForm() ?
           <Row>
@@ -65,17 +90,6 @@ const NewPartForm = () => {
         null
         
         }
-
-      {/* { inputs.tracking_method === 'default' || ( inputs.lifespan_dist || inputs.lifespan_time ) ?
-          <Row>
-            <Col>
-              <Button className="w-100" type="submit">Submit</Button>
-            </Col>
-          </Row>
-        :
-        null
-      } */}
-
 
       </Form>
     </div>
@@ -243,7 +257,7 @@ const TrackingMethod = () => {
       <Row>
         <Col sm="4">
           <Form.Check
-            data-radio="default"
+            data-radio="tracking_method"
             type="radio"
             label="Default"
             name="tracking_method"
@@ -256,7 +270,7 @@ const TrackingMethod = () => {
         </Col>
         <Col sm="4">
           <Form.Check
-            data-radio="custom"
+            data-radio="tracking_method"
             type="radio"
             label="Custom"
             name="tracking_method"
@@ -307,7 +321,7 @@ const UsageMetric = () => {
           <Col sm="4">
             <Form.Check
               type="radio"
-              data-radio="distance"
+              data-radio="usage_metric"
               label="Distance"
               name="usage_metric"
               id="usage_metric"
@@ -318,7 +332,7 @@ const UsageMetric = () => {
           </Col>
           <Col sm="auto">
             <Form.Check
-              data-radio="time"
+              data-radio="usage_metric"
               type="radio"
               label="Time"
               name="usage_metric"
@@ -330,7 +344,7 @@ const UsageMetric = () => {
           </Col>
           <Col sm="auto">
             <Form.Check
-              data-radio="both"
+              data-radio="usage_metric"
               type="radio"
               label="Whichever comes first"
               name="usage_metric"
