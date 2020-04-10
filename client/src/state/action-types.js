@@ -1,3 +1,5 @@
+export const SET_DATA_STATUS = "SET_DATA_STATUS";
+
 export const SET_STRAVA_ACCESS_STATUS = "SET_STRAVA_ACCESS_STATUS";
 export const SET_USER = "SET_USER";
 

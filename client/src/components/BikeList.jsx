@@ -14,6 +14,7 @@ import config from "../aws-exports.js";
 Amplify.configure(config);
 
 const BikeList = () => {
+  const dataStatus = useSelector(state => state.dataStatus);
   const { hasStravaAccess, bikes: bikeIds } = useSelector(state => state.user);
   const distUnit = useSelector(state => state.user.measure_pref);
   const allBikes = useSelector(state => state.bikes.list);
@@ -32,17 +33,13 @@ const BikeList = () => {
   return (
 
     <PageWrapper title="Bikes">
-      
+{ dataStatus === 'ok' ?
       <div className="mt-3">
       
         {
           bikeIds.map((id) => {
             let bike = allBikes[id];
             return (
-
-
-
-
 
 
 // BIKE PANEL
@@ -125,12 +122,14 @@ const BikeList = () => {
             })
         }
       </div>
-
+      :
+      <div>waiting for data</div>
+}
     </PageWrapper>
 
   )
 };
 
-// export default withAuthenticator(Bikes, {includeGreetings: true} );
+export default withAuthenticator(BikeList, {includeGreetings: true} );
 
-export default BikeList;
+// export default BikeList;

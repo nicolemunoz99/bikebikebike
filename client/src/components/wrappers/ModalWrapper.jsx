@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
-import { closeModal } from '../../state/actions.js';
+import { closeModal, setBikeMod } from '../../state/actions.js';
 
 const ModalWrapper = (props) => {
   const dispatch = useDispatch();
   
+  useEffect(() => {
+    return () => {
+      dispatch(setBikeMod(''));
+    }
+  }, []);
+
   const closeHandler = (e) => {
     if (e.target === e.currentTarget) {
       dispatch(closeModal());
     };
-  }
+  };
   
   return (
     <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>

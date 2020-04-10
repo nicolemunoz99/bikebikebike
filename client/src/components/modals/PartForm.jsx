@@ -3,25 +3,26 @@ import _ from 'lodash';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateForm, resetForm, setBikeMod } from '../../state/actions.js';
+import { updateForm, resetForm, submitNewPart } from '../../state/actions.js';
 import { errMsgs } from './validation.js';
 
 import CustomInput from './CustomInput.jsx';
 
 const PartForm = () => {
   const { inputs, isReq, isOk, formIsValid } = useSelector(state => state.form);
+  const { bikeId } = useSelector(state => state.bikes.bikeMod);
   const dispatch = useDispatch();
 
   useEffect(() => {
     return () => {
       dispatch(resetForm());
-      dispatch(setBikeMod(''));
     };
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
+    inputs.p_bike_id = bikeId;
+    dispatch(submitNewPart(inputs));
   };
 
   return (

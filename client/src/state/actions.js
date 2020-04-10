@@ -1,7 +1,8 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { 
-  SET_STRAVA_ACCESS_STATUS, SET_USER, 
+  SET_DATA_STATUS,
+  SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_BIKES, SET_PARTS, SET_BIKE_MOD,
   SET_MODAL, CLOSE_MODAL, 
   FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
@@ -15,6 +16,12 @@ import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
 Amplify.configure(config);
 
+
+
+export const setDataStatus = (str) => {
+  return{ type: SET_DATA_STATUS, payload: str}
+}
+
 /* **************************
 User
 ************************** */
@@ -26,6 +33,7 @@ export const setStravaAccessStatus = (bool) => {
 export const setUser = (userInfo) => {
   return { type: SET_USER, payload: userInfo };
 };
+
 
 /* **************************
 Modal
@@ -122,58 +130,67 @@ export const updateForm = (target) => (dispatch) => {
   dispatch(validateForm());
 };
 
+export const submitNewPart = (data) => async () => {
+  let res = await axios.post(`${process.env.THIS_API}/api/part`, data);
+  console.log('res: ', res)
+};
+
 
 export const getUserData = () => async (dispatch) => {
-  // console.log('..get user data');
-  // try {
-  //   let user = await Auth.currentAuthenticatedUser();
-  //   let response = await axios.get(`${process.env.THIS_API}/api/login`, {
-  //       headers: { accesstoken: user.signInUserSession.accessToken.jwtToken }
-  //     });
+  dispatch(setDataStatus('waiting'));
+  console.log('..get user data');
+  let userData
+  try {
+    let authData = await Auth.currentAuthenticatedUser();
+    let response = await axios.get(`${process.env.THIS_API}/api/login`, {
+        headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+      });
     
-  //   if (response.status === 201) { // user hasn't granted strava permissions
-  //     dispatch(setStravaAccessStatus(false));
-  //     return;
-  //   } 
+    if (response.status === 201) { // user hasn't granted strava permissions
+      dispatch(setStravaAccessStatus(false));
+      return;
+    } 
+    userData = response.data;
+    console.log('userData: ', userData);
 
-  //   console.log('data: ', response.data);
-  //   dispatch(setUserData(response.data));
+    const part = new schema.Entity('parts', 
+      {}, 
+      {idAttribute: 'part_id'}
+    );
 
-  // }
+    const bike = new schema.Entity('bikes', 
+      {parts: [part]},
+      {idAttribute: 'bike_id'}
+    );
 
-  // catch (err) {
-  //   if (err.response.status === 401) {} // user not Cognito-authenticated; 
-  //   // TODO redirect to login
-  //   // TODO otherwise display error modal
-  // }
-
-  /////////////////
-  // DEV DATASET
-  let userData = devData;
-
-  const part = new schema.Entity('parts', 
-    {}, 
-    {idAttribute: 'part_id'}
-  );
-
-  const bike = new schema.Entity('bikes', 
-    {parts: [part]},
-    {idAttribute: 'bike_id'}
-  );
-
-  const user = new schema.Entity('user', 
-    {bikes: [bike]},
-    {idAttribute: 'id'}
-  );
+    const user = new schema.Entity('user', 
+      {bikes: [bike]},
+      {idAttribute: 'id'}
+    );
    
-  // end DEV DATASET
-  /////////////////
 
-  const normalUserData = normalize(userData, user);
+    const normalUserData = normalize(userData, user);
 
-  console.log('normalized', normalUserData)
-  dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
-  dispatch(setBikes(normalUserData.entities.bikes));
-  dispatch(setParts(normalUserData.entities.parts));
+    console.log('normalized', normalUserData);
+    dispatch(setBikes(normalUserData.entities.bikes));
+    dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
+    dispatch(setParts(normalUserData.entities.parts));
+
+    dispatch(setDataStatus('ok'));
+  }
+
+  catch (err) {
+    if (err.response.status === 401) {} // user not Cognito-authenticated; 
+      // TODO redirect to login
+    // TODO otherwise display error modal
+  }
+
+  // /////////////////
+  // // DEV DATASET
+  // let userData = devData;
+  // // end DEV DATASET
+  // /////////////////
+
+
 
 };

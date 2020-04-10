@@ -14,8 +14,8 @@ const initialFormState = {
   inputs: {
     type: '', 
     custom_type: '', p_brand: '', p_model: '',
-    tracking_method: null,
-    usage_metric: null,
+    tracking_method: '',
+    usage_metric: '',
     init_wear_method: '', 
     p_dist_current: '', p_time_current: '', new_date: '',
     lifespan_dist: '', lifespan_time: ''

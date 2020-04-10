@@ -3,6 +3,7 @@ const axios = require('axios')
 const CognitoExpress = require("cognito-express")
 const authRoute = require('express').Router();
 const login = require('../controller/login.js');
+const part = require('../controller/part.js');
 const { get, update } = require('../db.js');
 
 
@@ -66,7 +67,8 @@ authRoute.use( async (req, res, next) => {
   next();
 });
 
-authRoute.get('/login', login.get)
+authRoute.get('/login', login.get);
+authRoute.post('/part', part.post);
 
 
 

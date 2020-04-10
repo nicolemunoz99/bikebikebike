@@ -1,5 +1,6 @@
 import { 
-  SET_STRAVA_ACCESS_STATUS, SET_USER, 
+  SET_DATA_STATUS,
+  SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_MODAL, CLOSE_MODAL, 
   SET_BIKES, SET_PARTS, SET_BIKE_MOD
 } from '../action-types.js';
@@ -7,6 +8,20 @@ import {
 import formReducer from './formReducer.js'
 import { combineReducers } from 'redux';
 
+ /////////////////////////////////////////
+/////////////////////////////////////////
+const initialDataState = '';
+
+const dataReducer = (state = initialDataState, action) => {
+  if (action.type === SET_DATA_STATUS) {
+    return action.payload
+  }
+  return state
+}
+
+
+ /////////////////////////////////////////
+/////////////////////////////////////////
 
 const initialModalState = '';
 
@@ -85,6 +100,7 @@ export default combineReducers({
   user: userReducer, 
   bikes: bikeReducer,
   parts: partReducer,
+  dataStatus: dataReducer
 });
 
 /////////////////////////////////////////
