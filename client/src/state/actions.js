@@ -108,7 +108,7 @@ export const updateForm = (target) => (dispatch) => {
   let fieldName;
   let value;
 
-  // reset all fields following a dropdown/radio that was changed
+  // reset all fields that follow a dropdown/radio that was changed
   if (target.dropdown) {
     dispatch(resetSubseqFields(target.dropdown));
   }
@@ -130,9 +130,12 @@ export const updateForm = (target) => (dispatch) => {
   dispatch(validateForm());
 };
 
-export const submitNewPart = (data) => async () => {
-  let res = await axios.post(`${process.env.THIS_API}/api/part`, data);
-  console.log('res: ', res)
+export const submitNewPart = (data, distUnit) => async () => {
+  let authData = await Auth.currentAuthenticatedUser();
+  let response = await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
+    headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+  });
+  console.log('res: ', response)
 };
 
 
@@ -143,8 +146,8 @@ export const getUserData = () => async (dispatch) => {
   try {
     let authData = await Auth.currentAuthenticatedUser();
     let response = await axios.get(`${process.env.THIS_API}/api/login`, {
-        headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-      });
+      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+    });
     
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));

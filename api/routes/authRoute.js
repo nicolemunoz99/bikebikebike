@@ -24,7 +24,7 @@ authRoute.use((req, res, next) => {
     if (err) return res.status(401).send(err);
     
     console.log('authenticated!', cognitoResponse.username);
-    req.query.username = cognitoResponse.username
+    req.query.username = cognitoResponse.username;
     next();
   });
 });
@@ -33,7 +33,7 @@ authRoute.use((req, res, next) => {
 authRoute.use( async (req, res, next) => {
   console.log('req.query', {...req.query});
 
-  let permissions = await get('strava', {...req.query});
+  let permissions = await get('strava', {username: req.query.username});
 
   console.log('strava table: ', permissions);
 

@@ -10,6 +10,7 @@ import CustomInput from './CustomInput.jsx';
 
 const PartForm = () => {
   const { inputs, isReq, isOk, formIsValid } = useSelector(state => state.form);
+  const { distUnit } = useSelector(state => state.user.measure_pref)
   const { bikeId } = useSelector(state => state.bikes.bikeMod);
   const dispatch = useDispatch();
 
@@ -22,7 +23,7 @@ const PartForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     inputs.p_bike_id = bikeId;
-    dispatch(submitNewPart(inputs));
+    dispatch(submitNewPart(inputs, distUnit));
   };
 
   return (
@@ -527,7 +528,6 @@ const Lifespan = () => {
                 as={CustomInput}
                 err={isReq.lifespan_dist && !isOk.lifespan_dist ? errMsgs.lifespan_dist : ''}   
                 subText={`${distUnit} ${isReq.lifespan_dist ? '' : '(Optional)'}` }
-                required
                 type="number" 
                 placeholder=''
                 id='lifespan_dist'

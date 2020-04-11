@@ -8,7 +8,7 @@ Amplify.configure(config);
 
 const StravaAuth = () => {
   const [username, setUsername] = useState('');
-  const hasStravaAccess = useSelector(state => state.hasStravaAccess);
+  const hasStravaAccess = useSelector(state => state.user.hasStravaAccess);
 
   useEffect( () => {
     if (hasStravaAccess || username.length > 0) return;

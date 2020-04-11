@@ -3,19 +3,18 @@
 const _ = require('lodash');
 const xDate = require('xdate');
 
-const convertUnits = (dataset) => {
+exports.convertToUserUnits = (dataset) => {
 
-  let distUnit = dataset.measure_pref
+  let distUnit = dataset.measure_pref;
 
   const findTargets = (collection) => { // keys containing 'dist', 'time', 'date'
     _.forEach(collection, (value, key) => {
       if (typeof value === 'object') {
-        findTargets(value)
+        findTargets(value);
       } else {
-        console.log('non-object key: ', key)
         
         if (key.match(/dist/g)) { // dist in m (strava API default)
-          collection[key] = (distUnit === 'km' ? value / 1000 : value * 1609.34).toFixed(1);
+          collection[key] = (distUnit === 'km' ? value / 1000 : value / 1609.34).toFixed(1);
         }
 
         if (key.match(/time/g)) { // time in seconds (strava API default)
@@ -29,16 +28,36 @@ const convertUnits = (dataset) => {
 
       }
     });
+
   };
-  
   findTargets(dataset);
-  console.log('converted dataset: ', dataset);
   return dataset;
 };
 
 
 
-module.exports = convertUnits;
+exports.convertToDbUnits = (data, distUnit) => {
+
+    _.forEach(data, (value, key) => {
+
+      if (key.match(/dist/g)) { // dist in m (strava API default)
+        data[key] = (distUnit === 'km' ? value * 1000 : value * 1609.34).toFixed(2);
+      }
+
+      if (key.match(/time/g)) { // time in seconds (strava API default)
+        data[key] = (value * 3600).toFixed(2);
+      }
+
+      if (key.match(/date/g)) { // date in ms since Epoch
+        let [year, mo, day] = value.split('-');
+        data[key] = data[key] ? xDate(year, mo, day).getTime() : data[key];
+      }
+      
+    });
+
+
+  return data;
+};
 
 
 

@@ -1,7 +1,7 @@
 const stravaApi = require('./stravaApi.js');
 const { dbQuery, insert, update, getCols } = require('../db.js');
 const _ = require('lodash');
-const convertUnits = require('./convertUnits.js');
+const { convertToUserUnits} = require('./convertUnits.js');
 
 const login = {
   get: async (req, res) => {
@@ -73,7 +73,7 @@ const login = {
     let updatedDataset = await getUserWithBikesWithParts(id);
     updatedDataset.measure_pref = athleteData.measurement_preference === 'feet' ? 'mi' : 'km';
     
-    updatedDataset = convertUnits(updatedDataset)
+    updatedDataset = convertToUserUnits(updatedDataset)
 
     res.send(updatedDataset);
 
