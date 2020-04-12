@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { 
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
-  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE,
+  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE, TOGGLE_SELECTED_PART,
   SET_MODAL, CLOSE_MODAL, 
   FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
 } from './action-types.js';
@@ -63,9 +63,9 @@ export const setSelectedBike = (bikeId) => {
   return { type: SET_SELECTED_BIKE, payload: bikeId };
 };
 
-// export const showPartForm = (bikeId) => {
-
-// }
+export const toggleSelectedPart = (partId) => {
+  return{ type: TOGGLE_SELECTED_PART, payload: partId };
+}
 
 /* **************************
 Form
@@ -120,7 +120,6 @@ export const updatePartForm = (target) => (dispatch) => {
     dispatch(resetSubseqFields(target.dropdown));
   }
   if (target.radio && target.id !== 'usage_metric') {
-    console.log('radio')
     dispatch(resetSubseqFields(target.radio))
   }
 
@@ -141,11 +140,12 @@ export const submitNewPart = (data, distUnit) => async (dispatch) => {
   dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
-    console.log('newpartData:', data)
+
     await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
     dispatch(updateDataStatus('ok'));
+    dispatch(getUserData());
   }
   catch (err) {
     dispatch(updateDataStatus('dataErr'));
@@ -187,7 +187,7 @@ export const getUserData = () => async (dispatch) => {
     );
    
 
-    const normalUserData = normalize(userData, user);
+    const normalUserData = await normalize(userData, user);
 
     console.log('normalized', normalUserData);
     dispatch(setBikes(normalUserData.entities.bikes));
@@ -198,6 +198,7 @@ export const getUserData = () => async (dispatch) => {
   }
 
   catch (err) {
+    dispatch(updateDataStatus('dataErr'))
     if (err.response.status === 401) {} // user not Cognito-authenticated; 
       // TODO redirect to login
     // TODO otherwise display error modal

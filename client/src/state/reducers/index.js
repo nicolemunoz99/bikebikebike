@@ -2,7 +2,7 @@ import {
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_MODAL, CLOSE_MODAL, 
-  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE
+  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE, TOGGLE_SELECTED_PART
 } from '../action-types.js';
 
 import formReducer from './formReducer.js';
@@ -20,8 +20,9 @@ const dataReducer = (state = initialDataStatus, action) => {
 }
 
 
- /////////////////////////////////////////
-/////////////////////////////////////////
+/* **************************
+Modal
+************************** */
 
 const initialModalState = ''; // 'partForm', 'dataWait, 'dataErr'
 
@@ -35,8 +36,9 @@ const modalReducer = (state = initialModalState, action) => {
   return state;
  };
 
- /////////////////////////////////////////
-/////////////////////////////////////////
+/* **************************
+User
+************************** */
 
 const initialUserState = {
   hasStravaAccess: true,
@@ -60,8 +62,9 @@ const userReducer = (state = initialUserState, action) => {
   return state;
 };
 
-/////////////////////////////////////////
-/////////////////////////////////////////
+/* **************************
+Bikes
+************************** */
 
 const initialBikeState = {
   list: {},
@@ -70,7 +73,7 @@ const initialBikeState = {
 
 const bikeReducer = (state = initialBikeState, action) => {
   if (action.type === SET_BIKES) {
-    return { ...state, list: {...action.payload} };
+    return { ...state, list: action.payload };
   }
 
   if (action.type === SET_SELECTED_BIKE) {
@@ -80,19 +83,30 @@ const bikeReducer = (state = initialBikeState, action) => {
   return state;
 };
 
-/////////////////////////////////////////
-/////////////////////////////////////////
+/* **************************
+Parts
+************************** */
 
 const initialPartState = {
-  list: {}
+  list: {},
+  selectedPart: ''
 };
 
 const partReducer = (state = initialPartState, action) => {
   if (action.type === SET_PARTS) {
-    return { ...state, list: {...action.payload} };
+    return { ...state, list: action.payload };
+  }
+
+  if (action.type === TOGGLE_SELECTED_PART) {
+
+    return { 
+      ...state, 
+      selectedPart: action.payload === state.selectedPart ? initialPartState.selectedPart : action.payload};
   }
   return state;
 };
+
+
 
 export default combineReducers({
   form: formReducer,
@@ -103,5 +117,4 @@ export default combineReducers({
   dataStatus: dataReducer
 });
 
-/////////////////////////////////////////
-/////////////////////////////////////////
+

@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams} from 'react-router';
 import { getUserData } from '../state/actions.js';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
-import { showPartForm }from '../state/actions.js';
+import PartDetails from './PartDetails.jsx';
+import { showPartForm, toggleSelectedPart }from '../state/actions.js';
 
 const PartList = () => {
   const bikeId = useParams().bikeId;
-  const { id } = useSelector(state => state.user)
   const bike = useSelector(state => state.bikes.list[bikeId]);
-  const allParts = useSelector(state => state.parts.list);
+  const { id } = useSelector(state => state.user);
+  const { list: allParts, selectedPart } = useSelector(state => state.parts);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -20,7 +21,11 @@ const PartList = () => {
   useEffect(() => {
     if (id) return;
     dispatch(getUserData()); // page refresh
-  }, []);
+
+    // return () => {
+    //   dispatch(setSelectedPart(''))
+    // }
+  }, [id]);
 
   return (
     <div>
@@ -68,7 +73,7 @@ const PartList = () => {
               {
                 bike.parts.map(id => {
                   let part = allParts[id];
-                  return (
+                  return ( part &&
 
 
 // PART PANEL
@@ -122,16 +127,20 @@ const PartList = () => {
       </div>
     </div>
     <div className="row mt-3">
-    <div className="col text-center pointer">
-    <OverlayTrigger
-      placement='top'
-      overlay={<Tooltip> details </Tooltip>}
-      >
-        <span className="material-icons md-48">arrow_drop_down</span>
-      </OverlayTrigger>
-    </div>
-    </div>
 
+      {selectedPart === id && <PartDetails />}
+      <div className="col text-center">
+        <OverlayTrigger
+          placement='top'
+          overlay={<Tooltip> details </Tooltip>}
+          >
+            <span className="material-icons md-48 pointer" onClick={() => dispatch(toggleSelectedPart(id))}>
+              arrow_drop_down
+            </span>
+        </OverlayTrigger>
+      </div>
+
+    </div>
   </div>
 </div>
 

@@ -9,6 +9,7 @@ export const CLOSE_MODAL = "CLOSE_MODAL";
 export const SET_BIKES = "SET_BIKES";
 export const SET_SELECTED_BIKE = "SET_SELECTED_BIKE";
 export const SET_PARTS = "SET_PARTS";
+export const TOGGLE_SELECTED_PART = "TOGGLE_SELECTED_PART";
 
 export const FORM_INPUT = "FORM_INPUT";
 export const RESET_SUBSEQ_FIELDS = "RESET_SUBSEQ_FIELDS";
