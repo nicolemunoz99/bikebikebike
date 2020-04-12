@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
-import { closeModal, setBikeMod } from '../../state/actions.js';
+import { closeModal, setSelectedBike } from '../../state/actions.js';
 
 const ModalWrapper = (props) => {
   const dispatch = useDispatch();
   
   useEffect(() => {
     return () => {
-      dispatch(setBikeMod(''));
+      dispatch(setSelectedBike(''));
     }
   }, []);
 

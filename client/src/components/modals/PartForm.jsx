@@ -11,7 +11,7 @@ import CustomInput from './CustomInput.jsx';
 const PartForm = () => {
   const { inputs, isReq, isOk, formIsValid } = useSelector(state => state.form);
   const { distUnit } = useSelector(state => state.user.measure_pref)
-  const { bikeId } = useSelector(state => state.bikes.bikeMod);
+  const bikeId = useSelector(state => state.bikes.selectedBike);
   const dispatch = useDispatch();
 
   useEffect(() => {

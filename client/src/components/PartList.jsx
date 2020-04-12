@@ -8,7 +8,8 @@ import WearMeter from './WearMeter.jsx';
 import { showPartForm }from '../state/actions.js';
 
 const PartList = () => {
-  const bikeId = useParams().bikeId
+  const bikeId = useParams().bikeId;
+  const { id } = useSelector(state => state.user)
   const bike = useSelector(state => state.bikes.list[bikeId]);
   const allParts = useSelector(state => state.parts.list);
   const distUnit = useSelector(state => state.user.measure_pref);
@@ -17,7 +18,8 @@ const PartList = () => {
   
 
   useEffect(() => {
-    dispatch(getUserData()); // for page refresh
+    if (id) return;
+    dispatch(getUserData()); // page refresh
   }, []);
 
   return (

@@ -7,7 +7,7 @@ export const SET_MODAL = "SET_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 
 export const SET_BIKES = "SET_BIKES";
-export const SET_BIKE_MOD = "SET_BIKE_MOD";
+export const SET_SELECTED_BIKE = "SET_SELECTED_BIKE";
 export const SET_PARTS = "SET_PARTS";
 
 export const FORM_INPUT = "FORM_INPUT";

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { 
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
-  SET_BIKES, SET_PARTS, SET_BIKE_MOD,
+  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE,
   SET_MODAL, CLOSE_MODAL, 
   FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
 } from './action-types.js';
@@ -59,8 +59,8 @@ export const setParts = (parts) => {
   return { type: SET_PARTS, payload: parts };
 };
 
-export const setBikeMod = (bikeId) => {
-  return { type: SET_BIKE_MOD, payload: bikeId };
+export const setSelectedBike = (bikeId) => {
+  return { type: SET_SELECTED_BIKE, payload: bikeId };
 };
 
 // export const showPartForm = (bikeId) => {
@@ -108,7 +108,7 @@ export const updateDataStatus = (str) => (dispatch) => {
 
 export const showPartForm = (bikeId) => (dispatch) => {
   dispatch(setModal('partForm'));
-  dispatch(setBikeMod(bikeId));
+  dispatch(setSelectedBike(bikeId));
 }
 
 export const updatePartForm = (target) => (dispatch) => {
@@ -141,6 +141,7 @@ export const submitNewPart = (data, distUnit) => async (dispatch) => {
   dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
+    console.log('newpartData:', data)
     await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });

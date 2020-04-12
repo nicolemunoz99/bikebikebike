@@ -15,12 +15,13 @@ Amplify.configure(config);
 
 const BikeList = () => {
   const dataStatus = useSelector(state => state.dataStatus);
-  const { hasStravaAccess, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
+  const { id, hasStravaAccess, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
   const allBikes = useSelector(state => state.bikes.list);
   const allParts = useSelector(state => state.parts.list);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (id) return;
     dispatch(getUserData());
   }, []);
 

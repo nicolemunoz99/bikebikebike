@@ -2,7 +2,7 @@ import {
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_MODAL, CLOSE_MODAL, 
-  SET_BIKES, SET_PARTS, SET_BIKE_MOD
+  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE
 } from '../action-types.js';
 
 import formReducer from './formReducer.js';
@@ -65,7 +65,7 @@ const userReducer = (state = initialUserState, action) => {
 
 const initialBikeState = {
   list: {},
-  bikeMod: ''
+  selectedBike: ''
 };
 
 const bikeReducer = (state = initialBikeState, action) => {
@@ -73,8 +73,8 @@ const bikeReducer = (state = initialBikeState, action) => {
     return { ...state, list: {...action.payload} };
   }
 
-  if (action.type === SET_BIKE_MOD) {
-    return { ...state, bikeMod: action.payload };
+  if (action.type === SET_SELECTED_BIKE) {
+    return { ...state, selectedBike: action.payload };
   }
 
   return state;
