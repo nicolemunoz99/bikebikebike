@@ -5,25 +5,25 @@ import {
   SET_BIKES, SET_PARTS, SET_BIKE_MOD
 } from '../action-types.js';
 
-import formReducer from './formReducer.js'
+import formReducer from './formReducer.js';
 import { combineReducers } from 'redux';
 
  /////////////////////////////////////////
 /////////////////////////////////////////
-const initialDataState = '';
+const initialDataStatus = 'ok';
 
-const dataReducer = (state = initialDataState, action) => {
+const dataReducer = (state = initialDataStatus, action) => {
   if (action.type === SET_DATA_STATUS) {
-    return action.payload
+    return action.payload;
   }
-  return state
+  return state;
 }
 
 
  /////////////////////////////////////////
 /////////////////////////////////////////
 
-const initialModalState = '';
+const initialModalState = ''; // 'partForm', 'dataWait, 'dataErr'
 
 const modalReducer = (state = initialModalState, action) => {
   if (action.type === SET_MODAL) {
@@ -89,7 +89,7 @@ const initialPartState = {
 
 const partReducer = (state = initialPartState, action) => {
   if (action.type === SET_PARTS) {
-    return { ...state, list: {...action.payload}}
+    return { ...state, list: {...action.payload} };
   }
   return state;
 };

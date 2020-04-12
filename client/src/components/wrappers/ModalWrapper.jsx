@@ -12,6 +12,7 @@ const ModalWrapper = (props) => {
   }, []);
 
   const closeHandler = (e) => {
+    if (props.cancelClose) return;
     if (e.target === e.currentTarget) {
       dispatch(closeModal());
     };
@@ -20,7 +21,7 @@ const ModalWrapper = (props) => {
   return (
     <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>
 
-        <div className="modal-body col-8">
+        <div className="modal-body col-8" style={{minHeight:props.minHeight}}>
         <div className="display-4 mb-4">
           {props.title}
         </div>

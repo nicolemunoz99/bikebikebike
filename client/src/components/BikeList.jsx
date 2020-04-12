@@ -15,8 +15,7 @@ Amplify.configure(config);
 
 const BikeList = () => {
   const dataStatus = useSelector(state => state.dataStatus);
-  const { hasStravaAccess, bikes: bikeIds } = useSelector(state => state.user);
-  const distUnit = useSelector(state => state.user.measure_pref);
+  const { hasStravaAccess, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
   const allBikes = useSelector(state => state.bikes.list);
   const allParts = useSelector(state => state.parts.list);
   const dispatch = useDispatch();
@@ -33,7 +32,7 @@ const BikeList = () => {
   return (
 
     <PageWrapper title="Bikes">
-{ dataStatus === 'ok' ?
+{ dataStatus === 'ok' &&
       <div className="mt-3">
       
         {
@@ -122,8 +121,6 @@ const BikeList = () => {
             })
         }
       </div>
-      :
-      <div>waiting for data</div>
 }
     </PageWrapper>
 

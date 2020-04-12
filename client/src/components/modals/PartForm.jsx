@@ -3,7 +3,7 @@ import _ from 'lodash';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateForm, resetForm, submitNewPart } from '../../state/actions.js';
+import { updatePartForm, resetForm, submitNewPart } from '../../state/actions.js';
 import { errMsgs } from './validation.js';
 
 import CustomInput from './CustomInput.jsx';
@@ -27,7 +27,7 @@ const PartForm = () => {
   };
 
   return (
-  <ModalWrapper title="New Component">
+  <ModalWrapper title="New Component" minHeight="70%">
 
       
       <Form onSubmit={handleSubmit} id="part-form" >
@@ -108,7 +108,7 @@ const Basics = () => {
       id: e.target.id,
       value: e.target.value
     };
-    dispatch(updateForm(payload));
+    dispatch(updatePartForm(payload));
   };
 
   return (
@@ -204,7 +204,7 @@ const TrackingMethod = () => {
       id: e.target.id,
       value: e.target.value
     };
-    dispatch(updateForm(payload));
+    dispatch(updatePartForm(payload));
   }
 
   return(
@@ -292,7 +292,7 @@ const UsageMetric = () => {
       id: e.target.id,
       value: e.target.value
     };
-    dispatch(updateForm(payload));
+    dispatch(updatePartForm(payload));
   };
 
   return(
@@ -371,7 +371,7 @@ const CurrentWear = () => {
       id: e.target.id,
       value: e.target.value
     };
-    dispatch(updateForm(payload));
+    dispatch(updatePartForm(payload));
   };
 
   return(
@@ -494,7 +494,7 @@ const Lifespan = () => {
       id: e.target.id,
       value: e.target.value
     };
-    dispatch(updateForm(payload));
+    dispatch(updatePartForm(payload));
   };
 
   return(

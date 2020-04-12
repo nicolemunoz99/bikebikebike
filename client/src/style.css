@@ -90,8 +90,7 @@ body {
 
 .modal-body {
   position: relative;
-  max-height:80%;
-  min-height: 50%;
+  max-height:90%;
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   border-radius: 1rem;

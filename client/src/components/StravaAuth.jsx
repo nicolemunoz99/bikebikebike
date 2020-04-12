@@ -11,7 +11,7 @@ const StravaAuth = () => {
   const hasStravaAccess = useSelector(state => state.user.hasStravaAccess);
 
   useEffect( () => {
-    if (hasStravaAccess || username.length > 0) return;
+    if (hasStravaAccess || username) return;
     
     let getUsername = async () => {
       let newUsername = (await Auth.currentAuthenticatedUser()).username;

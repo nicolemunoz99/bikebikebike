@@ -99,12 +99,19 @@ export const validateForm = () => {
 
 // ...THUNKS...
 
+export const updateDataStatus = (str) => (dispatch) => {
+  dispatch(setDataStatus(str));
+  if (str === 'ok') dispatch(closeModal());
+  else dispatch(setModal(str));
+}
+
+
 export const showPartForm = (bikeId) => (dispatch) => {
   dispatch(setModal('partForm'));
   dispatch(setBikeMod(bikeId));
 }
 
-export const updateForm = (target) => (dispatch) => {
+export const updatePartForm = (target) => (dispatch) => {
   let fieldName;
   let value;
 
@@ -130,19 +137,24 @@ export const updateForm = (target) => (dispatch) => {
   dispatch(validateForm());
 };
 
-export const submitNewPart = (data, distUnit) => async () => {
-  let authData = await Auth.currentAuthenticatedUser();
-  let response = await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
-    headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-  });
-  console.log('res: ', response)
+export const submitNewPart = (data, distUnit) => async (dispatch) => {
+  dispatch(updateDataStatus('dataWait'));
+  try {
+    let authData = await Auth.currentAuthenticatedUser();
+    await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
+      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+    });
+    dispatch(updateDataStatus('ok'));
+  }
+  catch (err) {
+    dispatch(updateDataStatus('dataErr'));
+  }
 };
 
 
 export const getUserData = () => async (dispatch) => {
-  dispatch(setDataStatus('waiting'));
-  console.log('..get user data');
-  let userData
+  dispatch(updateDataStatus('dataWait'));
+  let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
     let response = await axios.get(`${process.env.THIS_API}/api/login`, {
@@ -151,8 +163,10 @@ export const getUserData = () => async (dispatch) => {
     
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));
+      dispatch(updateDataStatus('ok'));
       return;
-    } 
+    }
+
     userData = response.data;
     console.log('userData: ', userData);
 
@@ -179,7 +193,7 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     dispatch(setParts(normalUserData.entities.parts));
 
-    dispatch(setDataStatus('ok'));
+    dispatch(updateDataStatus('ok'));
   }
 
   catch (err) {
