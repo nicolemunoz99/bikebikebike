@@ -6,11 +6,17 @@ import { DataWait, DataErr } from './DataStatus.jsx';
 const ModalIndex = () => {
   const modal = useSelector(state => state.modal);
 
+  const modalTypes = {
+    partForm: PartForm,
+    dataWait: DataWait,
+    dataErr: DataErr
+  }
+
+  const ModalToRender = modalTypes[modal] || null;
+
   return (
     <div>
-      { modal === 'partForm'  && <PartForm /> }
-      { modal === 'dataWait'  && <DataWait /> }
-      { modal === 'dataErr'   && <DataErr /> }
+      <ModalToRender />
     </div>
   );
 };
