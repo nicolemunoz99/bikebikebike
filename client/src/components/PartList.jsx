@@ -6,7 +6,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
-import { showPartForm, toggleSelectedPart }from '../state/actions.js';
+import { setSelectedBike, resetSelectedBike, resetSelectedPart, showPartForm, toggleSelectedPart }from '../state/actions.js';
 
 const PartList = () => {
   const bikeId = useParams().bikeId;
@@ -16,16 +16,18 @@ const PartList = () => {
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
-  
-
   useEffect(() => {
-    if (id) return;
-    dispatch(getUserData()); // page refresh
+    dispatch(setSelectedBike(bikeId));
+    if (!id) dispatch(getUserData());
+    return () => {
+      dispatch(resetSelectedBike());
+      dispatch(resetSelectedPart());
+    };
+  }, []);
 
-    // return () => {
-    //   dispatch(setSelectedPart(''))
-    // }
-  }, [id]);
+  const handleEditClick = () => {
+    
+  }
 
   return (
     <div>
@@ -34,7 +36,7 @@ const PartList = () => {
 
           <PageWrapper title={bike.name}>
 
-            <div className="row no-gutters text-detail">
+            <div className="row no-gutters">
               <div className="col-12">
               <div className="row no-gutters">
                 <div className="col-sm-auto">{bike.b_brand}</div>
@@ -59,7 +61,7 @@ const PartList = () => {
                 >
                   <OverlayTrigger
                   placement='left'
-                  overlay={<Tooltip> add part </Tooltip>}
+                  overlay={<Tooltip> {`add part to ${bike.name}`} </Tooltip>}
                   >
                     <span className="material-icons panel-menu-text"> add </span>
                   </OverlayTrigger>
@@ -77,12 +79,12 @@ const PartList = () => {
 
 
 // PART PANEL
-<div key={id} className="row no-gutters text-detail justify-content-center">
+<div key={id} className="row no-gutters justify-content-center">
   <div className="col-12 part-panel px-3 pt-3 pb-1">
     <div className="row no-gutters">
       
       <div className="col-6 panel-title">
-        {part.type}
+        {part.custom_type || part.type}
       </div>
 
       {/* edit button */}
@@ -97,7 +99,9 @@ const PartList = () => {
               placement='top'
               overlay={<Tooltip> edit </Tooltip>}
             >
-              <span className="material-icons panel-menu-text"> edit </span>
+              <span onClick={handleEditClick} className="material-icons panel-menu-text"> 
+                edit 
+              </span>
             </OverlayTrigger>
           </div>
 
@@ -105,7 +109,7 @@ const PartList = () => {
       </div>
     </div>
 
-    <div className="row no-gutters">
+    <div className="row">
       <div className="col-sm-6 text-detail">
         <div>
           {part.p_brand} {part.p_model}
@@ -128,14 +132,18 @@ const PartList = () => {
     </div>
     <div className="row mt-3">
 
-      {selectedPart === id && <PartDetails />}
-      <div className="col text-center">
+      
+      <div className="col-12">
+        {selectedPart === id && <PartDetails />}
+      </div>
+
+      <div className="col-12 text-center">
         <OverlayTrigger
           placement='top'
-          overlay={<Tooltip> details </Tooltip>}
+          overlay={<Tooltip> {selectedPart === id ? 'less detail' : 'details'} </Tooltip>}
           >
             <span className="material-icons md-48 pointer" onClick={() => dispatch(toggleSelectedPart(id))}>
-              arrow_drop_down
+              {selectedPart === id ? 'arrow_drop_up' : 'arrow_drop_down'}
             </span>
         </OverlayTrigger>
       </div>

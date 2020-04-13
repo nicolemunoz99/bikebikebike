@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { 
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
-  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE, TOGGLE_SELECTED_PART,
+  SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
+  SET_PARTS, TOGGLE_SELECTED_PART, RESET_SELECTED_PART,
   SET_MODAL, CLOSE_MODAL, 
   FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
 } from './action-types.js';
@@ -63,8 +64,16 @@ export const setSelectedBike = (bikeId) => {
   return { type: SET_SELECTED_BIKE, payload: bikeId };
 };
 
+export const resetSelectedBike = () => {
+  return { type: RESET_SELECTED_BIKE };
+}
+
 export const toggleSelectedPart = (partId) => {
-  return{ type: TOGGLE_SELECTED_PART, payload: partId };
+  return { type: TOGGLE_SELECTED_PART, payload: partId };
+}
+
+export const resetSelectedPart = () => {
+  return { type: RESET_SELECTED_PART };
 }
 
 /* **************************

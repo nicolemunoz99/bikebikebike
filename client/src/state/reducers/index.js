@@ -2,7 +2,8 @@ import {
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_MODAL, CLOSE_MODAL, 
-  SET_BIKES, SET_PARTS, SET_SELECTED_BIKE, TOGGLE_SELECTED_PART
+  SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
+  SET_PARTS, TOGGLE_SELECTED_PART, RESET_SELECTED_PART
 } from '../action-types.js';
 
 import formReducer from './formReducer.js';
@@ -80,6 +81,10 @@ const bikeReducer = (state = initialBikeState, action) => {
     return { ...state, selectedBike: action.payload };
   }
 
+  if (action.type === RESET_SELECTED_BIKE) {
+    return { ...state, selectedBike: initialBikeState.selectedBike }
+  }
+
   return state;
 };
 
@@ -98,10 +103,13 @@ const partReducer = (state = initialPartState, action) => {
   }
 
   if (action.type === TOGGLE_SELECTED_PART) {
-
     return { 
       ...state, 
       selectedPart: action.payload === state.selectedPart ? initialPartState.selectedPart : action.payload};
+  }
+
+  if (action.type === RESET_SELECTED_PART) {
+    return { ...state , selectedPart: initialPartState.selectedPart }
   }
   return state;
 };

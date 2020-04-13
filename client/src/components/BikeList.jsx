@@ -21,8 +21,7 @@ const BikeList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (id) return;
-    dispatch(getUserData());
+    if (!id) dispatch(getUserData());
   }, []);
 
 

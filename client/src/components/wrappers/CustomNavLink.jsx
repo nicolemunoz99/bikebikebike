@@ -13,8 +13,6 @@ const CustomNavLink = ({ history, to, modal=false, onClick, tag: Tag, staticCont
   <Tag
       {...rest}
       onClick={(event) => {
-          console.log('to: ', to)
-          console.log('modal', modal)
           if (modal) {
             dispatch(setModal(modal));
             return;

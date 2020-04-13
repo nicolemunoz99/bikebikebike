@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
-import { closeModal, setSelectedBike } from '../../state/actions.js';
+import { closeModal } from '../../state/actions.js';
 
 const ModalWrapper = (props) => {
   const dispatch = useDispatch();
-  
-  useEffect(() => {
-    return () => {
-      dispatch(setSelectedBike(''));
-    }
-  }, []);
 
   const closeHandler = (e) => {
     if (props.cancelClose) return;

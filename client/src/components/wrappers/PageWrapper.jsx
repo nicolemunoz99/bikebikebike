@@ -2,7 +2,7 @@ import React from 'react';
 
 const PageWrapper = ({ children, title }) => {
   return (
-    <div className="container-md mt-5">
+    <div className="container-md my-5">
       <div className="row no-gutters justify-content-center">
 
         <div className="col-sm-10 col-md-8 col-lg-6">

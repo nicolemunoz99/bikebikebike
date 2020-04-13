@@ -35,8 +35,14 @@ body {
   font-size: 1.5rem;
 }
 
+.part-detail {
+  border: 1px rgb(209, 209, 209) solid;
+  border-radius: 0.3rem;
+}
+
 .text-detail {
   font-size: 0.9em;
+  padding-left: 2rem;
 }
 
 .meter {
