@@ -7,10 +7,9 @@ const login = {
   get: async (req, res) => {
 
     let { access_token, id } = req.body.permissions;
-
+    console.log('getting user..', access_token, id)
     let userDataset = await getUserWithBikesWithParts(id); // db query
     let { last_login_date } = userDataset;
-
 
     let athleteDataPromise = stravaApi.get.infoWithBikes(access_token); // athlete data from strava
     let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login_date); // calculate distance and time since last login per bike

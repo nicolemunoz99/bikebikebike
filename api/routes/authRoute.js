@@ -48,21 +48,21 @@ authRoute.use( async (req, res, next) => {
 // refresh strava tokens if needed
 authRoute.use( async (req, res, next) => {
   let { permissions } = req.body;
-  console.log('expire check: ', (permissions.expires_at - Date.now()/1000) < 3600)
+
   if ( (permissions.expires_at*1000 - Date.now()) < 3600 ) {  // expires within 1 hr
+    
     console.log('refreshing strava token')
     
     let stravaRefreshQuery = `?client_id=${process.env.STRAVA_CLIENT_ID}` +
       `&client_secret=${process.env.STRAVA_CLIENT_SECRET}` +
       `&refresh_token=${permissions.refresh_token}` +
       `&grant_type=refresh_token`;
-    console.log(stravaRefreshQuery)
+
     let dataToUpdate = {
       whereVar: {username: permissions.username},
       updateVars: (await axios.post(`https://www.strava.com/oauth/token${stravaRefreshQuery}`)).data
     };
-    console.log('dataToUpdate: ', dataToUpdate)
-    req.body.permissions = await update('strava', dataToUpdate);
+    req.body.permissions = (await update('strava', dataToUpdate))[0];
   }
   next();
 });
