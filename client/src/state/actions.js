@@ -123,7 +123,7 @@ export const updateDataStatus = (str) => (dispatch) => {
 }
 
 
-export const showPartForm = (bikeId) => (dispatch) => {
+export const showNewPartForm = (bikeId) => (dispatch) => {
   dispatch(setSelectedBike(bikeId));
   dispatch(setModal('newPartForm'));
 }
@@ -153,7 +153,7 @@ export const updatePartForm = (target) => (dispatch) => {
     value = target.value;
   }
   dispatch(formInput({[fieldName]: value}));
-  dispatch(updateReqs(fieldName, value));
+  dispatch(updateReqs());
   dispatch(validateField());
   dispatch(validateForm());
 };

@@ -6,7 +6,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
-import { setSelectedBike, resetSelectedBike, resetSelectedPart, showPartForm, showEditPartForm, setSelectedPart }from '../state/actions.js';
+import { setSelectedBike, resetSelectedBike, resetSelectedPart, showNewPartForm, showEditPartForm, setSelectedPart }from '../state/actions.js';
 
 const PartList = () => {
   const bikeId = useParams().bikeId;
@@ -53,7 +53,7 @@ const PartList = () => {
                 </div>
                 <div 
                   className="col-auto m-auto pointer"
-                  onClick={()=>dispatch(showPartForm(bikeId))}
+                  onClick={()=>dispatch(showNewPartForm(bikeId))}
                 >
                   <OverlayTrigger
                   placement='left'

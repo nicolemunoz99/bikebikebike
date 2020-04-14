@@ -47,5 +47,5 @@ export const EditPartForm = () => {
     <>
       <PartForm submitAction={submitAction} />
     </>
-  )
-}
+  );
+};
