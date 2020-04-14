@@ -114,7 +114,9 @@ export const setFormForEdit = (fieldsAndValues) => {
 };
 
 
-// ...THUNKS...
+/* **************************
+THUNKS
+************************** */
 
 export const updateDataStatus = (str) => (dispatch) => {
   dispatch(setDataStatus(str));
@@ -173,6 +175,22 @@ export const submitNewPart = (data, distUnit) => async (dispatch) => {
     dispatch(updateDataStatus('dataErr'));
   }
 };
+
+export const submitEditedPart = (data, distUnit) => async (dispatch) => {
+  dispatch(updateDataStatus('dataWait'));
+  try {
+    console.log('data in thunk:', data, distUnit)
+    let authData = await Auth.currentAuthenticatedUser()
+    await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
+      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+    });
+    dispatch(updateDataStatus('ok'));
+    dispatch(getUserData());
+  }
+  catch (err) {
+    dispatch(updateDataStatus('dataErr'));
+  }
+}
 
 
 export const getUserData = () => async (dispatch) => {

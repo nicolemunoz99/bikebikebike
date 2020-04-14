@@ -69,6 +69,7 @@ authRoute.use( async (req, res, next) => {
 
 authRoute.get('/login', login.get);
 authRoute.post('/part', part.post);
+authRoute.put('/part', part.put);
 
 
 

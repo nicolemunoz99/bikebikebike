@@ -21,6 +21,7 @@ const PartForm = ({submitAction, editingBike}) => {
 
   const handleSubmitWrapper = (e) => {
     e.preventDefault();
+    console.log('inputs in wrapper: ', inputs, distUnit);
     submitAction(inputs, distUnit);
   };
 

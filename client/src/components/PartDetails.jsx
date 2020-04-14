@@ -19,12 +19,12 @@ const PartDetails = () => {
 
   let detailItems = {
     'Replace/service in:': [
-      lifespan_dist && p_dist_current ? `${lifespan_dist - p_dist_current} ${distUnit}` : '',
-      lifespan_time && p_time_current ? `${lifespan_time - p_time_current} hrs` : ''
+      lifespan_dist && p_dist_current ? `${Number(lifespan_dist) - Number(p_dist_current)} ${distUnit}` : '',
+      lifespan_time && p_time_current ? `${Number(lifespan_time) - Number(p_time_current)} hrs` : ''
     ], 
     'Lifespan:': [
-      lifespan_dist ? `${lifespan_dist} ${distUnit}` : '',
-      lifespan_time && p_time_current ? `${lifespan_time - p_time_current} hrs` : ''
+      lifespan_dist ? `${Number(lifespan_dist)} ${distUnit}` : '',
+      lifespan_time && p_time_current ? `${Number(lifespan_time) - Number(p_time_current)} hrs` : ''
     ], 
     'Settings:': [
       `${capFirst(tracking_method)} tracking`,

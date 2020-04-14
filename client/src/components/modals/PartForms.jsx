@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PartForm from '../wrappers/PartFormWrapper.jsx';
 import { useSelector, useDispatch } from 'react-redux';
-import { submitNewPart, setFormForEdit, validateField, validateForm, updateReqs } from '../../state/actions.js';
+import { submitNewPart, submitEditedPart, setFormForEdit, validateField, validateForm, updateReqs } from '../../state/actions.js';
 
 
 
@@ -11,6 +11,9 @@ export const NewPartForm = () => {
 
   const submitAction = (inputs, distUnit) => {
     inputs.p_bike_id = bikeId;
+    if (inputs.tracking_method === 'default') {
+      // define lifespan_dist/time
+    }
     dispatch(submitNewPart(inputs, distUnit));
   };
 
@@ -39,8 +42,9 @@ export const EditPartForm = () => {
   });
 
   const submitAction = (inputs, distUnit) => {
-    inputs.id = partId;
-    // TODO: submitEditedPart
+    inputs.part_id = partId;
+    console.log('inputs in edit-form: ', inputs, distUnit)
+    dispatch(submitEditedPart(inputs, distUnit));
   };
 
   return(

@@ -7,7 +7,6 @@ const login = {
   get: async (req, res) => {
 
     let { access_token, id } = req.body.permissions;
-    console.log('getting user..', access_token, id)
     let userDataset = await getUserWithBikesWithParts(id); // db query
     let { last_login_date } = userDataset;
 
@@ -64,16 +63,16 @@ const login = {
     }
 
     // update user_info w/ last_login_date
-    dbPromises.push( update('user_info', { whereVar: { id }, updateVars: {last_login_date: Date.now() } }) );
+    dbPromises.push( update('user_info', { whereVar: { id }, updateVars: {last_login_date: Date.now()} }) );
 
     await Promise.all(dbPromises);
 
     // get all updated user data
     let updatedDataset = await getUserWithBikesWithParts(id);
     updatedDataset.measure_pref = athleteData.measurement_preference === 'feet' ? 'mi' : 'km';
-    
-    updatedDataset = convertToUserUnits(updatedDataset)
 
+    updatedDataset = convertToUserUnits(updatedDataset)
+    console.log('updatedDataset post-convert: ', updatedDataset)
     res.send(updatedDataset);
 
   }

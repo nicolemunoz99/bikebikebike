@@ -77,7 +77,10 @@ const formReducer = (state = initialFormState, action) => {
   }
 
   if (action.type === SET_FORM_FOR_EDIT) {
-    return { ...state, inputs: action.payload };
+    let formValues = _.pickBy(action.payload, (value, key) => {
+      return value !== null && initialFormState.inputs[key] !== undefined;
+    });
+    return { ...state, inputs: { ...state.inputs, ...formValues }};
   }
 
 

@@ -37,22 +37,24 @@ exports.convertToUserUnits = (dataset) => {
 
 
 exports.convertToDbUnits = (data, distUnit) => {
-
+    console.log('data before converting: ', data)
     _.forEach(data, (value, key) => {
+      if (data[key] !== '') {
+        if (key.match(/dist/g)) { // dist in m (strava API default)
+          
+            data[key] = (distUnit === 'km' ? value * 1000 : value * 1609.34).toFixed(2);
+          
+        }
 
-      if (key.match(/dist/g)) { // dist in m (strava API default)
-        data[key] = (distUnit === 'km' ? value * 1000 : value * 1609.34).toFixed(2);
-      }
+        if (key.match(/time/g)) { // time in seconds (strava API default)
+          data[key] = (value * 3600).toFixed(2);
+        }
 
-      if (key.match(/time/g)) { // time in seconds (strava API default)
-        data[key] = (value * 3600).toFixed(2);
+        if (key.match(/date/g)) { // date in ms since Epoch
+          let [year, mo, day] = value.split('-');
+          data[key] = data[key] ? xDate(year, mo, day).getTime() : data[key];
+        }
       }
-
-      if (key.match(/date/g)) { // date in ms since Epoch
-        let [year, mo, day] = value.split('-');
-        data[key] = data[key] ? xDate(year, mo, day).getTime() : data[key];
-      }
-      
     });
 
 
