@@ -6,7 +6,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
-import { setSelectedBike, resetSelectedBike, resetSelectedPart, showPartForm, toggleSelectedPart }from '../state/actions.js';
+import { setSelectedBike, resetSelectedBike, resetSelectedPart, showPartForm, showEditPartForm, setSelectedPart }from '../state/actions.js';
 
 const PartList = () => {
   const bikeId = useParams().bikeId;
@@ -24,10 +24,6 @@ const PartList = () => {
       dispatch(resetSelectedPart());
     };
   }, []);
-
-  const handleEditClick = () => {
-    
-  }
 
   return (
     <div>
@@ -93,13 +89,13 @@ const PartList = () => {
         <div className="row no-gutters justify-content-end text-right">
           <div 
             className="col-auto mx-1 text-sm-center pointer" 
-            onClick={()=>dispatch(showPartForm(bikeId, id))}
+            onClick={()=>dispatch(showEditPartForm(bikeId, id))}
           >
             <OverlayTrigger
               placement='top'
               overlay={<Tooltip> edit </Tooltip>}
             >
-              <span onClick={handleEditClick} className="material-icons panel-menu-text"> 
+              <span className="material-icons panel-menu-text"> 
                 edit 
               </span>
             </OverlayTrigger>
@@ -142,7 +138,7 @@ const PartList = () => {
           placement='top'
           overlay={<Tooltip> {selectedPart === id ? 'less detail' : 'details'} </Tooltip>}
           >
-            <span className="material-icons md-48 pointer" onClick={() => dispatch(toggleSelectedPart(id))}>
+            <span className="material-icons md-48 pointer" onClick={() => dispatch(setSelectedPart(id))}>
               {selectedPart === id ? 'arrow_drop_up' : 'arrow_drop_down'}
             </span>
         </OverlayTrigger>

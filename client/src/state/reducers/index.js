@@ -3,7 +3,7 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_MODAL, CLOSE_MODAL, 
   SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
-  SET_PARTS, TOGGLE_SELECTED_PART, RESET_SELECTED_PART
+  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART
 } from '../action-types.js';
 
 import formReducer from './formReducer.js';
@@ -25,7 +25,7 @@ const dataReducer = (state = initialDataStatus, action) => {
 Modal
 ************************** */
 
-const initialModalState = ''; // 'partForm', 'dataWait, 'dataErr'
+const initialModalState = ''; // 'newPartForm', 'dataWait, 'dataErr'
 
 const modalReducer = (state = initialModalState, action) => {
   if (action.type === SET_MODAL) {
@@ -94,7 +94,8 @@ Parts
 
 const initialPartState = {
   list: {},
-  selectedPart: ''
+  selectedPart: '',
+  editingPart: ''
 };
 
 const partReducer = (state = initialPartState, action) => {
@@ -102,7 +103,7 @@ const partReducer = (state = initialPartState, action) => {
     return { ...state, list: action.payload };
   }
 
-  if (action.type === TOGGLE_SELECTED_PART) {
+  if (action.type === SET_SELECTED_PART) {
     return { 
       ...state, 
       selectedPart: action.payload === state.selectedPart ? initialPartState.selectedPart : action.payload};
@@ -110,6 +111,10 @@ const partReducer = (state = initialPartState, action) => {
 
   if (action.type === RESET_SELECTED_PART) {
     return { ...state , selectedPart: initialPartState.selectedPart }
+  }
+  
+  if (action.type === SET_EDITING_PART) {
+    return { ...state, editingPart: action.payload};
   }
   return state;
 };

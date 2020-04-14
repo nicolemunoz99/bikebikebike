@@ -3,15 +3,14 @@ import _ from 'lodash';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { updatePartForm, resetForm, submitNewPart } from '../../state/actions.js';
-import { errMsgs } from './validation.js';
+import { updatePartForm, resetForm } from '../../state/actions.js';
+import { errMsgs } from '../../validation.js';
 
 import CustomInput from './CustomInput.jsx';
 
-const PartForm = () => {
+const PartForm = ({submitAction, editingBike}) => {
   const { inputs, isReq, isOk, formIsValid } = useSelector(state => state.form);
   const { distUnit } = useSelector(state => state.user.measure_pref)
-  const bikeId = useSelector(state => state.bikes.selectedBike);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,17 +19,16 @@ const PartForm = () => {
     };
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmitWrapper = (e) => {
     e.preventDefault();
-    inputs.p_bike_id = bikeId;
-    dispatch(submitNewPart(inputs, distUnit));
+    submitAction(inputs, distUnit);
   };
 
   return (
   <ModalWrapper title="New Component" minHeight="70%">
 
       
-      <Form onSubmit={handleSubmit} id="part-form" >
+      <Form onSubmit={handleSubmitWrapper} id="part-form" >
 
         <Basics />
         

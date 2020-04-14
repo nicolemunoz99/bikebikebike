@@ -4,9 +4,9 @@ import {
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
-  SET_PARTS, TOGGLE_SELECTED_PART, RESET_SELECTED_PART,
+  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART,
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM
+  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM, SET_FORM_FOR_EDIT
 } from './action-types.js';
 
 import devData from './data.js'
@@ -66,15 +66,19 @@ export const setSelectedBike = (bikeId) => {
 
 export const resetSelectedBike = () => {
   return { type: RESET_SELECTED_BIKE };
-}
+};
 
-export const toggleSelectedPart = (partId) => {
-  return { type: TOGGLE_SELECTED_PART, payload: partId };
-}
+export const setSelectedPart = (partId) => {
+  return { type: SET_SELECTED_PART, payload: partId };
+};
 
 export const resetSelectedPart = () => {
   return { type: RESET_SELECTED_PART };
-}
+};
+
+export const setEditingPart = (partId) => {
+  return { type: SET_EDITING_PART, payload: partId };
+};
 
 /* **************************
 Form
@@ -103,7 +107,11 @@ export const validateField = () => {
 
 export const validateForm = () => {
   return { type: VALIDATE_FORM };
-}
+};
+
+export const setFormForEdit = (fieldsAndValues) => {
+  return { type: SET_FORM_FOR_EDIT, payload: fieldsAndValues };
+};
 
 
 // ...THUNKS...
@@ -116,8 +124,13 @@ export const updateDataStatus = (str) => (dispatch) => {
 
 
 export const showPartForm = (bikeId) => (dispatch) => {
-  dispatch(setModal('partForm'));
   dispatch(setSelectedBike(bikeId));
+  dispatch(setModal('newPartForm'));
+}
+
+export const showEditPartForm = (bikeId, partId) => (dispatch) => {
+  dispatch(setEditingPart(partId));
+  dispatch(setModal('editPartForm'));
 }
 
 export const updatePartForm = (target) => (dispatch) => {

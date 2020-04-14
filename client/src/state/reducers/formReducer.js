@@ -5,9 +5,10 @@ import {
   RESET_FORM,
   UPDATE_REQS,
   VALIDATE_FIELD,
-  VALIDATE_FORM
+  VALIDATE_FORM,
+  SET_FORM_FOR_EDIT
 } from '../action-types.js';
-import { isValid } from '../../components/modals/validation.js';
+import { isValid } from '../../validation.js';
 
 
 const initialFormState = {
@@ -73,6 +74,10 @@ const formReducer = (state = initialFormState, action) => {
       isOk: { ...state.isOk, ...resetIsOk},
       isReq: { ...state.isReq, ...resetIsReq}
     };
+  }
+
+  if (action.type === SET_FORM_FOR_EDIT) {
+    return { ...state, inputs: action.payload };
   }
 
 

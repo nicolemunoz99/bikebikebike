@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import PartForm from './PartForm.jsx';
+import { NewPartForm,  EditPartForm } from './PartForms.jsx';
 import { DataWait, DataErr } from './DataStatus.jsx';
 
 const ModalIndex = () => {
   const modal = useSelector(state => state.modal);
 
   const modalTypes = {
-    partForm: PartForm,
+    newPartForm: NewPartForm,
+    editPartForm: EditPartForm,
     dataWait: DataWait,
     dataErr: DataErr
   }
@@ -15,9 +16,9 @@ const ModalIndex = () => {
   const ModalToRender = modalTypes[modal] || null;
 
   return (
-    <div>
+    <>
       <ModalToRender />
-    </div>
+    </>
   );
 };
 
