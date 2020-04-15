@@ -135,29 +135,12 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
   dispatch(setModal('editPartForm'));
 }
 
-export const updatePartForm = (target) => (dispatch) => {
-  let fieldName;
-  let value;
+export const updatePartForm = (data) => (dispatch) => {
 
-  // reset all fields that follow a dropdown/radio that was changed
-  if (target.dropdown) {
-    dispatch(resetSubseqFields(target.dropdown));
-  }
-  if (target.radio && target.id !== 'usage_metric') {
-    dispatch(resetSubseqFields(target.radio))
-  }
-
-  if (target.dropdown) {
-    fieldName = target.dropdown;
-    value = target.id;
-  } else {
-    fieldName = target.id;
-    value = target.value;
-  }
-  dispatch(formInput({[fieldName]: value}));
-  dispatch(updateReqs());
-  dispatch(validateField());
-  dispatch(validateForm());
+  dispatch(formInput({[data.field]: data.value}));
+  // dispatch(updateReqs());
+  // dispatch(validateField());
+  // dispatch(validateForm());
 };
 
 export const submitNewPart = (data, distUnit) => async (dispatch) => {
