@@ -16,10 +16,10 @@ const initialFormState = {
     type: '', 
     custom_type: '', p_brand: '', p_model: '',
     tracking_method: '',
-    usage_metric: '',
+    use_metric_dist: '', use_metric_time: '', use_metric_date: '',
     init_wear_method: '', 
-    p_dist_current: '', p_time_current: '', new_date: '',
-    lifespan_dist: '', lifespan_time: ''
+    new_date: '',
+    lifespan_dist: '', lifespan_time: '', lifespan_date: ''
   },
   isReq: {
     type: true, 
