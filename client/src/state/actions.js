@@ -6,7 +6,7 @@ import {
   SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
   SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART,
   SET_MODAL, CLOSE_MODAL, 
-  FORM_INPUT, RESET_SUBSEQ_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM, SET_FORM_FOR_EDIT
+  FORM_INPUT, RESET_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM, SET_FORM_FOR_EDIT
 } from './action-types.js';
 
 import devData from './data.js'
@@ -41,10 +41,12 @@ Modal
 ************************** */
 
 export const setModal = (modalType) => {
+  console.log('set modal: ', modalType)
   return { type: SET_MODAL, payload: modalType };
 };
 
 export const closeModal = () => {
+  console.log('closing modal');
   return { type: CLOSE_MODAL };
 };
 
@@ -88,9 +90,8 @@ export const formInput = (keyValue) => {
  return { type: FORM_INPUT, payload: keyValue};
 };
 
-export const resetSubseqFields = (field) => {
-  // resets fields that follow the parameter 'field'
-  return { type: RESET_SUBSEQ_FIELDS, payload: field };
+export const resetFields = (fieldArr) => {
+  return { type: RESET_FIELDS, payload: fieldArr };
 };
 
 export const resetForm = () => {
@@ -138,13 +139,13 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
 export const updatePartForm = (data) => (dispatch) => {
 
   dispatch(formInput({[data.field]: data.value}));
-  // dispatch(updateReqs());
-  // dispatch(validateField());
+  dispatch(updateReqs());
+  dispatch(validateField());
   // dispatch(validateForm());
 };
 
 export const submitNewPart = (data, distUnit) => async (dispatch) => {
-  dispatch(updateDataStatus('dataWait'));
+  // dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
 
@@ -171,13 +172,13 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
     dispatch(getUserData());
   }
   catch (err) {
-    dispatch(updateDataStatus('dataErr'));
+    // dispatch(updateDataStatus('dataErr'));
   }
 }
 
 
 export const getUserData = () => async (dispatch) => {
-  dispatch(updateDataStatus('dataWait'));
+  // dispatch(updateDataStatus('dataWait'));
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
@@ -217,11 +218,11 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     dispatch(setParts(normalUserData.entities.parts));
 
-    dispatch(updateDataStatus('ok'));
+    // dispatch(updateDataStatus('ok'));
   }
 
   catch (err) {
-    dispatch(updateDataStatus('dataErr'))
+    // dispatch(updateDataStatus('dataErr'))
     if (err.response.status === 401) {} // user not Cognito-authenticated; 
       // TODO redirect to login
     // TODO otherwise display error modal

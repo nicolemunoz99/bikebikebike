@@ -41,8 +41,11 @@ const Basics = () => {
             >
               {Object.keys(partList).map(partKey => {
                 return (
-                  <Dropdown.Item data-dropdown="type" key={partKey} id={partKey}
-                    onClick={handleInput} id="type" value={partKey}
+                  <Dropdown.Item 
+                    key={partKey} 
+                    onClick={handleInput} 
+                    id="type" 
+                    value={partKey}
                   >
                     {partList[partKey].title}
                   </Dropdown.Item>

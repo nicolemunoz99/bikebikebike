@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { 
   FORM_INPUT, 
-  RESET_SUBSEQ_FIELDS, 
+  RESET_FIELDS, 
   RESET_FORM,
   UPDATE_REQS,
   VALIDATE_FIELD,
@@ -17,37 +17,42 @@ const initialFormState = {
     custom_type: '', p_brand: '', p_model: '',
     tracking_method: '',
     use_metric_dist: '', use_metric_time: '', use_metric_date: '',
-    init_wear_method: '', 
+    new_at_add: '', 
     new_date: '',
     lifespan_dist: '', lifespan_time: '', lifespan_date: ''
   },
   isReq: {
+    // basics: true,
+    // trackingMethod: true,
+    // useMetric: false,
+    // currentWear: false,
+    // lifespan: false
     type: true, 
     custom_type: false,
-    p_brand: false,
-    p_model: false,
+    p_brand: false, p_model: false,
     tracking_method: true,
-    usage_metric: false,
-    init_wear_method: false, 
-    p_dist_current: false, 
-    p_time_current: false, 
+    use_metric: false,
+    new_at_add: false, 
     new_date: false,
-    lifespan_dist: false, 
-    lifespan_time: false
+    lifespan_dist: false, lifespan_time: false, lifespan_date: false
   },
   isOk: {
+    // basics: true,
+    // trackingMethod: true,
+    // useMetric: null,
+    // currentWear: null,
+    // lifespan: null
     type: false, 
     custom_type: null,
-    p_brand: null,
-    p_model: null,
+    p_brand: null, p_model: null,
     tracking_method: false,
-    usage_metric: null,
-    init_wear_method: null, 
-    p_dist_current: null, 
-    p_time_current: null, 
+    use_metric: null,
+    new_at_add: null, 
     new_date: null,
-    lifespan_dist: null, 
-    lifespan_time: null
+    lifespan_dist: null, lifespan_time: null, lifespan_date: null
+  },
+  errs: {
+
   },
   formIsValid: false
 };
@@ -60,10 +65,8 @@ const formReducer = (state = initialFormState, action) => {
     return { ...state, inputs: { ...state.inputs, ...action.payload } };
   }
 
-  if (action.type === RESET_SUBSEQ_FIELDS) {
-    let targetField = action.payload;
-    let fieldsToReset = 
-        _.dropWhile(Object.keys(state.inputs), (item) => item !== targetField).slice(1);
+  if (action.type === RESET_FIELDS) {
+    let fieldsToReset = action.payload;
     let resetInputs = _.pick(initialFormState.inputs, fieldsToReset);
     let resetIsReq = _.pick(initialFormState.isReq, fieldsToReset);
     let resetIsOk = _.pick(initialFormState.isOk, fieldsToReset);
@@ -87,77 +90,33 @@ const formReducer = (state = initialFormState, action) => {
   // validation
 
   if (action.type === UPDATE_REQS) {
+    let { inputs } = state;
     let newReqs = {};
-
-    if (state.inputs.type === 'custom') {
-      newReqs = {custom_type: true}
+    if (inputs.type === 'custom') newReqs = {custom_type: true};
+    if (inputs.type !== 'custom') newReqs = {custom_type: initialFormState.isReq.custom_type}
+    if (inputs.tracking_method === 'custom') {
+      newReqs = {use_metric: true};
     }
-    if (state.inputs.tracking_method === 'custom') {
-      newReqs = {usage_metric: true};
+    if (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) {
+      newReqs = { ...newReqs, new_at_add: true};
+      newReqs = { 
+        ...newReqs, 
+        lifespan_dist: !!inputs.use_metric_dist,
+        lifespan_time: !!inputs.use_metric_time,
+        lifespan_date: !!inputs.use_metric_date
+      };
     }
-
-    if (state.inputs.usage_metric) {
-      newReqs = { ...newReqs, init_wear_method: true };
-      if (state.inputs.usage_metric === 'time') {
-        newReqs = {
-          ...newReqs,
-          lifespan_dist: false,
-          lifespan_time: true
-        }
-      }
-      
-      else if (state.inputs.usage_metric === 'dist') {
-        newReqs = {
-          ...newReqs,
-          lifespan_dist: true,
-          lifespan_time: false
-        }
-      }
-      else {
-        newReqs = {
-          ...newReqs,
-          lifespan_dist: true,
-          lifespan_time: true
-        }
-      }
-    };
-
-    if (state.inputs.init_wear_method === 'est') {
-      if (state.inputs.usage_metric === 'time') {
-        newReqs = {
-          ...newReqs,
-          p_dist_current: false, 
-          p_time_current: true
-        };
-      }
-      else if (state.inputs.usage_metric === 'dist'){
-        newReqs = {
-          ...newReqs,
-          p_dist_current: true, 
-          p_time_current: false
-        };
-      }
-      else {
-        newReqs = {
-          ...newReqs,
-          p_dist_current: true, 
-          p_time_current: true,
-          lifespan_dist: true,
-          lifespan_time: true
-        };
-      }
-    }
-    if (state.inputs.init_wear_method === 'strava') {
-      newReqs = { ...newReqs, new_date: true };
-    }
+    if (inputs.new_at_add === 'n') newReqs = { ...newReqs, new_date: true };
 
     return { ...state, isReq:{ ...state.isReq, ...newReqs }  };
-
   }
+
 
   if (action.type === VALIDATE_FIELD) {
     let newIsOkState =_.mapValues(state.isReq, (isReq, key) => {
+      console.log('key', key)
       if (!isReq) return initialFormState.isOk[key];
+      if (key === 'use_metric') return isValid.use_metric(state.inputs);
       return isValid[key](state.inputs[key]);
     });
     return { ...state, isOk: newIsOkState };
