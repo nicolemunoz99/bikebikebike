@@ -52,6 +52,7 @@ const PartFormWrapper = () => {
 
   return (
     <ModalWrapper title="New Component" minHeight="70%">
+      
       <Form id="part-form" >
         
         <Basics handleInput={handleInput} />

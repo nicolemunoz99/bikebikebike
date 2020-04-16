@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams} from 'react-router';
 import { getUserData } from '../state/actions.js';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
@@ -65,6 +65,29 @@ const PartList = () => {
               </div>
               </div>
             </div>
+
+            <OverlayTrigger
+          trigger="click"
+          placement="right"
+          overlay={
+            <Popover id="popover-basic">
+              <Popover.Content>
+                <div>
+                  <p>
+                    "Default" assumes this is a new part.
+                </p>
+                  <p>
+                    "Custom" allows you to specify a current wear, and whether you
+                    want to track usage by distance and/or time.
+                </p>
+
+                </div>
+              </Popover.Content>
+            </Popover>
+          }
+        >
+          <span className="material-icons">info</span>
+        </OverlayTrigger>
 
             <div className="w-100"></div>
             <div className="mt-4">
