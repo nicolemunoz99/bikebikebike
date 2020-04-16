@@ -10,7 +10,7 @@ import Lifespan from './Lifespan.jsx';
 import { updatePartForm, resetForm } from '../../../state/actions.js';
 
 const PartFormWrapper = () => {
-  const { inputs, isOk, isReq } = useSelector(state => state.form)
+  const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
@@ -57,11 +57,17 @@ const PartFormWrapper = () => {
 
         { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
 
-        { isOk.tracking_method && <UseMetric handleInput={handleInput} useOptions={useOptions} /> }
+        { inputs.tracking_method === 'custom' && <UseMetric handleInput={handleInput} useOptions={useOptions} /> }
 
         { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) && <NewDate handleInput={handleInput} /> }
 
         { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
+
+        {formIsValid &&
+          <Button variant="primary" type="submit" className="w-100">
+            Submit
+          </Button>
+        }
 
 
       </Form>

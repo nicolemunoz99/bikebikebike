@@ -63,7 +63,7 @@ const NewDate = ({ handleInput }) => {
       </Form.Group>
 
 
-
+      {inputs.new_at_add &&
         <Form.Group as={Row}>
           <Form.Label column sm="4">
             New date:
@@ -76,6 +76,7 @@ const NewDate = ({ handleInput }) => {
               id="new_date"
               onChange={handleInput}
               value={inputs.new_date}
+              readOnly={inputs.new_at_add === 'y' ? true : false}
             />
             <div>
               When was this part new/last serviced? This component's useage as of now will be calculated from your Strava activities
@@ -84,7 +85,7 @@ const NewDate = ({ handleInput }) => {
             </div>
           </Col>
         </Form.Group>
-
+      }
 
     </>
   );

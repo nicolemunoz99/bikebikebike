@@ -86,6 +86,8 @@ const formReducer = (state = initialFormState, action) => {
     let newReqs = {};
     if (inputs.type === 'custom') newReqs = {custom_type: true};
     if (inputs.type !== 'custom') newReqs = {custom_type: initialFormState.isReq.custom_type}
+    if (inputs.tracking_method === 'custom') newReqs = {...newReqs, new_date: true}
+    if (inputs.tracking_method !== 'custom') newReqs = {...newReqs, new_date: initialFormState.isReq.new_date}
     if (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) {
       newReqs = { ...newReqs, new_at_add: true };
       newReqs = { 
@@ -111,9 +113,9 @@ const formReducer = (state = initialFormState, action) => {
 
   if (action.type === VALIDATE_FORM) {
     let { isReq, isOk } = state;
-    let formIsValid = _.every(isReq, (req, key) => {
-      if (!req) return true;
-      return isOk[key];
+    let formIsValid = _.every(isOk, (value) => {
+      if (value === null) return true;
+      return value;
     });
     return { ...state, formIsValid };
   }

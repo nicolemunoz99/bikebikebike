@@ -11,8 +11,6 @@ export const isValid = {
     if (!yyyymmdd) return false;
     let [year, mo, day] = yyyymmdd.split('-')
     let date = xDate(Number(year), Number(mo-1), Number(day), false).getTime();
-    console.log('entered: ', date)
-    console.log('now: ', xDate(false).getTime())
     return date <= xDate(false);
   },
   lifespan_dist: (val) => !!Number(val) && Number(val) >= 0, 

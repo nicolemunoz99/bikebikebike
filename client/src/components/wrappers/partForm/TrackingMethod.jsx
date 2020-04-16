@@ -11,7 +11,7 @@ const TrackingMethod = ({ handleInput }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetFields(['tracking_method']));
+      dispatch(resetFields(['tracking_method', 'new_at_add']));
     };
   }, []);
 

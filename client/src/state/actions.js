@@ -137,11 +137,10 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
 };
 
 export const updatePartForm = (dataArr) => (dispatch) => {
-  console.log('updatePartForm')
   dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());
-  // dispatch(validateForm());
+  dispatch(validateForm());
 };
 
 export const submitNewPart = (data, distUnit) => async (dispatch) => {
@@ -172,7 +171,7 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
     dispatch(getUserData());
   }
   catch (err) {
-    // dispatch(updateDataStatus('dataErr'));
+    dispatch(updateDataStatus('dataErr'));
   }
 }
 
