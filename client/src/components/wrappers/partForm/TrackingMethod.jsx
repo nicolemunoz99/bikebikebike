@@ -32,27 +32,12 @@ const TrackingMethod = ({ handleInput }) => {
       <Form.Label column sm="4">
         Default or custom tracking
 
-      <OverlayTrigger
+        <OverlayTrigger
           trigger="click"
           placement="right"
-          overlay={
-            <Popover id="popover-basic">
-              <Popover.Content>
-                <div>
-                  <p>
-                    "Default" assumes this is a new part.
-                </p>
-                  <p>
-                    "Custom" allows you to specify a current wear, and whether you
-                    want to track usage by distance and/or time.
-                </p>
-
-                </div>
-              </Popover.Content>
-            </Popover>
-          }
+          overlay={trackingTooltip}
         >
-          <span className="material-icons">info</span>
+          <span className="material-icons">info_outline</span>
         </OverlayTrigger>
 
       </Form.Label>
@@ -86,4 +71,22 @@ const TrackingMethod = ({ handleInput }) => {
   )
 };
 
+const trackingTooltip = (
+  <Popover id="popover-basic">
+    <Popover.Content>
+      <div>
+        <p>
+          "Default" assumes this is a new part.
+      </p>
+      <p>
+        "Custom" allows you to specify a current wear, and whether you
+        want to track usage by distance and/or time.
+      </p>
+
+      </div>
+    </Popover.Content>
+  </Popover>
+);
+
 export default TrackingMethod;
+

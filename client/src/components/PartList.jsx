@@ -66,28 +66,7 @@ const PartList = () => {
               </div>
             </div>
 
-            <OverlayTrigger
-          trigger="click"
-          placement="right"
-          overlay={
-            <Popover id="popover-basic">
-              <Popover.Content>
-                <div>
-                  <p>
-                    "Default" assumes this is a new part.
-                </p>
-                  <p>
-                    "Custom" allows you to specify a current wear, and whether you
-                    want to track usage by distance and/or time.
-                </p>
-
-                </div>
-              </Popover.Content>
-            </Popover>
-          }
-        >
-          <span className="material-icons">info</span>
-        </OverlayTrigger>
+ 
 
             <div className="w-100"></div>
             <div className="mt-4">
