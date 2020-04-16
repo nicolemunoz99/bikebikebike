@@ -13,6 +13,7 @@ const ModalWrapper = (props) => {
   };
   
   return (
+    
     <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>
 
         <div className="modal-body col-8" style={{minHeight:props.minHeight}}>

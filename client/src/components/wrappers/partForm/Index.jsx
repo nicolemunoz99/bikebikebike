@@ -31,6 +31,10 @@ const PartFormWrapper = () => {
 
   };
 
+  const handleSubmitWrapper = (e) => {
+
+  };
+
   let useOptions = {
     'Distance': {
       field: 'use_metric_dist',
@@ -53,7 +57,7 @@ const PartFormWrapper = () => {
   return (
     <ModalWrapper title="New Component" minHeight="70%">
       
-      <Form id="part-form" >
+      <Form onSubmit={handleSubmitWrapper} id="part-form" >
         
         <Basics handleInput={handleInput} />
 
