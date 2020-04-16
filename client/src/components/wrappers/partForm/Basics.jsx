@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
-import { resetFields } from '../../../state/actions.js';
+import { resetFields, updatePartForm } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
 const Basics = ({ handleInput }) => {
@@ -11,7 +11,8 @@ const Basics = ({ handleInput }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetFields(['tracking_method']))
+      dispatch(resetFields(['tracking_method']));
+      dispatch(updatePartForm([{custom_type: ''}]))
     };
   }, [inputs.type])
 

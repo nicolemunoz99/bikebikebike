@@ -29,11 +29,12 @@ export const errMsgs = {
   p_brand: '',
   p_model: '',
   tracking_method: '',
-  usage_metric: '',
-  init_wear_method: `Select how you want to determine current wear.`, 
-  p_dist_current: `Specify distance.`, 
-  p_time_current: `Specify hours.`, 
-  new_date: `Specify a valid date.`,
+  usage_metric_dist: '',
+  usage_metric_time: '',
+  usage_metric_date: '',
+  new_at_add: '', 
+  new_date: 'Select a valid date (before today).',
   lifespan_dist: `Indicate lifespan in terms of distance.`, 
-  lifespan_time: `Indicate lifespan in terms of hours.`
+  lifespan_time: `Indicate lifespan in terms of hours.`,
+  lifespan_date: 'Select a valid date (after today).'
 };

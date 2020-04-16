@@ -39,9 +39,6 @@ const initialFormState = {
     new_date: null,
     lifespan_dist: null, lifespan_time: null, lifespan_date: null
   },
-  errs: {
-
-  },
   formIsValid: false
 };
 
@@ -97,7 +94,10 @@ const formReducer = (state = initialFormState, action) => {
         lifespan_date: !!inputs.use_metric_date
       };
     }
-    if (inputs.new_at_add) newReqs = { ...newReqs, new_date: true };
+    if (inputs.new_at_add) {
+      console.log('adding new_date as Req')
+      newReqs = { ...newReqs, new_date: true }
+    };
 
     return { ...state, isReq:{ ...state.isReq, ...newReqs }  };
   }

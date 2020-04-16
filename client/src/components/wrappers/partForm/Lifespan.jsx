@@ -12,6 +12,7 @@ const Lifespan = ({ useOptions, handleInput }) => {
 
   useEffect(() => {
     return () => {
+      console.log('resetting lifespan fields...')
       dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
     };
   }, []);
@@ -20,7 +21,7 @@ const Lifespan = ({ useOptions, handleInput }) => {
   return(
     <Form.Group as={Row}>
         <Form.Label column sm="4">
-          Life/service interval:
+          Lifespan or service interval:
         </Form.Label>
 
         {
@@ -32,19 +33,19 @@ const Lifespan = ({ useOptions, handleInput }) => {
                 <Col sm={{span:8, offset:4}}>
                   <Row>
                     <Col 
-                      sm="10"
-                      
+                      sm="12"
                       className="mb-3"
                     >
                       <Form.Control
                         as={CustomInput}
-                        // err={isReq.lifespan_time && !isOk.lifespan_time ? errMsgs.lifespan_time : ''}  
+                        err={isReq[`lifespan_${metric}`] && !isOk[`lifespan_${metric}`] ? errMsgs[`lifespan_${metric}`] : ''}  
                         subText={useOptions[useKey].subText}
                         type={metric==="date" ? "date" : "number"} 
                         placeholder=''
                         id={`lifespan_${metric}`}
                         onChange={handleInput} 
                         value={inputs[`lifespan_${metric}`]}
+                        className="w-100"
                       />
                     </Col>
                   </Row>

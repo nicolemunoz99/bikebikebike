@@ -17,7 +17,7 @@ const NewDate = ({ handleInput }) => {
   }, []);
 
   useEffect(() => {
-    dispatch(resetFields(['new_date']));
+    // dispatch(resetFields(['new_date']));
     if (inputs.new_at_add === 'y') {
       console.log('yes')
       let year = xDate(false).getFullYear();
@@ -25,6 +25,9 @@ const NewDate = ({ handleInput }) => {
       let day = xDate(false).getDate();  
       let today = `${year}-${month < 10 ? '0'.concat(month) : month}-${day < 10 ? '0'.concat(day) : day}`;
       dispatch(updatePartForm([{new_date: today}]));
+    }
+    if (inputs.new_at_add === 'n') {
+      dispatch(updatePartForm([{new_date: ''}]))
     }
   }, [inputs.new_at_add])
 
@@ -71,7 +74,7 @@ const NewDate = ({ handleInput }) => {
           <Col sm="8">
             <Form.Control
               as={CustomInput}
-              // err={isReq.new_date && !isOk.new_date ? errMsgs.new_date : ''}
+              err={isReq.new_date && !isOk.new_date ? errMsgs.new_date : ''}
               type="date"
               id="new_date"
               onChange={handleInput}

@@ -11,6 +11,7 @@ const UseMetric = ({ useOptions, handleInput }) => {
 
   useEffect(() => {
     return () => {
+      console.log('reset use_metric fields')
       dispatch(resetFields(['use_metric_dist', 'use_metric_time', 'use_metric_dist']));
     }
   }, [])

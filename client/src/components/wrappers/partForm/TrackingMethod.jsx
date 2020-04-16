@@ -11,13 +11,18 @@ const TrackingMethod = ({ handleInput }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetFields(['tracking_method', 'new_at_add']));
+      dispatch(resetFields([ 'tracking_method', 'new_at_add', 'new_date' ]));
     };
   }, []);
 
   useEffect(() => {
     return () => {
-      dispatch(resetFields(['use_metric_dist', 'use_metric_time', 'use_metric_dist']));
+      dispatch(resetFields([
+        'use_metric_dist', 
+        'use_metric_time', 
+        'use_metric_dist',
+        'lifespan_dist', 'lifespan_time', 'lifespan_date'
+      ]));
     };
   }, [inputs.tracking_method]);
 
