@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
+import CustomFormGroup from './CustomFormGroup.jsx';
+import FormHeader from './FormHeader.jsx';
 import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
@@ -11,15 +13,15 @@ const TrackingMethod = ({ handleInput }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetFields([ 'tracking_method', 'new_at_add', 'new_date' ]));
+      dispatch(resetFields(['tracking_method', 'new_at_add', 'new_date']));
     };
   }, []);
 
   useEffect(() => {
     return () => {
       dispatch(resetFields([
-        'use_metric_dist', 
-        'use_metric_time', 
+        'use_metric_dist',
+        'use_metric_time',
         'use_metric_dist',
         'lifespan_dist', 'lifespan_time', 'lifespan_date'
       ]));
@@ -28,20 +30,14 @@ const TrackingMethod = ({ handleInput }) => {
 
 
   return (
-    <Form.Group as={Row}>
-      <Form.Label column sm="4">
-        Default or custom tracking?
+    <Form.Group as={CustomFormGroup}>
+      
+      <FormHeader
+        label='Default or custom tracking?'
+        tooltip={trackingTooltip}
+      />
 
-        <OverlayTrigger
-          trigger="click"
-          placement="right"
-          overlay={trackingTooltip}
-        >
-          <span className="material-icons tooltip-icon position-absolute">info_outline</span>
-        </OverlayTrigger>
-
-      </Form.Label>
-      <Col sm="8">
+      <Col sm={{ span: 8, offset: 4 }}>
         <Row>
           <Col sm="4">
             <Form.Check

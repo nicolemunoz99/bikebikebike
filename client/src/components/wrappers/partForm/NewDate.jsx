@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import xDate from 'xdate';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
+import CustomFormGroup from './CustomFormGroup.jsx';
+import FormHeader from './FormHeader.jsx';
 import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
@@ -32,12 +34,13 @@ const NewDate = ({ handleInput }) => {
 
   return (
     <>
-      <Form.Group as={Row}>
-        <Form.Label column sm="4">
-          Is this a new part?
-        </Form.Label>
+      <Form.Group as={CustomFormGroup}>
+        
+        <FormHeader
+          label="Is this a new part?"
+        />
 
-        <Col sm="8">
+        <Col sm={{span:8, offset:4}}>
           <Row>
             <Col sm="4">
               <Form.Check
@@ -65,26 +68,14 @@ const NewDate = ({ handleInput }) => {
 
 
       {inputs.new_at_add &&
-      <>
-        { inputs.new_at_add === 'n' &&
-          <Row>
-          <Col sm="12" className="text-right">
-            <OverlayTrigger
-                trigger="click"
-                placement="left"
-                overlay={newDateTooltip}
-              >
-                <span className="material-icons tooltip-icon">info_outline</span>
-            </OverlayTrigger>
-          </Col>
-        </Row>
-        }
+        <Form.Group as={CustomFormGroup}>
 
-        <Form.Group as={Row}>
-          <Form.Label column sm="4">
-            New date
-          </Form.Label>
-          <Col sm="8">
+          <FormHeader
+            label="New date"
+            tooltip={newDateTooltip}
+          />
+
+          <Col sm={{span:8, offset:4}}>
 
             <Form.Control
               as={CustomInput}
@@ -97,7 +88,6 @@ const NewDate = ({ handleInput }) => {
             />
           </Col>
         </Form.Group>
-      </>
       }
 
     </>

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
+import CustomFormGroup from './CustomFormGroup.jsx';
+import FormHeader from './FormHeader.jsx';
 import { resetFields, updatePartForm } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
@@ -12,27 +14,28 @@ const Basics = ({ handleInput }) => {
   useEffect(() => {
     return () => {
       dispatch(resetFields(['tracking_method']));
-      dispatch(updatePartForm([{custom_type: ''}]))
+      dispatch(updatePartForm([{ custom_type: '' }]))
     };
-  }, [inputs.type])
+  }, [inputs.type]);
 
   const partList = {
-    chain: {title: 'Chain'},
-    freehub: {title: 'Freehub'},
-    fork: {title: 'Suspension fork'},
-    cassette: {title: 'Cassette'},
-    custom: {title: '-- Custom --'}
+    chain: { title: 'Chain' },
+    freehub: { title: 'Freehub' },
+    fork: { title: 'Suspension fork' },
+    cassette: { title: 'Cassette' },
+    custom: { title: '-- Custom --' }
   };
 
 
 
   return (
-    <Form.Group as={Row}>
-      <Form.Label column sm="4">
-        Basics
-    </Form.Label>
+    <Form.Group as={CustomFormGroup}>
 
-      <Col sm="8">
+      <FormHeader
+        label='Basics'
+      />
+
+      <Col sm={{ span: 8, offset: 4 }}>
         <Row>
           <Col xs="12" className="mb-1">
             <DropdownButton
@@ -43,10 +46,10 @@ const Basics = ({ handleInput }) => {
             >
               {Object.keys(partList).map(partKey => {
                 return (
-                  <Dropdown.Item 
-                    key={partKey} 
-                    onClick={handleInput} 
-                    id="type" 
+                  <Dropdown.Item
+                    key={partKey}
+                    onClick={handleInput}
+                    id="type"
                     value={partKey}
                   >
                     {partList[partKey].title}
@@ -71,7 +74,7 @@ const Basics = ({ handleInput }) => {
             null
           }
 
-          <Col sm="6" className="mb-1">
+          <Col sm="6" className="mb-xs-1 mb-sm-0">
             <Form.Control
               as={CustomInput}
               subText="Brand (Optional)"
@@ -82,7 +85,7 @@ const Basics = ({ handleInput }) => {
               value={inputs.p_brand}
             />
           </Col>
-          <Col sm="6" className="mb-1">
+          <Col sm="6" className="mb-xs-1 mb-sm-0">
             <Form.Control
               as={CustomInput}
               subText="Model (Optional)"

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
+import CustomFormGroup from './CustomFormGroup.jsx';
+import FormHeader from './FormHeader.jsx';
 import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
@@ -19,20 +21,12 @@ const Lifespan = ({ useOptions, handleInput }) => {
 
 
   return (
-    <Form.Group as={Row}>
-      <Form.Label column sm="4">
-        Lifespan or service interval:
+    <Form.Group as={CustomFormGroup}>
 
-          <OverlayTrigger
-          trigger="click"
-          placement="right"
-          overlay={lifespanTooltip}
-        >
-          <span className="material-icons tooltip-icon position-absolute">
-            info_outline
-          </span>
-        </OverlayTrigger>
-      </Form.Label>
+      <FormHeader
+        label="Lifespan or service interval"
+        tooltip={lifespanTooltip}
+      />
 
       {
         Object.keys(useOptions).map((useKey) => {

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
+import CustomFormGroup from './CustomFormGroup.jsx';
+import FormHeader from './FormHeader.jsx';
 import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
@@ -19,21 +21,14 @@ const UseMetric = ({ useOptions, handleInput }) => {
 
 
   return (
-    <Form.Group as={Row}>
-      <Form.Label column sm="4">
-        Use Metric
-        <OverlayTrigger
-          trigger="click"
-          placement="right"
-          overlay={useMetricTooltip}
-        >
-          <span className="material-icons tooltip-icon position-absolute">
-            info_outline
-          </span>
-        </OverlayTrigger>
+    <Form.Group as={CustomFormGroup}>
+      
+      <FormHeader
+        label="Use Metric"
+        tooltip={useMetricTooltip}
+      />
 
-      </Form.Label>
-      <Col sm="8">
+      <Col sm={{span:8, offset:4}}>
         <Row>
 
           {

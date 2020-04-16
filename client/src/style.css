@@ -21,7 +21,14 @@ body {
 .tooltip-icon {
   color: gray;
   padding-left: 0.2rem;
-  cursor: help;
+  cursor: pointer;
+}
+
+.custom-form-group {
+  background-color: rgb(243, 243, 243);
+  border: 1px solid gray;
+  border-radius: 1rem; 
+  padding: 0.5rem 0rem 1.5rem 0rem 
 }
 
 .part-panel {
