@@ -25,10 +25,10 @@ const PartFormWrapper = () => {
     if (e.target.getAttribute('data-checkbox')) {
       value = !inputs[e.target.id]
     } else {
-      value = e.target.value || e.target.getAttribute('value');
+      value = e.target.value !== undefined ? e.target.value : e.target.getAttribute('value');
     }
-    console.log( {[e.target.id]: value } );
     dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
+
   };
 
   let useOptions = {
