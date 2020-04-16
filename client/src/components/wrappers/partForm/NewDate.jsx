@@ -19,7 +19,6 @@ const NewDate = ({ handleInput }) => {
   useEffect(() => {
     // dispatch(resetFields(['new_date']));
     if (inputs.new_at_add === 'y') {
-      console.log('yes')
       let year = xDate(false).getFullYear();
       let month = xDate(false).getMonth() + 1;
       let day = xDate(false).getDate();  

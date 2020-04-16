@@ -87,7 +87,6 @@ Form
 ************************** */
 
 export const formInput = (keyValue) => {
-  console.log('keyValue in action', keyValue)
  return { type: FORM_INPUT, payload: keyValue};
 };
 

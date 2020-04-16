@@ -11,8 +11,8 @@ const Basics = ({ handleInput }) => {
 
   useEffect(() => {
     return () => {
-      // dispatch(resetFields(['tracking_method']));
-      // dispatch(updatePartForm([{custom_type: ''}]))
+      dispatch(resetFields(['tracking_method']));
+      dispatch(updatePartForm([{custom_type: ''}]))
     };
   }, [inputs.type])
 

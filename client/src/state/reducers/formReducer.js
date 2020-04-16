@@ -95,7 +95,6 @@ const formReducer = (state = initialFormState, action) => {
       };
     }
     if (inputs.new_at_add) {
-      console.log('adding new_date as Req')
       newReqs = { ...newReqs, new_date: true }
     };
 

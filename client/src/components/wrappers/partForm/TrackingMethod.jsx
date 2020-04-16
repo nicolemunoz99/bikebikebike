@@ -36,7 +36,7 @@ const TrackingMethod = ({ handleInput }) => {
           trigger="click"
           placement="right"
           overlay={
-            <Popover id="tracking">
+            <Popover id="popover-basic">
               <Popover.Content>
                 <div>
                   <p>
