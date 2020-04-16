@@ -17,16 +17,15 @@ const NewDate = ({ handleInput }) => {
   }, []);
 
   useEffect(() => {
-    // dispatch(resetFields(['new_date']));
     if (inputs.new_at_add === 'y') {
       let year = xDate(false).getFullYear();
       let month = xDate(false).getMonth() + 1;
-      let day = xDate(false).getDate();  
+      let day = xDate(false).getDate();
       let today = `${year}-${month < 10 ? '0'.concat(month) : month}-${day < 10 ? '0'.concat(day) : day}`;
-      dispatch(updatePartForm([{new_date: today}]));
+      dispatch(updatePartForm([{ new_date: today }]));
     }
     if (inputs.new_at_add === 'n') {
-      dispatch(updatePartForm([{new_date: ''}]))
+      dispatch(updatePartForm([{ new_date: '' }]))
     }
   }, [inputs.new_at_add])
 
@@ -66,11 +65,27 @@ const NewDate = ({ handleInput }) => {
 
 
       {inputs.new_at_add &&
+      <>
+        { inputs.new_at_add === 'n' &&
+          <Row>
+          <Col sm="12" className="text-right">
+            <OverlayTrigger
+                trigger="click"
+                placement="left"
+                overlay={newDateTooltip}
+              >
+                <span className="material-icons tooltip-icon">info_outline</span>
+            </OverlayTrigger>
+          </Col>
+        </Row>
+        }
+
         <Form.Group as={Row}>
           <Form.Label column sm="4">
-            New date:
+            New date
           </Form.Label>
           <Col sm="8">
+
             <Form.Control
               as={CustomInput}
               err={isReq.new_date && !isOk.new_date ? errMsgs.new_date : ''}
@@ -80,17 +95,26 @@ const NewDate = ({ handleInput }) => {
               value={inputs.new_date}
               readOnly={inputs.new_at_add === 'y' ? true : false}
             />
-            <div>
-              When was this part new/last serviced? This component's useage as of now will be calculated from your Strava activities
-              and assuming the component was new on the date you enter above. Your first activity will be
-              used if the date you enter precedes your first Strava activity.
-            </div>
           </Col>
         </Form.Group>
+      </>
       }
 
     </>
   );
 };
+
+const newDateTooltip = (
+  <Popover id="new-date-tooltip">
+    <Popover.Content>
+      <div>
+        <p>
+          Distance- and ride time-based wear will be calculated from your Strava feed, 
+          starting with the first activity on the date you enter. 
+        </p>
+      </div>
+    </Popover.Content>
+  </Popover>
+);
 
 export default NewDate;

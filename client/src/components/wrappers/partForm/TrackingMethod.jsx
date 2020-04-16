@@ -30,14 +30,14 @@ const TrackingMethod = ({ handleInput }) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column sm="4">
-        Default or custom tracking
+        Default or custom tracking?
 
         <OverlayTrigger
           trigger="click"
           placement="right"
           overlay={trackingTooltip}
         >
-          <span className="material-icons">info_outline</span>
+          <span className="material-icons tooltip-icon position-absolute">info_outline</span>
         </OverlayTrigger>
 
       </Form.Label>
@@ -72,16 +72,16 @@ const TrackingMethod = ({ handleInput }) => {
 };
 
 const trackingTooltip = (
-  <Popover id="popover-basic">
+  <Popover id="tracking-method-tooltip">
     <Popover.Content>
       <div>
         <p>
           "Default" assumes this is a new part.
-      </p>
-      <p>
-        "Custom" allows you to specify a current wear, and whether you
-        want to track usage by distance and/or time.
-      </p>
+        </p>
+        <p>
+          "Custom" allows you to specify whether you
+          want to track by distance, time and/or date.
+        </p>
 
       </div>
     </Popover.Content>

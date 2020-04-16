@@ -21,7 +21,17 @@ const UseMetric = ({ useOptions, handleInput }) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column sm="4">
-        Use Metric:
+        Use Metric
+        <OverlayTrigger
+          trigger="click"
+          placement="right"
+          overlay={useMetricTooltip}
+        >
+          <span className="material-icons tooltip-icon position-absolute">
+            info_outline
+          </span>
+        </OverlayTrigger>
+
       </Form.Label>
       <Col sm="8">
         <Row>
@@ -50,5 +60,21 @@ const UseMetric = ({ useOptions, handleInput }) => {
     </Form.Group>
   );
 };
+
+const useMetricTooltip = (
+  <Popover id="use-metric-tooltip">
+    <Popover.Content>
+      <div>
+        <p>
+          Select all that apply.
+        </p>
+        <p>
+          Notice will be given based on whichever expires first.
+        </p>
+
+      </div>
+    </Popover.Content>
+  </Popover>
+);
 
 export default UseMetric;

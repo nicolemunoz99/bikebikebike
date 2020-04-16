@@ -29,7 +29,7 @@ const Basics = ({ handleInput }) => {
   return (
     <Form.Group as={Row}>
       <Form.Label column sm="4">
-        Basics:
+        Basics
     </Form.Label>
 
       <Col sm="8">
