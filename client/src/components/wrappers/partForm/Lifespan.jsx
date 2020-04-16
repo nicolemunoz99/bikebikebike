@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
-import CustomInput from './CustomInput.jsx';
-import CustomFormGroup from './CustomFormGroup.jsx';
-import FormHeader from './FormHeader.jsx';
-import { updatePartForm, resetFields } from '../../../state/actions.js';
+import { Form, Row, Col, Popover } from 'react-bootstrap';
+import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
+import { resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
 const Lifespan = ({ useOptions, handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
-  const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
   useEffect(() => {

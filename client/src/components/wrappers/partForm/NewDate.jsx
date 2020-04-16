@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import xDate from 'xdate';
-import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
-import CustomInput from './CustomInput.jsx';
-import CustomFormGroup from './CustomFormGroup.jsx';
-import FormHeader from './FormHeader.jsx';
+import { Form, Row, Col, Popover } from 'react-bootstrap';
+import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
 import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
