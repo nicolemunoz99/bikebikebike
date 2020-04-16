@@ -27,6 +27,7 @@ const PartFormWrapper = () => {
     } else {
       value = e.target.value || e.target.getAttribute('value');
     }
+    console.log( {[e.target.id]: value } );
     dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
   };
 

@@ -87,6 +87,7 @@ Form
 ************************** */
 
 export const formInput = (keyValue) => {
+  console.log('keyValue in action', keyValue)
  return { type: FORM_INPUT, payload: keyValue};
 };
 
@@ -138,9 +139,9 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
 
 export const updatePartForm = (dataArr) => (dispatch) => {
   dispatch(formInput(dataArr));
-  dispatch(updateReqs());
-  dispatch(validateField());
-  dispatch(validateForm());
+  // dispatch(updateReqs());
+  // dispatch(validateField());
+  // dispatch(validateForm());
 };
 
 export const submitNewPart = (data, distUnit) => async (dispatch) => {
