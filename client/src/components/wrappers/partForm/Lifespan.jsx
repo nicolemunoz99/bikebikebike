@@ -2,19 +2,20 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
-import { updatePartForm, resetForm } from '../../../state/actions.js';
+import { updatePartForm, resetFields} from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
-const Lifespan = ({ useOptions }) => {
+const Lifespan = ({ useOptions, handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
-  const handleInput = (e) => {
-    let value = e.target.value || e.target.getAttribute('value');
-    let field = e.target.id;
-    dispatch(updatePartForm({ field, value }));
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
+    };
+  }, []);
+
 
   return(
     <Form.Group as={Row}>

@@ -22,31 +22,19 @@ const initialFormState = {
     lifespan_dist: '', lifespan_time: '', lifespan_date: ''
   },
   isReq: {
-    // basics: true,
-    // trackingMethod: true,
-    // useMetric: false,
-    // currentWear: false,
-    // lifespan: false
     type: true, 
     custom_type: false,
     p_brand: false, p_model: false,
     tracking_method: true,
-    use_metric: false,
     new_at_add: false, 
     new_date: false,
     lifespan_dist: false, lifespan_time: false, lifespan_date: false
   },
   isOk: {
-    // basics: true,
-    // trackingMethod: true,
-    // useMetric: null,
-    // currentWear: null,
-    // lifespan: null
     type: false, 
     custom_type: null,
     p_brand: null, p_model: null,
     tracking_method: false,
-    use_metric: null,
     new_at_add: null, 
     new_date: null,
     lifespan_dist: null, lifespan_time: null, lifespan_date: null
@@ -62,7 +50,11 @@ const formReducer = (state = initialFormState, action) => {
   // ui
 
   if (action.type === FORM_INPUT) {
-    return { ...state, inputs: { ...state.inputs, ...action.payload } };
+    let newInputsState = { ...state.inputs };
+    action.payload.forEach((el) => {
+      newInputsState = { ...newInputsState, ...el };
+    });
+    return { ...state, inputs: { ...newInputsState } };
   }
 
   if (action.type === RESET_FIELDS) {
@@ -94,11 +86,8 @@ const formReducer = (state = initialFormState, action) => {
     let newReqs = {};
     if (inputs.type === 'custom') newReqs = {custom_type: true};
     if (inputs.type !== 'custom') newReqs = {custom_type: initialFormState.isReq.custom_type}
-    if (inputs.tracking_method === 'custom') {
-      newReqs = {use_metric: true};
-    }
     if (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) {
-      newReqs = { ...newReqs, new_at_add: true};
+      newReqs = { ...newReqs, new_at_add: true };
       newReqs = { 
         ...newReqs, 
         lifespan_dist: !!inputs.use_metric_dist,
@@ -106,7 +95,7 @@ const formReducer = (state = initialFormState, action) => {
         lifespan_date: !!inputs.use_metric_date
       };
     }
-    if (inputs.new_at_add === 'n') newReqs = { ...newReqs, new_date: true };
+    if (inputs.new_at_add) newReqs = { ...newReqs, new_date: true };
 
     return { ...state, isReq:{ ...state.isReq, ...newReqs }  };
   }
@@ -114,9 +103,7 @@ const formReducer = (state = initialFormState, action) => {
 
   if (action.type === VALIDATE_FIELD) {
     let newIsOkState =_.mapValues(state.isReq, (isReq, key) => {
-      console.log('key', key)
       if (!isReq) return initialFormState.isOk[key];
-      if (key === 'use_metric') return isValid.use_metric(state.inputs);
       return isValid[key](state.inputs[key]);
     });
     return { ...state, isOk: newIsOkState };

@@ -129,16 +129,16 @@ export const updateDataStatus = (str) => (dispatch) => {
 export const showNewPartForm = (bikeId) => (dispatch) => {
   dispatch(setSelectedBike(bikeId));
   dispatch(setModal('newPartForm'));
-}
+};
 
 export const showEditPartForm = (bikeId, partId) => (dispatch) => {
   dispatch(setEditingPart(partId));
   dispatch(setModal('editPartForm'));
-}
+};
 
-export const updatePartForm = (data) => (dispatch) => {
-
-  dispatch(formInput({[data.field]: data.value}));
+export const updatePartForm = (dataArr) => (dispatch) => {
+  console.log('updatePartForm')
+  dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());
   // dispatch(validateForm());

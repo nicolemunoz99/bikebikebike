@@ -5,7 +5,7 @@ import CustomInput from './CustomInput.jsx';
 import { updatePartForm, resetForm } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
-const Basics = () => {
+const Basics = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
@@ -18,11 +18,6 @@ const Basics = () => {
   };
 
 
-  const handleInput = (e) => {
-    let value = e.target.value || e.target.getAttribute('value');
-    let field = e.target.id;
-    dispatch(updatePartForm({ field, value }));
-  }
 
   return (
     <Form.Group as={Row}>

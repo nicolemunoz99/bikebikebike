@@ -1,19 +1,33 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import xDate from 'xdate';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
-import { updatePartForm, resetForm } from '../../../state/actions.js';
+import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
-const CurrentWear = () => {
+const NewDate = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  const handleInput = (e) => {
-    let value = e.target.value || e.target.getAttribute('value');
-    let field = e.target.id;
-    dispatch(updatePartForm({ field, value }));
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(resetFields(['new_at_add', 'new_date']));
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(resetFields(['new_date']));
+    if (inputs.new_at_add === 'y') {
+      console.log('yes')
+      let year = xDate(false).getFullYear();
+      let month = xDate(false).getMonth() + 1;
+      let day = xDate(false).getDate();  
+      let today = `${year}-${month < 10 ? '0'.concat(month) : month}-${day < 10 ? '0'.concat(day) : day}`;
+      dispatch(updatePartForm([{new_date: today}]));
+    }
+  }, [inputs.new_at_add])
+
 
   return (
     <>
@@ -49,7 +63,7 @@ const CurrentWear = () => {
       </Form.Group>
 
 
-      {inputs.new_at_add === 'n' &&
+
         <Form.Group as={Row}>
           <Form.Label column sm="4">
             New date:
@@ -70,10 +84,10 @@ const CurrentWear = () => {
             </div>
           </Col>
         </Form.Group>
-      }
+
 
     </>
   );
 };
 
-export default CurrentWear;
+export default NewDate;

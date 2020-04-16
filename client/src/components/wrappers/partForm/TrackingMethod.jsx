@@ -2,18 +2,25 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import CustomInput from './CustomInput.jsx';
-import { updatePartForm, resetForm } from '../../../state/actions.js';
+import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
-const TrackingMethod = () => {
+const TrackingMethod = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  const handleInput = (e) => {
-    let value = e.target.value || e.target.getAttribute('value');
-    let field = e.target.id;
-    dispatch(updatePartForm({ field, value }));
-  };
+  useEffect(() => {
+    return () => {
+      dispatch(resetFields(['tracking_method']));
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetFields(['use_metric_dist', 'use_metric_time', 'use_metric_dist']));
+    };
+  }, [inputs.tracking_method]);
+
 
   return (
     <Form.Group as={Row}>

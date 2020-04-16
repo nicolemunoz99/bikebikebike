@@ -6,23 +6,22 @@ export const isValid = {
   p_brand: () => true, 
   p_model: () => true,
   tracking_method: (val) => !!val,
-  use_metric: (inputs) => {
-    console.log('inputs.use_meric', inputs.use_metric)
-    return inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date},
-  new_at_add: (val) => typeof val === 'boolean', 
+  new_at_add: (val) => !!val, 
   new_date: (yyyymmdd) => {
-        if (!yyyymmdd) return false;
-        let [year, mo, day] = yyyymmdd.split('-')
-        let date = xDate(Number(year), Number(mo-1), Number(day)).getTime();
-        return date <= Date.now();
-      },
+    if (!yyyymmdd) return false;
+    let [year, mo, day] = yyyymmdd.split('-')
+    let date = xDate(Number(year), Number(mo-1), Number(day), false).getTime();
+    console.log('entered: ', date)
+    console.log('now: ', xDate(false).getTime())
+    return date <= xDate(false);
+  },
   lifespan_dist: (val) => !!Number(val) && Number(val) >= 0, 
   lifespan_time: (val) => !!Number(val) && Number(val) >= 0, 
   lifespan_date: (yyyymmdd) => {
     if (!yyyymmdd) return false;
     let [year, mo, day] = yyyymmdd.split('-')
-    let date = xDate(Number(year), Number(mo-1), Number(day)).getTime();
-    return date >= Date.now();
+    let date = xDate(Number(year), Number(mo-1), Number(day), false).getTime();
+    return date >= xDate(false);
   }
 }
 

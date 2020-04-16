@@ -5,14 +5,30 @@ import ModalWrapper from '../ModalWrapper.jsx';
 import Basics from './Basics.jsx';
 import TrackingMethod from './TrackingMethod.jsx';
 import UseMetric from './UseMetric.jsx';
-import CurrentWear from './CurrentWear.jsx';
+import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
 import { updatePartForm, resetForm } from '../../../state/actions.js';
 
 const PartFormWrapper = () => {
-  const { inputs } = useSelector(state => state.form)
+  const { inputs, isOk, isReq } = useSelector(state => state.form)
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetForm());
+    };
+  }, []);
+
+  const handleInput = (e) => {
+    let value;
+    if (e.target.getAttribute('data-checkbox')) {
+      value = !inputs[e.target.id]
+    } else {
+      value = e.target.value || e.target.getAttribute('value');
+    }
+    dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
+  };
 
   let useOptions = {
     'Distance': {
@@ -32,32 +48,24 @@ const PartFormWrapper = () => {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetForm());
-    };
-  }, []);
-
 
   return (
     <ModalWrapper title="New Component" minHeight="70%">
       <Form id="part-form" >
         
-        <Basics />
+        <Basics handleInput={handleInput} />
 
-        <TrackingMethod />
+        { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
 
-        {inputs.tracking_method === 'custom' &&
-        <>
-          <UseMetric useOptions={useOptions} />
+        { isOk.tracking_method && <UseMetric handleInput={handleInput} useOptions={useOptions} /> }
 
-          <CurrentWear />
+        { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) && <NewDate handleInput={handleInput} /> }
 
-          <Lifespan useOptions={useOptions} />
-        </>
-        }
+        { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
+
 
       </Form>
+    
     </ModalWrapper>
   )
 

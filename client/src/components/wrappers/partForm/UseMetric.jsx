@@ -5,7 +5,7 @@ import CustomInput from './CustomInput.jsx';
 import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
-const UseMetric = ({ useOptions }) => {
+const UseMetric = ({ useOptions, handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
@@ -15,17 +15,7 @@ const UseMetric = ({ useOptions }) => {
     }
   }, [])
 
-  const handleInput = (e) => {
-    let value
-    let field =e.target.id;
-    if (e.target.getAttribute('data-checkbox')) {
-      value = !inputs[e.target.id]
-    } else {
-      value = e.target.value || e.target.getAttribute('value');
-    }
-    console.log(field, value);
-    dispatch(updatePartForm({ field, value }));
-  };
+
 
   return (
     <Form.Group as={Row}>
