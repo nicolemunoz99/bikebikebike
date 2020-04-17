@@ -82,9 +82,23 @@ const formReducer = (state = initialFormState, action) => {
     let { inputs } = state;
     let newReqs = {};
     if (inputs.type === 'custom') newReqs = {custom_type: true};
-    if (inputs.type !== 'custom') newReqs = {custom_type: initialFormState.isReq.custom_type}
+    if (inputs.type !== 'custom') newReqs = {custom_type: initialFormState.isReq.custom_type};
+
+    if (inputs.tracking_method === 'default') {
+      // TO reset all subseq fields.... in updateForm: dispatch reset to fields if track_method=default;
+      newReqs = {
+        
+        ...newReqs, 
+        new_date: initialFormState.isReq.new_date, 
+        new_at_add: initialFormState.isReq.new_at_add,
+        lifespan_time: initialFormState.isReq.lifespan_time,
+        lifespan_dist: initialFormState.isReq.lifespan_dist,
+        lifespan_date: initialFormState.isReq.lifespan_date
+      };
+    } 
+
     if (inputs.tracking_method === 'custom') newReqs = {...newReqs, new_date: true}
-    if (inputs.tracking_method !== 'custom') newReqs = {...newReqs, new_date: initialFormState.isReq.new_date}
+    console.log('newReqs up', newReqs)
     if (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) {
       newReqs = { ...newReqs, new_at_add: true };
       newReqs = { 
@@ -97,7 +111,7 @@ const formReducer = (state = initialFormState, action) => {
     if (inputs.new_at_add) {
       newReqs = { ...newReqs, new_date: true }
     };
-
+    console.log('newReqs', newReqs)
     return { ...state, isReq:{ ...state.isReq, ...newReqs }  };
   }
 

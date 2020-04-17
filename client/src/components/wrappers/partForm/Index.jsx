@@ -7,7 +7,7 @@ import TrackingMethod from './TrackingMethod.jsx';
 import UseMetric from './UseMetric.jsx';
 import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
-import { updatePartForm, resetForm } from '../../../state/actions.js';
+import { updatePartForm, resetForm, validateForm } from '../../../state/actions.js';
 
 const PartFormWrapper = () => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
@@ -19,6 +19,10 @@ const PartFormWrapper = () => {
       dispatch(resetForm());
     };
   }, []);
+
+  useEffect(() => {
+    if (inputs.tracking_method === 'default') dispatch(validateForm());
+  }, [inputs.tracking_method])
 
   const handleInput = (e) => {
     let value;
@@ -63,16 +67,19 @@ const PartFormWrapper = () => {
 
         { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
 
-        { inputs.tracking_method === 'custom' && <UseMetric handleInput={handleInput} useOptions={useOptions} /> }
+        { inputs.tracking_method === 'custom' &&  
+          <>
+            <UseMetric handleInput={handleInput} useOptions={useOptions} />
+            { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) && <NewDate handleInput={handleInput} /> }
 
-        { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) && <NewDate handleInput={handleInput} /> }
+            { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
 
-        { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
-
-        {formIsValid &&
-          <Button variant="primary" type="submit" className="w-100">
-            Submit
-          </Button>
+            {formIsValid &&
+              <Button variant="primary" type="submit" className="w-100">
+                Submit
+              </Button>
+            }
+          </>
         }
 
 

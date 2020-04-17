@@ -12,6 +12,7 @@ const NewDate = ({ handleInput }) => {
 
   useEffect(() => {
     return () => {
+      console.log('in NewDate - resetting new_at_add & new_date')
       dispatch(resetFields(['new_at_add', 'new_date']));
     };
   }, []);
