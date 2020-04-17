@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData, showNewPartForm } from '../state/actions.js';
 import PageWrapper from './wrappers/PageWrapper.jsx';
@@ -15,7 +14,7 @@ Amplify.configure(config);
 
 const BikeList = () => {
   const dataStatus = useSelector(state => state.dataStatus);
-  const { id, hasStravaAccess, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
+  const { id, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
   const allBikes = useSelector(state => state.bikes.list);
   const allParts = useSelector(state => state.parts.list);
   const dispatch = useDispatch();
