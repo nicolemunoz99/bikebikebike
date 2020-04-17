@@ -136,8 +136,12 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
   dispatch(setModal('editPartForm'));
 };
 
+
 export const updatePartForm = (dataArr) => (dispatch) => {
-  dispatch(resetFields(Object.keys(dataArr[0])[0]));
+  if (dataArr.length === 1 && dataArr[0].type) {
+    dispatch(resetForm());
+  }
+
   dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());

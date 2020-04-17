@@ -2,18 +2,17 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { resetFields, updatePartForm } from '../../../state/actions.js';
+import { resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
 const Basics = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(resetFields(['tracking_method']));
-  //   };
-  // }, [inputs.type]);
+  useEffect(() => {
+    if (inputs.type === 'default'){
+      dispatch(resetFields(['custom_type']));}
+  }, [inputs.type]);
 
   const partList = {
     chain: { title: 'Chain' },

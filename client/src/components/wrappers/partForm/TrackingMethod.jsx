@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { resetFields, validateForm } from '../../../state/actions.js';
+import { resetFields } from '../../../state/actions.js';
 
 const TrackingMethod = ({ handleInput }) => {
-  const { inputs, isReq, isOk } = useSelector(state => state.form);
+  const { inputs } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(resetFields(['tracking_method']));
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      dispatch(resetFields(['tracking_method']));
+    };
+  }, []);
 
 
   return (

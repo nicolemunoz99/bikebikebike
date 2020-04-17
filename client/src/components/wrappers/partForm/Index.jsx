@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Row, Col, Dropdown, DropdownButton, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import ModalWrapper from '../ModalWrapper.jsx';
 import Basics from './Basics.jsx';
 import TrackingMethod from './TrackingMethod.jsx';
 import UseMetric from './UseMetric.jsx';
 import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
-import { updatePartForm, resetForm, validateForm } from '../../../state/actions.js';
+import { updatePartForm, resetForm } from '../../../state/actions.js';
 
 const PartFormWrapper = () => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
@@ -27,6 +27,7 @@ const PartFormWrapper = () => {
     } else {
       value = e.target.value !== undefined ? e.target.value : e.target.getAttribute('value');
     }
+    if (value.length > 20) return;
     dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
 
   };
@@ -66,9 +67,13 @@ const PartFormWrapper = () => {
         { inputs.tracking_method === 'custom' &&  
           <>
             <UseMetric handleInput={handleInput} useOptions={useOptions} />
-            { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) && <NewDate handleInput={handleInput} /> }
+            { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) &&  
+            <>
+              <NewDate handleInput={handleInput} />
+              { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
+            </>
+            }
 
-            { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
           </>
         }
 

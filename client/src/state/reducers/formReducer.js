@@ -55,13 +55,10 @@ const formReducer = (state = initialFormState, action) => {
   }
 
   if (action.type === RESET_FIELDS) {
-    let targetField = action.payload;
-    console.log('targetField', targetField)
-    let fieldsToReset =
-      _.dropWhile(Object.keys(state.inputs), (item) => item !== targetField).slice(1);
-    let resetInputs = _.pick(initialFormState.inputs, fieldsToReset);
-    let resetIsReq = _.pick(initialFormState.isReq, fieldsToReset);
-    let resetIsOk = _.pick(initialFormState.isOk, fieldsToReset);
+    let targetFields = action.payload;
+    let resetInputs = _.pick(initialFormState.inputs, targetFields);
+    let resetIsReq = _.pick(initialFormState.isReq, targetFields);
+    let resetIsOk = _.pick(initialFormState.isOk, targetFields);
 
     return {
       ...state,
