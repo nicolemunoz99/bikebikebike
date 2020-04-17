@@ -36,6 +36,14 @@ const PartFormWrapper = () => {
 
   };
 
+  let partList = {
+    chain: { title: 'Chain' },
+    freehub: { title: 'Freehub' },
+    fork: { title: 'Suspension fork' },
+    cassette: { title: 'Cassette' },
+    custom: { title: '-- Custom --' }
+  };
+
   let useOptions = {
     'Distance': {
       field: 'use_metric_dist',
@@ -60,7 +68,7 @@ const PartFormWrapper = () => {
       
       <Form onSubmit={handleSubmitWrapper} id="part-form" >
         
-        <Basics handleInput={handleInput} />
+        <Basics handleInput={handleInput} partList={partList} />
 
         { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
 

@@ -5,7 +5,7 @@ import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
 import { resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
-const Basics = ({ handleInput }) => {
+const Basics = ({ handleInput, partList }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
@@ -13,15 +13,6 @@ const Basics = ({ handleInput }) => {
     if (inputs.type === 'default'){
       dispatch(resetFields(['custom_type']));}
   }, [inputs.type]);
-
-  const partList = {
-    chain: { title: 'Chain' },
-    freehub: { title: 'Freehub' },
-    fork: { title: 'Suspension fork' },
-    cassette: { title: 'Cassette' },
-    custom: { title: '-- Custom --' }
-  };
-
 
 
   return (

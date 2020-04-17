@@ -44,14 +44,15 @@ CREATE TABLE IF NOT EXISTS parts(
   custom_type VARCHAR,
   p_brand VARCHAR,
   p_model VARCHAR,
+  tracking_method VARCHAR,
+  use_metric_dist BOOLEAN,
+  use_metric_time BOOLEAN,
+  use_metric_date BOOLEAN,
+  new_at_add VARCHAR,
+  new_date BIGINT,
   lifespan_dist DECIMAL,
   lifespan_time DECIMAL, -- seconds
-  tracking_method VARCHAR,
-  usage_metric VARCHAR, 
-  init_wear_method VARCHAR,
-  p_dist_current DECIMAL,
-  p_time_current DECIMAL, -- seconds
-  new_date BIGINT,      -- ms
+  lifespan_date BIGINT, -- ms
   p_date_added BIGINT,  -- ms
   p_status VARCHAR
 );
