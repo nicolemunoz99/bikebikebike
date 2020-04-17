@@ -39,7 +39,7 @@ exports.convertToUserUnits = (dataset) => {
 exports.convertToDbUnits = (data, distUnit) => {
     console.log('data before converting: ', data)
     _.forEach(data, (value, key) => {
-      if (data[key] !== '') {
+      if (data[key] !== '' && typeof data[key] !== 'boolean') {
         if (key.match(/dist/g)) { // dist in m (strava API default)
             data[key] = (distUnit === 'km' ? value * 1000 : value * 1609.34).toFixed(2);
         }
