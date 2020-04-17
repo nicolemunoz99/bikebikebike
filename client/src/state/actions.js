@@ -149,7 +149,7 @@ export const updatePartForm = (dataArr) => (dispatch) => {
 };
 
 export const submitNewPart = (data, distUnit) => async (dispatch) => {
-  // dispatch(updateDataStatus('dataWait'));
+  dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
 

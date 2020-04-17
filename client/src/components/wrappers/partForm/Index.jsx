@@ -9,7 +9,7 @@ import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
 import { updatePartForm, resetForm } from '../../../state/actions.js';
 
-const PartFormWrapper = () => {
+const PartFormWrapper = ({ handleSubmit }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
@@ -33,7 +33,8 @@ const PartFormWrapper = () => {
   };
 
   const handleSubmitWrapper = (e) => {
-
+    e.preventDefault();
+    handleSubmit(inputs, distUnit);
   };
 
   let partList = {
@@ -65,7 +66,6 @@ const PartFormWrapper = () => {
 
   return (
     <ModalWrapper title="New Component" minHeight="70%">
-      
       <Form onSubmit={handleSubmitWrapper} id="part-form" >
         
         <Basics handleInput={handleInput} partList={partList} />
@@ -90,11 +90,8 @@ const PartFormWrapper = () => {
             Submit
           </Button>
         }
-          
-
 
       </Form>
-    
     </ModalWrapper>
   )
 

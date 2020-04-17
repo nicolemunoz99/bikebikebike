@@ -18,11 +18,7 @@ const NewDate = ({ handleInput }) => {
 
   useEffect(() => {
     if (inputs.new_at_add === 'y') {
-      let year = xDate(false).getFullYear();
-      let month = xDate(false).getMonth() + 1;
-      let day = xDate(false).getDate();
-      let today = `${year}-${month < 10 ? '0'.concat(month) : month}-${day < 10 ? '0'.concat(day) : day}`;
-      dispatch(updatePartForm([{ new_date: today }]));
+      dispatch(updatePartForm([{ new_date: xDate(false).toString('yyyy-MM-dd') }]));
     }
     if (inputs.new_at_add === 'n') {
       dispatch(updatePartForm([{ new_date: '' }]))

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
+import xDate from 'xdate';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { resetFields } from '../../../state/actions.js';
+import { resetFields, formInput } from '../../../state/actions.js';
 
 const TrackingMethod = ({ handleInput }) => {
   const { inputs } = useSelector(state => state.form);
@@ -13,6 +14,15 @@ const TrackingMethod = ({ handleInput }) => {
       dispatch(resetFields(['tracking_method']));
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(resetFields(['new_date']));
+    if (inputs.tracking_method === 'default') {
+      dispatch(formInput( [
+        {new_date: xDate(false).toString('yyyy-MM-dd')}
+      ]));
+    }
+  }, [inputs.tracking_method]);
 
 
   return (

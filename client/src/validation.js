@@ -9,16 +9,14 @@ export const isValid = {
   new_at_add: (val) => !!val, 
   new_date: (yyyymmdd) => {
     if (!yyyymmdd) return false;
-    let [year, mo, day] = yyyymmdd.split('-')
-    let date = xDate(Number(year), Number(mo-1), Number(day), false).getTime();
-    return date <= xDate(false);
+    let date = xDate(yyyymmdd, false).getTime();
+    return date < xDate(false);
   },
   lifespan_dist: (val) => !!Number(val) && Number(val) >= 0, 
   lifespan_time: (val) => !!Number(val) && Number(val) >= 0, 
   lifespan_date: (yyyymmdd) => {
     if (!yyyymmdd) return false;
-    let [year, mo, day] = yyyymmdd.split('-')
-    let date = xDate(Number(year), Number(mo-1), Number(day), false).getTime();
+    let date = xDate(yyyymmdd, false).getTime();
     return date >= xDate(false);
   }
 }
