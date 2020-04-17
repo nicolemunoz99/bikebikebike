@@ -25,10 +25,6 @@ const BikeList = () => {
   }, []);
 
 
-  if (!hasStravaAccess) {
-    return <Redirect to='stravaAuth' />
-  }
-
   return (
 
     <PageWrapper title="Bikes">

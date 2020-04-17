@@ -194,6 +194,8 @@ export const getUserData = () => async (dispatch) => {
       dispatch(setStravaAccessStatus(false));
       dispatch(updateDataStatus('ok'));
       return;
+    } else {
+      dispatch(setStravaAccessStatus(true));
     }
 
     userData = response.data;

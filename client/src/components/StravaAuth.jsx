@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
+import { getUserData } from '../state/actions.js';
 Amplify.configure(config);
 
 const StravaAuth = () => {
   const [username, setUsername] = useState('');
   const hasStravaAccess = useSelector(state => state.user.hasStravaAccess);
+  const dispatch = useDispatch();
 
-  useEffect( () => {
-    if (hasStravaAccess || username) return;
-    
+  useEffect(() => {
+    if (hasStravaAccess) return;
     let getUsername = async () => {
       let newUsername = (await Auth.currentAuthenticatedUser()).username;
       setUsername(newUsername);
     };
-
     getUsername();
-    
   }, []);
 
+  useEffect(() => {
+    if (username) {
+      dispatch(getUserData());
+    }
+  }, [username])
 
   
   return (

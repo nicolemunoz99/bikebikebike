@@ -9,7 +9,6 @@ const part = {
     newPart.p_date_added = xDate().getTime();
     newPart.p_status = 'active';
     if (newPart.tracking_method === 'default') {
-      newPart.new_date = Date.now();
       newPart.p_dist_current = 0;
       newPart.p_time_current = 0;
     }

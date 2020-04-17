@@ -42,7 +42,7 @@ User
 ************************** */
 
 const initialUserState = {
-  hasStravaAccess: true,
+  hasStravaAccess: false,
   id: null,
   measure_pref: '',
   last_login_date: '',
