@@ -8,11 +8,11 @@ const TrackingMethod = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetFields(['tracking_method']));
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(resetFields(['tracking_method']));
+  //   };
+  // }, []);
 
 
   return (

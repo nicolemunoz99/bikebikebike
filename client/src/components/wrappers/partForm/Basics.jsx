@@ -9,12 +9,11 @@ const Basics = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetFields(['tracking_method']));
-      dispatch(updatePartForm([{ custom_type: '' }]))
-    };
-  }, [inputs.type]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(resetFields(['tracking_method']));
+  //   };
+  // }, [inputs.type]);
 
   const partList = {
     chain: { title: 'Chain' },

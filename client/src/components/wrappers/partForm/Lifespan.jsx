@@ -9,12 +9,12 @@ const Lifespan = ({ useOptions, handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      console.log('resetting lifespan fields...')
-      dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     console.log('resetting lifespan fields...')
+  //     dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
+  //   };
+  // }, []);
 
 
   return (

@@ -20,10 +20,6 @@ const PartFormWrapper = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (inputs.tracking_method === 'default') dispatch(validateForm());
-  }, [inputs.tracking_method])
-
   const handleInput = (e) => {
     let value;
     if (e.target.getAttribute('data-checkbox')) {
@@ -73,14 +69,15 @@ const PartFormWrapper = () => {
             { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) && <NewDate handleInput={handleInput} /> }
 
             { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
-
-            {formIsValid &&
-              <Button variant="primary" type="submit" className="w-100">
-                Submit
-              </Button>
-            }
           </>
         }
+
+        {formIsValid &&
+          <Button variant="primary" type="submit" className="w-100">
+            Submit
+          </Button>
+        }
+          
 
 
       </Form>

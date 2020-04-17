@@ -90,8 +90,8 @@ export const formInput = (keyValue) => {
  return { type: FORM_INPUT, payload: keyValue};
 };
 
-export const resetFields = (fieldArr) => {
-  return { type: RESET_FIELDS, payload: fieldArr };
+export const resetFields = (fieldName) => {
+  return { type: RESET_FIELDS, payload: fieldName };
 };
 
 export const resetForm = () => {
@@ -137,6 +137,7 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
 };
 
 export const updatePartForm = (dataArr) => (dispatch) => {
+  dispatch(resetFields(Object.keys(dataArr[0])[0]));
   dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());

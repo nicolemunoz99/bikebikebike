@@ -8,11 +8,11 @@ const UseMetric = ({ useOptions, handleInput }) => {
   const { inputs } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetFields(['use_metric_dist', 'use_metric_time', 'use_metric_date']));
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(resetFields(['use_metric_dist', 'use_metric_time', 'use_metric_date']));
+  //   };
+  // }, []);
 
 
 

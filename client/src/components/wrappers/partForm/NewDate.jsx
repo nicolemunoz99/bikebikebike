@@ -10,12 +10,12 @@ const NewDate = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      console.log('in NewDate - resetting new_at_add & new_date')
-      dispatch(resetFields(['new_at_add', 'new_date']));
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     console.log('in NewDate - resetting new_at_add & new_date')
+  //     dispatch(resetFields(['new_at_add', 'new_date']));
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (inputs.new_at_add === 'y') {
