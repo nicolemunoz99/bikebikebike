@@ -1,4 +1,5 @@
 import React from 'react';
+import xDate from 'xdate';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import { capFirst } from '../utils.js';
@@ -7,11 +8,15 @@ const PartDetails = () => {
   const { selectedPart } = useSelector(state => state.parts);
   const { 
     lifespan_dist, 
-    lifespan_time, 
+    lifespan_time,
+    lifespan_date, 
     p_dist_current, 
     p_time_current, 
-    usage_metric, 
+    use_metric_date,
+    use_metric_time,
+    use_metric_dist,
     tracking_method,
+    new_date,
     p_date_added 
   } = useSelector(state => state.parts.list[selectedPart]);
   const distUnit = useSelector(state => state.user.measure_pref);
@@ -19,20 +24,23 @@ const PartDetails = () => {
 
   let detailItems = {
     'Replace/service in:': [
-      lifespan_dist && p_dist_current ? `${Number(lifespan_dist) - Number(p_dist_current)} ${distUnit}` : '',
-      lifespan_time && p_time_current ? `${Number(lifespan_time) - Number(p_time_current)} hrs` : ''
+      use_metric_dist ? `${(Number(lifespan_dist) - Number(p_dist_current)).toFixed(1)} ${distUnit}` : '',
+      use_metric_time ? `${(Number(lifespan_time) - Number(p_time_current)).toFixed(1)} hrs` : '',
+      use_metric_date ? `${Math.round(xDate(false).diffDays(xDate(lifespan_date)))} days` : ''
     ], 
     'Lifespan:': [
-      lifespan_dist ? `${Number(lifespan_dist)} ${distUnit}` : '',
-      lifespan_time && p_time_current ? `${Number(lifespan_time) - Number(p_time_current)} hrs` : ''
+      use_metric_dist ? `${(Number(lifespan_dist)).toFixed(1)} ${distUnit}` : '',
+      use_metric_time ? `${(Number(lifespan_time) - Number(p_time_current)).toFixed(1)} hrs` : '',
+      use_metric_date ? `${lifespan_date}` : ''
     ], 
     'Settings:': [
-      `${capFirst(tracking_method)} tracking`,
-      usage_metric ? `based on ${(
-        usage_metric === 'both' ? 'distance & time (whichever expires first)' : (
-          usage_metric === 'dist' ? 'distance' : 'time'
-        )
-      )}` : ''
+      `${capFirst(tracking_method)} tracking via:`,
+      `${use_metric_dist ? 'Distance': ''}`,
+      `${use_metric_time ? 'Ride time': ''}`,
+      `${use_metric_date ? 'Date': ''}`
+    ],
+    'New:': [
+      new_date
     ],
     'Tracking Since:': [
       p_date_added
@@ -47,11 +55,11 @@ const PartDetails = () => {
       _.map(detailItems, (textArr, key) => {
         return (
           <div key={key} className="row no-gutters my-1 part-detail text-detail py-3">
-            <div className="col-6">
+            <div className="col-sm-4">
               {key}
             </div>
 
-            <div className="col-6">
+            <div className="col-sm-8 offset-1 offset-sm-0">
               <div className="row no-gutters">
                 {textArr.map((textLine, i) => {
                   return (
