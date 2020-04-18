@@ -65,7 +65,7 @@ const Basics = ({ handleInput, partList }) => {
             <Form.Control
               as={CustomInput}
               subText="Brand (Optional)"
-              type="email"
+              type="text"
               placeholder=""
               id="p_brand"
               onChange={handleInput}

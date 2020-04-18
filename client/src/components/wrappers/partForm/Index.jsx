@@ -34,7 +34,7 @@ const PartFormWrapper = ({ handleSubmit }) => {
 
   const handleSubmitWrapper = (e) => {
     e.preventDefault();
-    handleSubmit(inputs, distUnit);
+    handleSubmit(inputs);
   };
 
   let partList = {

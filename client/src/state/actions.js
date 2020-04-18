@@ -148,7 +148,9 @@ export const updatePartForm = (dataArr) => (dispatch) => {
   dispatch(validateForm());
 };
 
-export const submitNewPart = (data, distUnit) => async (dispatch) => {
+export const submitNewPart = (data) => async (dispatch, getState) => {
+  let distUnit = getState().user.measure_pref;
+  console.log('distUnit', distUnit)
   dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();

@@ -14,7 +14,17 @@ const part = {
       newPart.p_time_current = 0;
     }
 
-    //calcUsageSinceDate
+    if (newPart.new_at_add === 'n') {
+      let bikeId = newPart.p_bike_id
+      let totUse = await calcUsageSinceDate(access_token, newPart.new_date, bikeId);
+      if (Object.keys(totUse).length === 0) {
+        newPart.p_dist_current = 0;
+        newPart.p_time_current = 0;
+      } else {
+        newPart.p_dist_current = totUse[bikeId].distSinceDate;
+        newPart.p_time_current = totUse[bikeId].timeSinceDate;
+      }
+    }
 
     console.log('newPart to insert', newPart)
     await insert('parts', newPart);

@@ -14,7 +14,7 @@ const login = {
     let usageSinceLastLoginPromise = stravaApi.get.calcUsageSinceDate(access_token, last_login_date); // calculate distance and time since last login per bike
    
     let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
-    console.log('athleteData: ', athleteData)
+
     // arrays of bike id's
     let dbActiveBikeIds = userDataset.bikes.reduce((totArr, bikeObj) => { // db - active bikes in db
       if (bikeObj.b_status === 'active') { return [...totArr, bikeObj.bike_id]; }
@@ -38,7 +38,6 @@ const login = {
       if (!dbActiveBikeIds.includes(bikeId) && athleteDataBikeIds.includes(bikeId)) {
         // insert as 'active'
         let newBike = formatNewBike( athleteData.bikes.find(el => el.id === bikeId), usageSinceLastLogin[bikeId] );
-        console.log('newBike', newBike)
         dbPromises.push( insert('bikes', { ...newBike, strava_id: id }) );
       }
 
@@ -71,7 +70,8 @@ const login = {
     let updatedDataset = await getUserWithBikesWithParts(id);
     updatedDataset.measure_pref = athleteData.measurement_preference === 'feet' ? 'mi' : 'km';
 
-    updatedDataset = convertToUserUnits(updatedDataset)
+    updatedDataset = convertToUserUnits(updatedDataset);
+    updatedDataset.last_login_date = last_login_date
     console.log('updatedDataset post-convert: ', updatedDataset)
     res.send(updatedDataset);
 

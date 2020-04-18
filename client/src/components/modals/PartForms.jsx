@@ -9,9 +9,9 @@ export const NewPartForm = () => {
   const bikeId = useSelector(state => state.bikes.selectedBike);
   const dispatch = useDispatch();
 
-  const handleSubmitNewPart = (inputs, distUnit) => {
+  const handleSubmitNewPart = (inputs) => {
     inputs.p_bike_id = bikeId;
-    dispatch(submitNewPart(inputs, distUnit));
+    dispatch(submitNewPart(inputs));
   };
 
   return (

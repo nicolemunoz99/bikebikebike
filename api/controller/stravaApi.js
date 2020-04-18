@@ -18,9 +18,9 @@ const strava = {
     calcUsageSinceDate: async (token, lastLogin=null, bikeId=null) => {
       let bikesWithData = {};
       let page = 1;
-      let afterQuery = lastLogin ? `&after=${lastLogin / 1000}` : ''; // strava's api uses time in seconds
+      let afterQuery = lastLogin ? `&after=${lastLogin / 1000}` : ''; // strava dates in secs
 
-      let bikeCriterion = (idToCheck) => {
+      const bikeCriterion = (idToCheck) => {
         if (bikeId)  return idToCheck === bikeId;
         return idToCheck;
       };
@@ -43,7 +43,6 @@ const strava = {
         page++
 
       }
-      console.log('done with calc');
       return bikesWithData;
     }
 
