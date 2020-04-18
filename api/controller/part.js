@@ -1,17 +1,21 @@
 const { insert, update } = require('../db.js');
 const { convertToDbUnits } = require('./convertUnits.js');
 const xDate = require('xdate');
+const { calcUsageSinceDate }  = require('./stravaApi.js').get;
 
 const part = {
   post: async (req, res) => {
-    delete req.body.permissions;
-    let newPart = convertToDbUnits(req.body, req.query.distUnit);
+    let { access_token } = req.body.permissions;
+    let newPart = convertToDbUnits(req.body.data, req.query.distUnit);
     newPart.p_date_added = xDate().getTime();
     newPart.p_status = 'active';
     if (newPart.tracking_method === 'default') {
       newPart.p_dist_current = 0;
       newPart.p_time_current = 0;
     }
+
+    //calcUsageSinceDate
+
     console.log('newPart to insert', newPart)
     await insert('parts', newPart);
     res.sendStatus(200);

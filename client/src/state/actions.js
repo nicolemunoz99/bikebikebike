@@ -153,7 +153,7 @@ export const submitNewPart = (data, distUnit) => async (dispatch) => {
   try {
     let authData = await Auth.currentAuthenticatedUser();
 
-    await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
+    await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, {data}, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
     dispatch(updateDataStatus('ok'));
@@ -169,7 +169,7 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
   try {
     console.log('data in thunk:', data, distUnit)
     let authData = await Auth.currentAuthenticatedUser()
-    await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, data, {
+    await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
     dispatch(updateDataStatus('ok'));

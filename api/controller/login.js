@@ -11,7 +11,7 @@ const login = {
     let { last_login_date } = userDataset;
 
     let athleteDataPromise = stravaApi.get.infoWithBikes(access_token); // athlete data from strava
-    let usageSinceLastLoginPromise = stravaApi.get.calcUsage(access_token, last_login_date); // calculate distance and time since last login per bike
+    let usageSinceLastLoginPromise = stravaApi.get.calcUsageSinceDate(access_token, last_login_date); // calculate distance and time since last login per bike
    
     let [{ data: athleteData }, usageSinceLastLogin] = await Promise.all([athleteDataPromise, usageSinceLastLoginPromise]);
     console.log('athleteData: ', athleteData)
@@ -120,9 +120,9 @@ const formatNewBike = (newBike, latestUse, status='active') => {
 
   newBike.bike_id = newBike.id
   newBike.b_status = status;
-  newBike.b_dist_current = latestUse ? latestUse.distSinceLastLogin : 0;
+  newBike.b_dist_current = latestUse ? latestUse.distSinceDate : 0;
   newBike.b_dist_at_add = newBike.b_dist_current;
-  newBike.b_time_current = latestUse ? latestUse.timeSinceLastLogin : 0;
+  newBike.b_time_current = latestUse ? latestUse.timeSinceDate : 0;
   newBike.b_time_at_add = newBike.b_time_current;
   newBike.b_date_added = Date.now();
 
@@ -136,8 +136,8 @@ const formatNewBike = (newBike, latestUse, status='active') => {
 const updateBikeAndParts = async (bikeToUpdate, latestUse, status) => {
   let promises = [];
 
-  let distIncrement = latestUse ? latestUse.distSinceLastLogin : 0;
-  let timeIncrement = latestUse ? latestUse.timeSinceLastLogin : 0;
+  let distIncrement = latestUse ? latestUse.distSinceDate : 0;
+  let timeIncrement = latestUse ? latestUse.timeSinceDate : 0;
   
   // update parts
   let parts = bikeToUpdate.parts;
