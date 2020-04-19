@@ -16,15 +16,6 @@ const NewDate = ({ handleInput }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (inputs.new_at_add === 'y') {
-      dispatch(updatePartForm([{ new_date: xDate(false).toString('yyyy-MM-dd') }]));
-    }
-    if (inputs.new_at_add === 'n') {
-      dispatch(updatePartForm([{ new_date: '' }]))
-    }
-  }, [inputs.new_at_add])
-
 
   return (
     <>

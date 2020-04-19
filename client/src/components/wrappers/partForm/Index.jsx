@@ -32,10 +32,10 @@ const PartFormWrapper = ({ handleSubmit }) => {
 
   };
 
-  const handleSubmitWrapper = (e) => {
-    e.preventDefault();
-    handleSubmit(inputs);
-  };
+  // const handleSubmitWrapper = (e) => {
+  //   e.preventDefault();
+  //   handleSubmit(inputs);
+  // };
 
   let partList = {
     chain: { title: 'Chain' },
@@ -66,7 +66,7 @@ const PartFormWrapper = ({ handleSubmit }) => {
 
   return (
     <ModalWrapper title="New Component" minHeight="70%">
-      <Form onSubmit={handleSubmitWrapper} id="part-form" >
+      <Form onSubmit={handleSubmit} id="part-form" >
         
         <Basics handleInput={handleInput} partList={partList} />
 

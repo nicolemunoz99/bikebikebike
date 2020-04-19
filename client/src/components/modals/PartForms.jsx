@@ -1,15 +1,44 @@
-import React from 'react';
-import PartFormWrapper from '../wrappers/partForm/Index.jsx';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { submitNewPart } from '../../state/actions.js';
+import xDate from 'xdate';
+import PartFormWrapper from '../wrappers/partForm/Index.jsx';
+import { updatePartForm, resetFields, formInput, submitNewPart } from '../../state/actions.js';
 
 
 
 export const NewPartForm = () => {
+  const inputs = useSelector(state => state.form.inputs);
   const bikeId = useSelector(state => state.bikes.selectedBike);
   const dispatch = useDispatch();
 
-  const handleSubmitNewPart = (inputs) => {
+  useEffect(() => {
+
+    if (inputs.tracking_method === 'custom') {
+      dispatch(updatePartForm([{ new_date: '' }, {new_at_add: ''}]));
+    }
+
+    if (inputs.tracking_method === 'default') {
+      dispatch(resetFields(['new_date', 'new_at_add']));
+      dispatch(updatePartForm( [
+        {new_at_add: 'y'}
+      ]));
+    }
+  }, [inputs.tracking_method]);
+
+  useEffect(() => {
+    if (inputs.new_at_add === 'y') {
+      dispatch(updatePartForm( [
+        {new_date: xDate(false).toString('yyyy-MM-dd')}
+      ]));
+    }
+    if (inputs.new_at_add === 'n') {
+      dispatch(updatePartForm([{ new_date: '' }]))
+    }
+  }, [inputs.new_at_add]);
+
+
+  const handleSubmitNewPart = (e) => {
+    e.preventDefault();
     inputs.p_bike_id = bikeId;
     dispatch(submitNewPart(inputs));
   };

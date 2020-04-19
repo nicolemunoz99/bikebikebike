@@ -15,14 +15,6 @@ const TrackingMethod = ({ handleInput }) => {
     };
   }, []);
 
-  useEffect(() => {
-    dispatch(resetFields(['new_date']));
-    if (inputs.tracking_method === 'default') {
-      dispatch(formInput( [
-        {new_date: xDate(false).toString('yyyy-MM-dd')}
-      ]));
-    }
-  }, [inputs.tracking_method]);
 
 
   return (
