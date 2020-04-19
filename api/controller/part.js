@@ -9,7 +9,7 @@ const part = {
     let newPart = convertToDbUnits(req.body.data, req.query.distUnit);
     newPart.p_date_added = xDate().getTime();
     newPart.p_status = 'active';
-    if (newPart.tracking_method === 'default') {
+    if (newPart.tracking_method === 'default' || newPart.new_at_add === 'y') {
       newPart.p_dist_current = 0;
       newPart.p_time_current = 0;
     }

@@ -10,7 +10,7 @@ types.setTypeParser(1700, function(val) { // convert pg 'numeric' to js numeric
 
 types.setTypeParser(20, function(val) { // convert pg 'bigint' to js numeric
   return parseInt(val)
-})
+});
 
 
 const pool = new Pool ({
@@ -70,7 +70,7 @@ const get = async (table, conditions) => {
   };
   
   return await dbQuery(params);
-}
+};
 
 
 // data: object with keys 'whereVar', 'updatVars'
@@ -94,7 +94,7 @@ const get = async (table, conditions) => {
     console.log('params', params)
     let updatedEntry = await dbQuery(params);
     return updatedEntry;
-  }
+  };
 
 
 // ... FN GETS COLUMN NAMES ...
@@ -106,4 +106,4 @@ const getCols = async (table) => {
 
 
 
-module.exports = {dbQuery, insert, get, update, getCols}
+module.exports = { dbQuery, insert, get, update, getCols };

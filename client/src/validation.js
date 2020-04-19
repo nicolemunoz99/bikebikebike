@@ -19,7 +19,7 @@ export const isValid = {
     let date = xDate(yyyymmdd, false).getTime();
     return date >= xDate(false);
   }
-}
+};
 
 export const errMsgs = {
   type: 'Please select a part type.', 

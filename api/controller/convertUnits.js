@@ -4,7 +4,7 @@ const _ = require('lodash');
 const xDate = require('xdate');
 
 exports.convertToUserUnits = (dataset) => {
-
+  
   let distUnit = dataset.measure_pref;
 
   const findTargets = (collection) => { // keys containing 'dist', 'time', 'date'
@@ -12,19 +12,23 @@ exports.convertToUserUnits = (dataset) => {
       if (typeof value === 'object') {
         findTargets(value);
       } else {
-        
-        if (key.match(/dist/g)) { // dist in m (strava API default)
-          collection[key] = (distUnit === 'km' ? value / 1000 : value / 1609.34).toFixed(1);
-        }
+        console.log('pre-convert: ', key, value)
+        if (typeof value !== 'boolean') {
+          
+          if (key.match(/dist/g)) { // dist in m (strava API default)
+            collection[key] = (distUnit === 'km' ? value / 1000 : value / 1609.34).toFixed(1);
+          }
 
-        if (key.match(/time/g)) { // time in seconds (strava API default)
-          collection[key] = (value / 3600).toFixed(1);
-        }
+          if (key.match(/time/g)) { // time in seconds (strava API default)
+            collection[key] = (value / 3600).toFixed(1);
+          }
 
-        if (key.match(/date/g)) { // date in ms since Epoch
-          if (key === 'last_login_date') collection[key] = xDate(value).toString('MMM dd, yyyy @ hh:mm');
-          else collection[key] = xDate(value).toString('MMM dd, yyyy');
+          if (key.match(/date/g)) { // date in ms since Epoch
+            if (key === 'last_login_date') collection[key] = xDate(value).toString('MMM dd, yyyy @ hh:mm');
+            else collection[key] = xDate(value).toString('MMM dd, yyyy');
+          }
         }
+        console.log('post-convert: ', key, collection[key])
 
       }
     });

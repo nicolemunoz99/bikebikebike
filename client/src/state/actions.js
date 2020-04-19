@@ -21,7 +21,7 @@ Amplify.configure(config);
 
 export const setDataStatus = (str) => {
   return{ type: SET_DATA_STATUS, payload: str}
-}
+};
 
 /* **************************
 User
@@ -123,7 +123,7 @@ export const updateDataStatus = (str) => (dispatch) => {
   dispatch(setDataStatus(str));
   if (str === 'ok') dispatch(closeModal());
   else dispatch(setModal(str));
-}
+};
 
 
 export const showNewPartForm = (bikeId) => (dispatch) => {
@@ -180,7 +180,7 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
   catch (err) {
     dispatch(updateDataStatus('dataErr'));
   }
-}
+};
 
 
 export const getUserData = () => async (dispatch) => {

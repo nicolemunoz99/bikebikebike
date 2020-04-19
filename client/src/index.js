@@ -5,7 +5,7 @@ import store from './state/store.js';
 
 import App from './components/App.jsx';
 
-import './style.css'
+import './style.css';
 
 //// DELETE ////
 import xDate from 'xdate';

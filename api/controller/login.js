@@ -70,8 +70,8 @@ const login = {
     let updatedDataset = await getUserWithBikesWithParts(id);
     updatedDataset.measure_pref = athleteData.measurement_preference === 'feet' ? 'mi' : 'km';
 
+    updatedDataset.last_login_date = last_login_date;
     updatedDataset = convertToUserUnits(updatedDataset);
-    updatedDataset.last_login_date = last_login_date
     console.log('updatedDataset post-convert: ', updatedDataset)
     res.send(updatedDataset);
 

@@ -93,7 +93,7 @@ const PartFormWrapper = ({ handleSubmit }) => {
 
       </Form>
     </ModalWrapper>
-  )
+  );
 
 };
 

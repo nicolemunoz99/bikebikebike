@@ -16,7 +16,7 @@ const initialFormState = {
     type: '',
     custom_type: '', p_brand: '', p_model: '',
     tracking_method: '',
-    use_metric_dist: '', use_metric_time: '', use_metric_date: '',
+    use_metric_dist: false, use_metric_time: false, use_metric_date: false,
     new_at_add: '',
     new_date: '',
     lifespan_dist: '', lifespan_time: '', lifespan_date: ''

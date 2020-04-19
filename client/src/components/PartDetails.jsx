@@ -1,6 +1,6 @@
 import React from 'react';
-import xDate from 'xdate';
 import { useSelector, useDispatch } from 'react-redux';
+import xDate from 'xdate';
 import _ from 'lodash';
 import { capFirst } from '../utils.js';
 
@@ -21,6 +21,7 @@ const PartDetails = () => {
   } = useSelector(state => state.parts.list[selectedPart]);
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
+
 
   let detailItems = {
     'Replace/service in:': [
@@ -45,7 +46,7 @@ const PartDetails = () => {
     'Tracking Since:': [
       p_date_added
     ]
-  }
+  };
 
 
 
@@ -77,7 +78,7 @@ const PartDetails = () => {
     }
 
   </>
-  )
+  );
 };
 
 export default PartDetails;

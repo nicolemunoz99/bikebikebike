@@ -10,15 +10,15 @@ const strava = {
     infoWithBikes: (token) => {
       console.log('IN strava.infoWithBikes.get', token)
       return axios.get(`${process.env.STRAVA_API}/athlete`, {
-                headers: { Authorization: `Bearer ${token}`}
-              });
+        headers: { Authorization: `Bearer ${token}`}
+      });
     },
   
   
     calcUsageSinceDate: async (token, lastLogin=null, bikeId=null) => {
       let bikesWithData = {};
       let page = 1;
-      let afterQuery = lastLogin ? `&after=${lastLogin / 1000}` : ''; // strava dates in secs
+      let afterQuery = lastLogin ? `&after=${lastLogin / 1000}` : ''; // strava's dates are secs
 
       const bikeCriterion = (idToCheck) => {
         if (bikeId)  return idToCheck === bikeId;

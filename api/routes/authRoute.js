@@ -1,6 +1,6 @@
 require('custom-env').env(true);
-const axios = require('axios')
-const CognitoExpress = require("cognito-express")
+const axios = require('axios');
+const CognitoExpress = require("cognito-express");
 const authRoute = require('express').Router();
 const login = require('../controller/login.js');
 const part = require('../controller/part.js');

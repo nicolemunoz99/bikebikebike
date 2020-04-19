@@ -18,7 +18,7 @@ const dataReducer = (state = initialDataStatus, action) => {
     return action.payload;
   }
   return state;
-}
+};
 
 
 /* **************************
