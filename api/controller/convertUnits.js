@@ -3,16 +3,15 @@
 const _ = require('lodash');
 const xDate = require('xdate');
 
-exports.convertToUserUnits = (dataset) => {
+exports.convertToUserUnits = (dataset, distUnit = null) => {
   
-  let distUnit = dataset.measure_pref;
+  distUnit = distUnit || dataset.measure_pref;
 
   const findTargets = (collection) => { // keys containing 'dist', 'time', 'date'
     _.forEach(collection, (value, key) => {
       if (typeof value === 'object') {
         findTargets(value);
       } else {
-        console.log('pre-convert: ', key, value)
         if (typeof value !== 'boolean') {
           
           if (key.match(/dist/g)) { // dist in m (strava API default)
@@ -28,7 +27,6 @@ exports.convertToUserUnits = (dataset) => {
             else collection[key] = xDate(value).toString('MMM dd, yyyy');
           }
         }
-        console.log('post-convert: ', key, collection[key])
 
       }
     });
@@ -41,7 +39,6 @@ exports.convertToUserUnits = (dataset) => {
 
 
 exports.convertToDbUnits = (data, distUnit) => {
-    console.log('data before converting: ', data)
     _.forEach(data, (value, key) => {
       if (data[key] !== '' && typeof data[key] !== 'boolean') {
         if (key.match(/dist/g)) { // dist in m (strava API default)

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import ModalWrapper from '../ModalWrapper.jsx';
 import Basics from './Basics.jsx';
 import TrackingMethod from './TrackingMethod.jsx';
 import UseMetric from './UseMetric.jsx';
 import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
+import PartSummary from './PartSummary.jsx';
 import { updatePartForm, resetForm } from '../../../state/actions.js';
 
 const PartFormWrapper = ({ handleSubmit }) => {
@@ -32,10 +33,6 @@ const PartFormWrapper = ({ handleSubmit }) => {
 
   };
 
-  // const handleSubmitWrapper = (e) => {
-  //   e.preventDefault();
-  //   handleSubmit(inputs);
-  // };
 
   let partList = {
     chain: { title: 'Chain' },
@@ -86,9 +83,14 @@ const PartFormWrapper = ({ handleSubmit }) => {
         }
 
         {formIsValid &&
+        <>
+          <PartSummary />
+
           <Button variant="primary" type="submit" className="w-100">
             Submit
           </Button>
+          
+        </>
         }
 
       </Form>

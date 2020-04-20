@@ -12,7 +12,6 @@ import {
 
 import devData from './data.js'
 import { normalize, schema } from 'normalizr';
-import defaultMetrics from '../components/wrappers/partForm/defaultMetrics.js';
 
 
 import Amplify, { Auth } from "aws-amplify";
@@ -139,8 +138,10 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
 };
 
 
-export const updatePartForm = (dataArr) => (dispatch, getState) => {
+export const updatePartForm = (dataArr) => async (dispatch, getState) => {
   if (dataArr.length === 1 ) {
+    let partType = getState().form.inputs.type;
+    let distUnit = getState().user.measure_pref;
     let data = dataArr[0];
     
     if (data.type) dispatch(resetForm());
@@ -152,11 +153,14 @@ export const updatePartForm = (dataArr) => (dispatch, getState) => {
         'lifespan_dist', 'lifespan_time', 'lifespan_date'
       ]));
       if (data.tracking_method === 'default') {
-        dataArr.push( 
+        let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
+        console.log('metric up here', defaultMetric)
+        dataArr = [ 
+          ...dataArr, 
           {new_at_add: 'y'},
-          {new_date: xDate(false).toString('yyyy-MM-dd')}
-        );
-        dataArr = [ ...dataArr, ...defaultMetrics[getState().form.inputs.type] ]
+          {new_date: xDate(false).toString('yyyy-MM-dd')},
+          ...defaultMetric
+        ]
       } 
     }
 
@@ -172,6 +176,17 @@ export const updatePartForm = (dataArr) => (dispatch, getState) => {
   dispatch(validateForm());
 };
 
+
+/*
+API calls
+*/
+
+export const getDefaultMetric = (partType, distUnit) => async (dispatch, getState) => {
+  let metric = (await axios.get(`${process.env.THIS_API}/defaultMetric?partType=${partType}&distUnit=${distUnit}`)).data;
+  console.log('metric: ', metric);
+  return metric;
+}
+ 
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
   console.log('distUnit', distUnit)
