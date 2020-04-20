@@ -10,11 +10,11 @@ const UseMetric = ({ useOptions, handleInput }) => {
 
   useEffect(() => {
     return () => {
-      console.log('reseting use_metrics...')
-      dispatch(resetFields([
-        'use_metric_dist', 'use_metric_time', 'use_metric_date',
-        'lifespan_dist', 'lifespan_time', 'lifespan_date'
-      ]));
+      // console.log('reseting use_metrics...')
+      // dispatch(resetFields([
+      //   'use_metric_dist', 'use_metric_time', 'use_metric_date',
+      //   'lifespan_dist', 'lifespan_time', 'lifespan_date'
+      // ]));
     };
   }, []);
 

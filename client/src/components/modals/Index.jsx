@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { NewPartForm } from './PartForms.jsx';
+import { NewPartForm, EditPartForm } from './PartForms.jsx';
 import { DataWait, DataErr } from './DataStatus.jsx';
 
 const ModalIndex = () => {
@@ -8,7 +8,7 @@ const ModalIndex = () => {
 
   const modalTypes = {
     newPartForm: NewPartForm,
-    editPartForm: NewPartForm,
+    editPartForm: EditPartForm,
     dataWait: DataWait,
     dataErr: DataErr
   }

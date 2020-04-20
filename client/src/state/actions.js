@@ -1,5 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
+import xDate from 'xdate';
 import { 
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
@@ -11,6 +12,7 @@ import {
 
 import devData from './data.js'
 import { normalize, schema } from 'normalizr';
+import defaultMetrics from '../components/wrappers/partForm/defaultMetrics.js';
 
 
 import Amplify, { Auth } from "aws-amplify";
@@ -137,9 +139,31 @@ export const showEditPartForm = (bikeId, partId) => (dispatch) => {
 };
 
 
-export const updatePartForm = (dataArr) => (dispatch) => {
-  if (dataArr.length === 1 && dataArr[0].type) {
-    dispatch(resetForm());
+export const updatePartForm = (dataArr) => (dispatch, getState) => {
+  if (dataArr.length === 1 ) {
+    let data = dataArr[0];
+    
+    if (data.type) dispatch(resetForm());
+    
+    if (data.tracking_method) {
+      dispatch(resetFields([
+        'use_metric_dist', 'use_metric_time', 'use_metric_date',
+        'new_at_add', 'new_date', 
+        'lifespan_dist', 'lifespan_time', 'lifespan_date'
+      ]));
+      if (data.tracking_method === 'default') {
+        dataArr.push( 
+          {new_at_add: 'y'},
+          {new_date: xDate(false).toString('yyyy-MM-dd')}
+        );
+        dataArr = [ ...dataArr, ...defaultMetrics[getState().form.inputs.type] ]
+      } 
+    }
+
+    if (data.new_at_add) {
+      dispatch(resetFields(['new_date', 'lifespan_dist', 'lifespan_time', 'lifespan_date']));
+      if (data.new_at_add === 'y') dataArr.push( {new_date: xDate(false).toString('yyyy-MM-dd')} );
+    }
   }
 
   dispatch(formInput(dataArr));

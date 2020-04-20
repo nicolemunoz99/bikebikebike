@@ -11,8 +11,8 @@ const Lifespan = ({ useOptions, handleInput }) => {
 
   useEffect(() => {
     return () => {
-      console.log('resetting lifespans...')
-      dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
+      // console.log('resetting lifespans...')
+      // dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
     };
   }, []);
 
