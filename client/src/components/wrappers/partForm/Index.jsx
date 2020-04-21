@@ -8,31 +8,20 @@ import UseMetric from './UseMetric.jsx';
 import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
 import PartSummary from './PartSummary.jsx';
-import { updatePartForm, resetForm } from '../../../state/actions.js';
+import { resetForm } from '../../../state/actions.js';
 
-const PartFormWrapper = ({ handleSubmit }) => {
+export const PartFormWrapper = ({ handleSubmit, updatePartForm }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
   const distUnit = useSelector(state => state.user.measure_pref);
+  const { editingPart } = useSelector(state => state.parts)
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     return () => {
       dispatch(resetForm());
     };
   }, []);
-
-  const handleInput = (e) => {
-    let value;
-    if (e.target.getAttribute('data-checkbox')) {
-      value = !inputs[e.target.id]
-    } else {
-      value = e.target.value !== undefined ? e.target.value : e.target.getAttribute('value');
-    }
-    if (value.length > 20) return;
-    dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
-
-  };
-
 
   let partList = {
     chain: { title: 'Chain' },
@@ -41,7 +30,7 @@ const PartFormWrapper = ({ handleSubmit }) => {
     cassette: { title: 'Cassette' },
     custom: { title: '-- Custom --' }
   };
-
+  
   let useOptions = {
     'Distance': {
       field: 'use_metric_dist',
@@ -58,18 +47,32 @@ const PartFormWrapper = ({ handleSubmit }) => {
       value: 'date',
       subText: 'Date'
     }
+  }
+
+  const handleInput = (e) => {
+    let value;
+    if (e.target.getAttribute('data-checkbox')) {
+      value = !inputs[e.target.id]
+    } else {
+      value = e.target.value !== undefined ? e.target.value : e.target.getAttribute('value');
+    }
+    if (value.length > 20) return;
+    dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
   };
+
 
 
   return (
     <ModalWrapper title="New Component" minHeight="70%">
       <Form onSubmit={handleSubmit} id="part-form" >
         
-        <Basics handleInput={handleInput} partList={partList} />
+        {editingPart === '' ?
+        <>
+          <Basics handleInput={handleInput} partList={partList} />
 
-        { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
+          { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
 
-        { inputs.tracking_method === 'custom' &&  
+          { (inputs.tracking_method === 'custom') &&  
           <>
             <UseMetric handleInput={handleInput} useOptions={useOptions} />
             { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) &&  
@@ -80,7 +83,20 @@ const PartFormWrapper = ({ handleSubmit }) => {
             }
 
           </>
-        }
+          }
+        </>
+        : 
+        <>
+          <Basics handleInput={handleInput} partList={partList} />
+          <TrackingMethod handleInput={handleInput} />
+          <UseMetric handleInput={handleInput} useOptions={useOptions} />
+          { (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) &&
+            <Lifespan handleInput={handleInput} useOptions={useOptions} />
+          }
+        </>
+
+      }
+
 
         {formIsValid &&
         <>
@@ -99,4 +115,9 @@ const PartFormWrapper = ({ handleSubmit }) => {
 
 };
 
-export default PartFormWrapper;
+
+
+export const EditPartFormWrapper = ({ handleSubmit }) => {
+
+}
+

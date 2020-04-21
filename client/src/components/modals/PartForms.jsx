@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import xDate from 'xdate';
-import PartFormWrapper from '../wrappers/partForm/Index.jsx';
-import { updatePartForm, resetFields, submitNewPart } from '../../state/actions.js';
+import { PartFormWrapper, EditPartFormWrapper } from '../wrappers/partForm/Index.jsx';
+import { updatePartForm, resetEditingPart, submitNewPart } from '../../state/actions.js';
 
 
 
@@ -21,7 +21,10 @@ export const NewPartForm = () => {
 
   return (
     <>
-      <PartFormWrapper handleSubmit={handleSubmitNewPart}/>
+      <PartFormWrapper 
+        handleSubmit={handleSubmitNewPart} 
+        updatePartForm={updatePartForm}
+      />
     </>
   );
 };
@@ -29,19 +32,19 @@ export const NewPartForm = () => {
 
 
 export const EditPartForm = () => {
-  const bikeId = useSelector(state => state.bikes.selectedBike);
   const partId = useSelector(state => state.parts.editingPart);
   const part = useSelector(state => state.parts.list[partId]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-
-  }, []);
+  useEffect(() =>{
+    return (() => {
+      dispatch(resetEditingPart());
+    });
+  });
 
   const handleSubmitEditedPart = (e) => {
     e.preventDefault();
     formData = { ...inputs }
-    formData.p_bike_id = bikeId;
     formData.id = partId;
     console.log('submit formData:', formData)
     // dispatch(submitEditedPart(formData));
@@ -49,7 +52,10 @@ export const EditPartForm = () => {
 
   return(
     <>
-      <PartForm submitAction={handleSubmitEditedPart} />
+      <PartFormWrapper 
+        submitAction={handleSubmitEditedPart} 
+        updatePartForm={updatePartForm}
+      />
     </>
   );
 };

@@ -30,8 +30,8 @@ const PartSummary = () => {
           </div>
 
         </Col>
-        <Col sm={6} className="ml-auto">
-          {use_metric_dist + use_metric_time + use_metric_date > 1 ? '...whichever expires first' : ''}
+        <Col sm={12} className="ml-auto text-right">
+          {use_metric_dist + use_metric_time + use_metric_date > 1 ? '...whichever expires first.' : ''}
         </Col>
 
     </Form.Group>

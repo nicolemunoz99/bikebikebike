@@ -107,6 +107,10 @@ const formReducer = (state = initialFormState, action) => {
   }
 
   if (action.type === VALIDATE_FORM) {
+    if (typeof action.payload === 'boolean') {
+      return { ...state, formIsValid: action.payload };
+    }
+    
     let { isReq, isOk } = state;
     let formIsValid = _.every(isReq, (req, key) => {
       if (!req) return true;

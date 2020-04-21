@@ -12,17 +12,18 @@ exports.convertToUserUnits = (dataset, distUnit = null) => {
       if (typeof value === 'object') {
         findTargets(value);
       } else {
-        if (typeof value !== 'boolean') {
-          
-          if (key.match(/dist/g)) { // dist in m (strava API default)
+        if (value && typeof value !== 'boolean') {
+
+          if (key.match(/dist/g)) { // m (strava API default)
+            
             collection[key] = (distUnit === 'km' ? value / 1000 : value / 1609.34).toFixed(1);
           }
 
-          if (key.match(/time/g)) { // time in seconds (strava API default)
+          if (key.match(/time/g)) { // seconds (strava API default)
             collection[key] = (value / 3600).toFixed(1);
           }
 
-          if (key.match(/date/g)) { // date in ms since Epoch
+          if (key.match(/date/g)) { // ms since Epoch
             if (key === 'last_login_date') collection[key] = xDate(value).toString('MMM dd, yyyy @ hh:mm');
             else collection[key] = xDate(value).toString('MMM dd, yyyy');
           }
@@ -40,16 +41,16 @@ exports.convertToUserUnits = (dataset, distUnit = null) => {
 
 exports.convertToDbUnits = (data, distUnit) => {
     _.forEach(data, (value, key) => {
-      if (data[key] !== '' && typeof data[key] !== 'boolean') {
-        if (key.match(/dist/g)) { // dist in m (strava API default)
+      if (value && typeof data[key] !== 'boolean') {
+        if (key.match(/dist/g)) { // m (strava API default)
             data[key] = (distUnit === 'km' ? value * 1000 : value * 1609.34).toFixed(2);
         }
 
-        if (key.match(/time/g)) { // time in seconds (strava API default)
+        if (key.match(/time/g)) { // seconds (strava API default)
           data[key] = (value * 3600).toFixed(2);
         }
 
-        if (key.match(/date/g) && typeof data[key] === 'string') { // date in ms since Epoch
+        if (key.match(/date/g)) { // ms since Epoch
           data[key] = data[key] ? xDate(data[key]).getTime() : data[key];
         }
       }

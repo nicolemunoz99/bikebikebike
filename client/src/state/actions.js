@@ -1,12 +1,12 @@
 import axios from 'axios';
 import _ from 'lodash';
 import xDate from 'xdate';
-import { 
+import {
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
-  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART,
-  SET_MODAL, CLOSE_MODAL, 
+  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART, RESET_EDITING_PART,
+  SET_MODAL, CLOSE_MODAL,
   FORM_INPUT, RESET_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM, SET_FORM_FOR_EDIT
 } from './action-types.js';
 
@@ -21,7 +21,7 @@ Amplify.configure(config);
 
 
 export const setDataStatus = (str) => {
-  return{ type: SET_DATA_STATUS, payload: str}
+  return { type: SET_DATA_STATUS, payload: str }
 };
 
 /* **************************
@@ -83,12 +83,16 @@ export const setEditingPart = (partId) => {
   return { type: SET_EDITING_PART, payload: partId };
 };
 
+export const resetEditingPart = () => {
+  return { type: RESET_EDITING_PART };
+};
+
 /* **************************
 Form
 ************************** */
 
 export const formInput = (keyValue) => {
- return { type: FORM_INPUT, payload: keyValue};
+  return { type: FORM_INPUT, payload: keyValue };
 };
 
 export const resetFields = (fieldName) => {
@@ -100,15 +104,15 @@ export const resetForm = () => {
 };
 
 export const updateReqs = (fieldName, value) => {
-  return { type: UPDATE_REQS, payload: {fieldName, value} };
+  return { type: UPDATE_REQS, payload: { fieldName, value } };
 };
 
 export const validateField = () => {
   return { type: VALIDATE_FIELD };
 };
 
-export const validateForm = () => {
-  return { type: VALIDATE_FORM };
+export const validateForm = (bool) => {
+  return { type: VALIDATE_FORM, payload: bool };
 };
 
 export const setFormForEdit = (fieldsAndValues) => {
@@ -132,49 +136,95 @@ export const showNewPartForm = (bikeId) => (dispatch) => {
   dispatch(setModal('newPartForm'));
 };
 
-export const showEditPartForm = (bikeId, partId) => (dispatch) => {
+export const showEditPartForm = (bikeId, partId) => (dispatch, getState) => {
   dispatch(setEditingPart(partId));
   dispatch(setModal('editPartForm'));
+
+  let origPart = getState().parts.list[partId];
+  origPart = _.reduce(origPart, (dataTot, value, fieldName) => {
+    return value !== null ? [...dataTot, { [fieldName]: value }] : dataTot;
+  }, []);
+  dispatch(updatePartForm(origPart));
 };
 
 
 export const updatePartForm = (dataArr) => async (dispatch, getState) => {
-  if (dataArr.length === 1 ) {
+  let { editingPart } = getState().parts;
+  console.log('editingPart: ', editingPart, editingPart >= 0)
+  if (dataArr.length === 1) {
     let partType = getState().form.inputs.type;
     let distUnit = getState().user.measure_pref;
     let data = dataArr[0];
-    
-    if (data.type) dispatch(resetForm());
-    
-    if (data.tracking_method) {
-      dispatch(resetFields([
-        'use_metric_dist', 'use_metric_time', 'use_metric_date',
-        'new_at_add', 'new_date', 
-        'lifespan_dist', 'lifespan_time', 'lifespan_date'
-      ]));
-      if (data.tracking_method === 'default') {
-        let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
-        console.log('metric up here', defaultMetric)
-        dataArr = [ 
-          ...dataArr, 
-          {new_at_add: 'y'},
-          {new_date: xDate(false).toString('yyyy-MM-dd')},
-          ...defaultMetric
-        ]
-      } 
+
+    if (true) { //!(editingPart >= 0)
+
+      if (data.type) dispatch(resetForm());
+
+      if (data.tracking_method) {
+        dispatch(resetFields([
+          'use_metric_dist', 'use_metric_time', 'use_metric_date',
+          'new_at_add', 'new_date',
+          'lifespan_dist', 'lifespan_time', 'lifespan_date'
+        ]));
+      }
+
     }
 
-    if (data.new_at_add) {
+    if (data.tracking_method === 'default') {
+      console.log('getting default metrics')
+      let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
+      dataArr = [
+        ...dataArr,
+        { new_at_add: 'y' },
+        { new_date: xDate(false).toString('yyyy-MM-dd') },
+        ...defaultMetric
+      ];
+    }
+
+    if (editingPart === '' && data.new_at_add) {
       dispatch(resetFields(['new_date', 'lifespan_dist', 'lifespan_time', 'lifespan_date']));
-      if (data.new_at_add === 'y') dataArr.push( {new_date: xDate(false).toString('yyyy-MM-dd')} );
+      if (data.new_at_add === 'y') dataArr.push({ new_date: xDate(false).toString('yyyy-MM-dd') });
     }
   }
 
   dispatch(formInput(dataArr));
+
   dispatch(updateReqs());
   dispatch(validateField());
   dispatch(validateForm());
+
+  if (editingPart !== '') {
+    console.log('yes, editingPart')
+    dispatch(updateEditedPart())
+  }
 };
+
+export const updateEditedPart = () => async (dispatch, getState) => {
+  let { inputs } = getState().form;
+  let origPart = getState().parts.list[getState().parts.editingPart];
+  let distUnit = getState().user.measure_pref;
+  let partType = inputs.type;
+
+  // if default tracking
+  if (inputs.tracking_method === 'default') {
+    let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
+    let origPartArr = _.map(inputs, (value, fieldName) => {return {[fieldName]: value}} )
+    let isEqualToDefault = _.every(defaultMetric, (field) => {
+      return _.some(origPartArr, field);
+    })
+    console.log('isEqualToDefault: ', isEqualToDefault)
+    // if current form state !== default metric
+    if (!isEqualToDefault) {
+      // update tracking method to custom
+      dispatch(updatePartForm( [{ tracking_method: 'custom' }] ));
+    } 
+  }
+
+  // // if current form state equals origPart state
+  // if (_.isEqual(inputs, origPart)) dispatch(validateForm(false));
+  //   // disable submit button
+}
+
 
 
 /*
@@ -186,7 +236,7 @@ export const getDefaultMetric = (partType, distUnit) => async (dispatch, getStat
   console.log('metric: ', metric);
   return metric;
 }
- 
+
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
   console.log('distUnit', distUnit)
@@ -194,7 +244,7 @@ export const submitNewPart = (data) => async (dispatch, getState) => {
   try {
     let authData = await Auth.currentAuthenticatedUser();
 
-    await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, {data}, {
+    await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
     dispatch(updateDataStatus('ok'));
@@ -223,14 +273,14 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
 
 
 export const getUserData = () => async (dispatch) => {
-  dispatch(updateDataStatus('dataWait'));
+  // dispatch(updateDataStatus('dataWait'));
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
     let response = await axios.get(`${process.env.THIS_API}/api/login`, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
-    
+
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));
       dispatch(updateDataStatus('ok'));
@@ -242,21 +292,21 @@ export const getUserData = () => async (dispatch) => {
     userData = response.data;
     console.log('userData: ', userData);
 
-    const part = new schema.Entity('parts', 
-      {}, 
-      {idAttribute: 'part_id'}
+    const part = new schema.Entity('parts',
+      {},
+      { idAttribute: 'part_id' }
     );
 
-    const bike = new schema.Entity('bikes', 
-      {parts: [part]},
-      {idAttribute: 'bike_id'}
+    const bike = new schema.Entity('bikes',
+      { parts: [part] },
+      { idAttribute: 'bike_id' }
     );
 
-    const user = new schema.Entity('user', 
-      {bikes: [bike]},
-      {idAttribute: 'id'}
+    const user = new schema.Entity('user',
+      { bikes: [bike] },
+      { idAttribute: 'id' }
     );
-   
+
 
     const normalUserData = await normalize(userData, user);
 
@@ -265,13 +315,13 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     dispatch(setParts(normalUserData.entities.parts));
 
-    dispatch(updateDataStatus('ok'));
+    // dispatch(updateDataStatus('ok'));
   }
 
   catch (err) {
     // dispatch(updateDataStatus('dataErr'))
-    if (err.response.status === 401) {} // user not Cognito-authenticated; 
-      // TODO redirect to login
+    if (err.response.status === 401) { } // user not Cognito-authenticated; 
+    // TODO redirect to login
     // TODO otherwise display error modal
   }
 
