@@ -280,7 +280,7 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
 
 
 export const getUserData = () => async (dispatch) => {
-  // dispatch(updateDataStatus('dataWait'));
+  dispatch(updateDataStatus('dataWait'));
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
@@ -322,7 +322,7 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     dispatch(setParts(normalUserData.entities.parts));
 
-    // dispatch(updateDataStatus('ok'));
+    dispatch(updateDataStatus('ok'));
   }
 
   catch (err) {
