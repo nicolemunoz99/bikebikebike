@@ -275,32 +275,31 @@ export const submitNewPart = (data) => async (dispatch, getState) => {
 };
 
 export const submitEditedPart = (data) => async (dispatch, getState) => {
+  dispatch(updateDataStatus('dataWait'));
   let distUnit = getState().user.measure_pref;
   let origPart = getState().parts.list[data.part_id]
   let partId = data.part_id;
   // only submit values that have changed
-  let updatedData = _.pickBy(data, (value, fieldName) => {
+  data = _.pickBy(data, (value, fieldName) => {
     if (typeof value !== 'boolean' && !value && !value === !origPart[fieldName]) return false;
     if (Number(value) && Number(value) === Number(origPart[fieldName])) return false;
     return value !== origPart[fieldName];
   });
 
-  if (Object.keys(updatedData).length === 0) { // no new info submitted
+  if (Object.keys(data).length === 0) { // no new info submitted
     dispatch(updateDataStatus('ok'));
     return;
   }; 
 
-  updatedData.part_id = partId;
-  console.log('updatedData: ', updatedData)
-  dispatch(updateDataStatus('dataWait'));
+  data.part_id = partId;
+  console.log('data: ', data)
   try {
-    console.log('data in thunk:', updatedData, distUnit)
-    // let authData = await Auth.currentAuthenticatedUser()
-    // await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { updatedData }, {
-    //   headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    // });
+    let authData = await Auth.currentAuthenticatedUser()
+    await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
+      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+    });
     dispatch(updateDataStatus('ok'));
-    // dispatch(getUserData());
+    dispatch(getUserData());
   }
   catch (err) {
     dispatch(updateDataStatus('dataErr'));

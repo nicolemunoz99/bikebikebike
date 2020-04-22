@@ -33,9 +33,9 @@ const part = {
 
   put: async (req, res) => {
     delete req.body.permissions;
-    let editedPart = convertToDbUnits(req.body, req.query.distUnit);
+    let editedPart = convertToDbUnits(req.body.data, req.query.distUnit);
     await update('parts', {
-      whereVar: {part_id: req.body.part_id},
+      whereVar: {part_id: editedPart.part_id},
       updateVars: editedPart
     });
     res.sendStatus(200);
