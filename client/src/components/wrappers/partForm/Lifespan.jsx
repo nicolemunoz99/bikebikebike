@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
 const Lifespan = ({ useOptions, handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      // console.log('resetting lifespans...')
-      // dispatch(resetFields(['lifespan_dist', 'lifespan_time', 'lifespan_date']));
-    };
-  }, []);
 
 
   return (

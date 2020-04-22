@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import xDate from 'xdate';
 import { PartFormWrapper } from '../wrappers/partForm/Index.jsx';
 import { updatePartForm, updateEditPartForm, resetEditingPart, submitNewPart, submitEditedPart, showEditPartForm, resetForm } from '../../state/actions.js';
 
@@ -35,8 +34,6 @@ export const NewPartForm = () => {
 
 export const EditPartForm = () => {
   const inputs = useSelector(state => state.form.inputs);
-  // const partId = useSelector(state => state.parts.editingPart);
-  // const part = useSelector(state => state.parts.list[partId]);
   const dispatch = useDispatch();
 
   useEffect(() =>{

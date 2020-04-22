@@ -20,7 +20,6 @@ const PartDetails = () => {
     p_date_added 
   } = useSelector(state => state.parts.list[selectedPart]);
   const distUnit = useSelector(state => state.user.measure_pref);
-  const dispatch = useDispatch();
 
 
   let detailItems = {

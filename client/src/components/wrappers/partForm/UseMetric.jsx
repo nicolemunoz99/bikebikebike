@@ -1,24 +1,10 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { resetFields } from '../../../state/actions.js';
 
 const UseMetric = ({ useOptions, handleInput }) => {
   const { inputs } = useSelector(state => state.form);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      // console.log('reseting use_metrics...')
-      // dispatch(resetFields([
-      //   'use_metric_dist', 'use_metric_time', 'use_metric_date',
-      //   'lifespan_dist', 'lifespan_time', 'lifespan_date'
-      // ]));
-    };
-  }, []);
-
-
 
   return (
     <Form.Group as={CustomFormGroup}>

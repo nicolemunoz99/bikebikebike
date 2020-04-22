@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams} from 'react-router';
 import { getUserData } from '../state/actions.js';
-import { Tooltip, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';

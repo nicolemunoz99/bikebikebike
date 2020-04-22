@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import xDate from 'xdate';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { updatePartForm, resetFields } from '../../../state/actions.js';
 import { errMsgs } from '../../../validation.js';
 
 const NewDate = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // return () => {
-    //   dispatch(resetFields(['new_at_add', 'new_date']));
-    // };
-  }, []);
 
 
   return (
