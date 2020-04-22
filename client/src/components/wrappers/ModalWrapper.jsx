@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { closeModal } from '../../state/actions.js';
 
 const ModalWrapper = (props) => {
+  const [atBottom, updateAtBottom] = useState(false)
   const dispatch = useDispatch();
 
   const closeHandler = (e) => {
@@ -11,17 +12,29 @@ const ModalWrapper = (props) => {
       dispatch(closeModal());
     };
   };
-  
+
+  handleScroll = (e) => {
+    let element = e.target
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      updateAtBottom(true);
+    }
+  };
+
   return (
-    
+
     <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>
 
-        <div className="modal-body col-8" style={{minHeight:props.minHeight}}>
+      <div className="modal-body col-8" style={{ minHeight: props.minHeight }} onScroll={handleScroll}>
         <div className="display-4 mb-4">
           {props.title}
         </div>
-        {props. children}
+        {props.children}
       </div>
+
+      {!atBottom &&
+        <div className="scroll-more"> white </div>
+      }
+
     </div>
   )
 };

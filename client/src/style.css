@@ -113,6 +113,10 @@ body {
   overflow: auto;
 }
 
+.scroll-more {
+  
+}
+
 .dropdown > button {
   width: 100%
 }

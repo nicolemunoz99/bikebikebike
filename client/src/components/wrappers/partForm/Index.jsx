@@ -10,14 +10,13 @@ import Lifespan from './Lifespan.jsx';
 import PartSummary from './PartSummary.jsx';
 import { resetForm } from '../../../state/actions.js';
 
-export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset }) => {
+export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, submitLabel='Submit' }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
   const distUnit = useSelector(state => state.user.measure_pref);
   const { editingPart } = useSelector(state => state.parts)
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     return () => {
       dispatch(resetForm());
     };
@@ -112,11 +111,10 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset }) 
 
         }
 
-
         {formIsValid && <PartSummary />}
 
         <Button variant="primary" type="submit" className="w-100" disabled={!formIsValid}>
-          Submit
+          {submitLabel}
         </Button>
 
       </Form>

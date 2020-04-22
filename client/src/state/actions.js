@@ -147,12 +147,12 @@ export const showEditPartForm = (partId) => (dispatch, getState) => {
     return value !== null ? [...dataTot, { [fieldName]: value }] : dataTot;
   }, []);
   
-  dispatch(updatePartForm(origPart));
+  dispatch(updateEditPartForm(origPart));
+  dispatch(validateForm(false)) // disable submit
 };
 
 
 export const updatePartForm = (dataArr) => async (dispatch, getState) => {
-  let { editingPart } = getState().parts;
 
   if (dataArr.length === 1) {
     let partType = getState().form.inputs.type;
@@ -184,54 +184,67 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
       dispatch(resetFields([ `lifespan_${fieldName.split('_')[2]}` ]));
     }
 
-    if (editingPart === '' && data.new_at_add) {
+    if (data.new_at_add) {
       dispatch(resetFields(['new_date', 'lifespan_dist', 'lifespan_time', 'lifespan_date']));
       if (data.new_at_add === 'y') dataArr.push({ new_date: xDate(false).toString('yyyy-MM-dd') });
     }
   }
 
-  dispatch(formInput(dataArr));
+  dispatch(updateValidation(dataArr));
 
+};
+
+export const updateEditPartForm = (dataArr) => async (dispatch, getState) => {
+  let { inputs } = getState().form;
+  let distUnit = getState().user.measure_pref;
+  let partType = inputs.type;
+  
+  if (dataArr.length === 1) {
+    let data = dataArr[0];
+    let fieldName = Object.keys(data)[0];
+    let value = data[fieldName]
+
+    if (data.tracking_method === 'default') {
+      let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
+      dataArr = [ ...dataArr, ...defaultMetric ];
+    } 
+
+    if ( (fieldName.includes('use_metric_') || fieldName.includes('lifespan_')) && inputs.tracking_method === 'default' ) {
+      if (Number(value) && Number(value) == Number(inputs[fieldName])) dataArr.push({ tracking_method: 'custom' });
+      else if (value !== inputs[fieldName]) dataArr.push({ tracking_method: 'custom' });
+      else if ( value !== inputs[fieldName] ) dataArr.push({ tracking_method: 'custom' });
+
+      if (Number(value)) {
+        dataArr = Number(value) == Number(inputs[fieldName]) ? dataArr : [ ...dataArr, { tracking_method: 'custom' } ];
+      } else {
+        dataArr = value == inputs[fieldName] ? dataArr : [ ...dataArr, { tracking_method: 'custom' } ];
+      }
+    }
+  }
+
+  dispatch(updateValidation(dataArr));
+  dispatch(checkIfEqualToOrig()) // only allow submit if part has been changed
+
+};
+
+const checkIfEqualToOrig = () => (dispatch, getState) => {
+  let { inputs } = getState().form;
+  let origPart = getState().parts.list[getState().parts.editingPart];
+  let isEqualToOrig = _.every(inputs, (value, fieldName) => {
+    if (typeof value !== 'boolean' && !value) return !value === !origPart[fieldName];
+    if (Number(value)) return Number(value) === Number(origPart[fieldName]);
+    return value === origPart[fieldName];
+  });
+
+  if (isEqualToOrig) dispatch(validateForm(false)); // disable submit
+};
+    
+const updateValidation = (dataArr) => (dispatch, getState) => {
+  dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());
   dispatch(validateForm());
-
-  if (editingPart !== '') {
-    dispatch(updateEditedPart())
-  }
 };
-
-export const updateEditedPart = () => async (dispatch, getState) => {
-  let { inputs } = getState().form;
-  let origPart = getState().parts.list[getState().parts.editingPart];
-  let distUnit = getState().user.measure_pref;
-  let partType = inputs.type;
-
-
-  if (inputs.tracking_method === 'default') {
-    let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
-
-    let isEqualToDefault = _.every(_.defaults(...defaultMetric), (value, fieldName) => {
-      if (typeof value !== 'boolean' && !value) return !value === !inputs[fieldName];
-      if (Number(value)) return Number(value) == Number(inputs[fieldName]);
-      return value == inputs[fieldName];
-    });
-
-    if (!isEqualToDefault) {
-      dispatch(updatePartForm( [{ tracking_method: 'custom' }] ));
-    } 
-  }
-
-  let isEqualToOrig = _.every(origPart, (value, fieldName) => {
-    if (typeof value !== 'boolean' && !value) return !value === !inputs[fieldName];
-    if (Number(value)) return Number(value) == Number(inputs[fieldName]);
-    return value == inputs[fieldName];
-  });
-  
-  if (isEqualToOrig) dispatch(validateForm(false)); // disable submit button
-}
-    
-
 
 
 /*
@@ -264,15 +277,26 @@ export const submitNewPart = (data) => async (dispatch, getState) => {
 export const submitEditedPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
   let origPart = getState().parts.list[data.part_id]
+  let partId = data.part_id;
+  // only submit values that have changed
+  let updatedData = _.pickBy(data, (value, fieldName) => {
+    if (typeof value !== 'boolean' && !value && !value === !origPart[fieldName]) return false;
+    if (Number(value) && Number(value) === Number(origPart[fieldName])) return false;
+    return value !== origPart[fieldName];
+  });
 
-  // only update values that have changed
-  let updatedData = _.pickBy(data, (value, fieldName) => value !== origPart[fieldName] );
+  if (Object.keys(updatedData).length === 0) { // no new info submitted
+    dispatch(updateDataStatus('ok'));
+    return;
+  }; 
+
+  updatedData.part_id = partId;
   console.log('updatedData: ', updatedData)
   dispatch(updateDataStatus('dataWait'));
   try {
-    console.log('data in thunk:', data, distUnit)
+    console.log('data in thunk:', updatedData, distUnit)
     // let authData = await Auth.currentAuthenticatedUser()
-    // await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
+    // await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { updatedData }, {
     //   headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     // });
     dispatch(updateDataStatus('ok'));

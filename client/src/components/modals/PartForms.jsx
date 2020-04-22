@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import xDate from 'xdate';
 import { PartFormWrapper } from '../wrappers/partForm/Index.jsx';
-import { updatePartForm, resetEditingPart, submitNewPart, showEditPartForm, resetForm } from '../../state/actions.js';
+import { updatePartForm, updateEditPartForm, resetEditingPart, submitNewPart, submitEditedPart, showEditPartForm, resetForm } from '../../state/actions.js';
 
 
 
@@ -25,7 +25,7 @@ export const NewPartForm = () => {
         handleSubmit={handleSubmitNewPart} 
         updatePartForm={updatePartForm}
         reset={()=>dispatch(resetForm())}
-        title='New Component' 
+        title='New Component'
       />
     </>
   );
@@ -34,6 +34,7 @@ export const NewPartForm = () => {
 
 
 export const EditPartForm = () => {
+  const inputs = useSelector(state => state.form.inputs);
   // const partId = useSelector(state => state.parts.editingPart);
   // const part = useSelector(state => state.parts.list[partId]);
   const dispatch = useDispatch();
@@ -42,23 +43,22 @@ export const EditPartForm = () => {
     return (() => {
       dispatch(resetEditingPart());
     });
-  });
+  }, []);
+
 
   const handleSubmitEditedPart = (e) => {
     e.preventDefault();
-    formData = { ...inputs }
-    formData.id = partId;
-    console.log('submit formData:', formData)
-    // dispatch(submitEditedPart(formData));
+    dispatch(submitEditedPart(inputs));
   };
 
   return(
     <>
       <PartFormWrapper 
-        submitAction={handleSubmitEditedPart} 
-        updatePartForm={updatePartForm}
+        handleSubmit={handleSubmitEditedPart} 
+        updatePartForm={updateEditPartForm}
         reset={()=>{dispatch(resetForm()); dispatch(showEditPartForm())}}
         title='Edit Component'
+        submitLabel='Update' 
       />
     </>
   );
