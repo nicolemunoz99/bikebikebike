@@ -2,38 +2,55 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../state/actions.js';
 
-const ModalWrapper = (props) => {
-  const [atBottom, updateAtBottom] = useState(false)
+const ModalWrapper = ({ children, title, minHeight = "50%", cancelClose = false }) => {
+  const [isAtBottom, setIsAtBottom] = useState(false)
+  const [indicatorY, setIndicatorY] = useState('0px');
   const dispatch = useDispatch();
 
   const closeHandler = (e) => {
-    if (props.cancelClose) return;
+    if (cancelClose) return;
     if (e.target === e.currentTarget) {
       dispatch(closeModal());
     };
   };
 
-  handleScroll = (e) => {
-    let element = e.target
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      updateAtBottom(true);
+  const handleScroll = (e) => {
+    let el = e.target;
+    if (el.scrollHeight - el.scrollTop === el.clientHeight) {
+      setIsAtBottom(true);
+    } else {
+      setIsAtBottom(false);
+      setIndicatorY(-el.scrollTop);
     }
   };
 
   return (
 
     <div className="modal-backdrop d-flex justify-content-center" onClick={closeHandler}>
+      <div className="modal-body col-sm-8 col-11" style={{ minHeight: minHeight }} onScroll={handleScroll}>
 
-      <div className="modal-body col-8" style={{ minHeight: props.minHeight }} onScroll={handleScroll}>
+        {!cancelClose &&
+          <div className="row align-items-center justify-content-end no-gutters">
+            <div className="col-auto pointer">
+              <span className="material-icons d-block" onClick={closeHandler}>close</span>
+            </div>
+          </div>
+        }
+
         <div className="display-4 mb-4">
-          {props.title}
+          {title}
         </div>
-        {props.children}
+
+        {children}
+
+        {!isAtBottom &&
+          <div className="row no-gutters scroll-more-wrapper" style={{ bottom: indicatorY }}>
+          </div>
+        }
+
       </div>
 
-      {!atBottom &&
-        <div className="scroll-more"> white </div>
-      }
+
 
     </div>
   )

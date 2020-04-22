@@ -1,6 +1,7 @@
 :root {
   --fade-start: rgb(240, 240, 240);
   --fade-end: rgb(255, 255, 255);
+  --modal-bg-col: 240, 240, 240;
   --theme: linear-gradient(to right, var(--fade-end), var(--fade-end));
 }
 
@@ -104,17 +105,23 @@ body {
 
 
 .modal-body {
-  position: relative;
+  position: absolute;
   max-height:90%;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(var(--modal-bg-col));
   color: rgb(0, 0, 0);
   border-radius: 1rem;
   padding: 3rem 3rem 4rem 3rem;
   overflow: auto;
 }
 
-.scroll-more {
-  
+.scroll-more-wrapper {
+  position: absolute;
+  background-image: linear-gradient(rgba(var(--modal-bg-col), 0.2), rgb(var(--modal-bg-col)));
+  bottom: 0px;
+  left: 0px;
+  height: 8rem;
+  width: 100%;
+  pointer-events: none;
 }
 
 .dropdown > button {

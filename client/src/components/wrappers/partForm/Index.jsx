@@ -65,11 +65,11 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
     <ModalWrapper title={title} minHeight="70%">
       
       <Row 
-        className='justify-content-center align-items-center no-gutters my-3 pointer text-detail'
+        className='justify-content-center align-items-center no-gutters my-3 pointer text-muted'
         onClick={()=>reset()}
       >
         <Col xs='auto' className='align-self-center'>
-          <span className="material-icons d-block mr-2">refresh</span>
+          <span className="material-icons d-block mr-2">autorenew</span>
         </Col>
 
         <Col xs='auto'>
