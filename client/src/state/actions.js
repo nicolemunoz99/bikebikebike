@@ -240,7 +240,6 @@ API calls
 
 export const getDefaultMetric = (partType, distUnit) => async (dispatch, getState) => {
   let metric = (await axios.get(`${process.env.THIS_API}/defaultMetric?partType=${partType}&distUnit=${distUnit}`)).data;
-  console.log('metric: ', metric);
   return metric;
 }
 
@@ -262,16 +261,22 @@ export const submitNewPart = (data) => async (dispatch, getState) => {
   }
 };
 
-export const submitEditedPart = (data, distUnit) => async (dispatch) => {
+export const submitEditedPart = (data) => async (dispatch, getState) => {
+  let distUnit = getState().user.measure_pref;
+  let origPart = getState().parts.list[data.part_id]
+
+  // only update values that have changed
+  let updatedData = _.pickBy(data, (value, fieldName) => value !== origPart[fieldName] );
+  console.log('updatedData: ', updatedData)
   dispatch(updateDataStatus('dataWait'));
   try {
     console.log('data in thunk:', data, distUnit)
-    let authData = await Auth.currentAuthenticatedUser()
-    await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
-      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    });
+    // let authData = await Auth.currentAuthenticatedUser()
+    // await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
+    //   headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+    // });
     dispatch(updateDataStatus('ok'));
-    dispatch(getUserData());
+    // dispatch(getUserData());
   }
   catch (err) {
     dispatch(updateDataStatus('dataErr'));
@@ -280,7 +285,7 @@ export const submitEditedPart = (data, distUnit) => async (dispatch) => {
 
 
 export const getUserData = () => async (dispatch) => {
-  dispatch(updateDataStatus('dataWait'));
+  // dispatch(updateDataStatus('dataWait'));
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
@@ -322,7 +327,7 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     dispatch(setParts(normalUserData.entities.parts));
 
-    dispatch(updateDataStatus('ok'));
+    // dispatch(updateDataStatus('ok'));
   }
 
   catch (err) {

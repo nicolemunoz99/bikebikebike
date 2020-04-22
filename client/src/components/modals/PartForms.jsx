@@ -34,8 +34,8 @@ export const NewPartForm = () => {
 
 
 export const EditPartForm = () => {
-  const partId = useSelector(state => state.parts.editingPart);
-  const part = useSelector(state => state.parts.list[partId]);
+  // const partId = useSelector(state => state.parts.editingPart);
+  // const part = useSelector(state => state.parts.list[partId]);
   const dispatch = useDispatch();
 
   useEffect(() =>{

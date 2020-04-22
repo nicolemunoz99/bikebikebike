@@ -70,7 +70,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset }) 
         onClick={()=>reset()}
       >
         <Col xs='auto' className='align-self-center'>
-          <span class="material-icons d-block mr-2">refresh</span>
+          <span className="material-icons d-block mr-2">refresh</span>
         </Col>
 
         <Col xs='auto'>
