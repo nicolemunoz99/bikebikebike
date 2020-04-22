@@ -1,6 +1,7 @@
 import React from 'react';
+import xDate from 'xdate';
 import { useSelector } from 'react-redux';
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Col } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
 
 
@@ -26,7 +27,7 @@ const PartSummary = () => {
           <div className='my-2'>
             {lifespan_dist ? <li>{`${lifespan_dist} ${distUnit}`}</li> : ''}
             {lifespan_time ? <li>{`${lifespan_time} hours (ride time)`}</li> : ''}
-            {lifespan_date ? <li>{`${lifespan_date}`}</li> : ''}
+            {lifespan_date ? <li>{`${xDate(lifespan_date).toString('MMM dd, yyyy')}`}</li> : ''}
           </div>
 
         </Col>

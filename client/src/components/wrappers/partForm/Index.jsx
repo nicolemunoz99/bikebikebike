@@ -10,7 +10,7 @@ import Lifespan from './Lifespan.jsx';
 import PartSummary from './PartSummary.jsx';
 import { resetForm } from '../../../state/actions.js';
 
-export const PartFormWrapper = ({ handleSubmit, updatePartForm }) => {
+export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
   const distUnit = useSelector(state => state.user.measure_pref);
   const { editingPart } = useSelector(state => state.parts)
@@ -30,7 +30,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm }) => {
     cassette: { title: 'Cassette' },
     custom: { title: '-- Custom --' }
   };
-  
+
   let useOptions = {
     'Distance': {
       field: 'use_metric_dist',
@@ -57,53 +57,64 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm }) => {
       value = e.target.value !== undefined ? e.target.value : e.target.getAttribute('value');
     }
     if (value.length > 20) return;
-    dispatch(updatePartForm( [ {[e.target.id]: value } ] ));
+    dispatch(updatePartForm([{ [e.target.id]: value }]));
   };
 
 
 
   return (
-    <ModalWrapper title="New Component" minHeight="70%">
+    <ModalWrapper title={title} minHeight="70%">
+      
+      <Row 
+        className='justify-content-center align-items-center no-gutters my-3 pointer text-detail'
+        onClick={()=>reset()}
+      >
+        <Col xs='auto' className='align-self-center'>
+          <span class="material-icons d-block mr-2">refresh</span>
+        </Col>
+
+        <Col xs='auto'>
+          Start over
+        </Col>
+      </Row>
+
+
       <Form onSubmit={handleSubmit} id="part-form" >
-        
+
         {editingPart === '' ?
-        <>
-          <Basics handleInput={handleInput} partList={partList} />
-
-          { isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} /> }
-
-          { (inputs.tracking_method === 'custom') &&  
           <>
-            <UseMetric handleInput={handleInput} useOptions={useOptions} />
-            { (inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) &&  
-            <>
-              <NewDate handleInput={handleInput} />
-              { isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} /> }
-            </>
+            <Basics handleInput={handleInput} partList={partList} />
+
+            {isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} />}
+
+            {(inputs.tracking_method === 'custom') &&
+              <>
+                <UseMetric handleInput={handleInput} useOptions={useOptions} />
+                {(inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) &&
+                  <>
+                    <NewDate handleInput={handleInput} />
+                    {isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} />}
+                  </>
+                }
+
+              </>
             }
-
           </>
-          }
-        </>
-        : 
-        <>
-          <Basics handleInput={handleInput} partList={partList} />
-          <TrackingMethod handleInput={handleInput} />
-          <UseMetric handleInput={handleInput} useOptions={useOptions} />
-          { (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) &&
-            <Lifespan handleInput={handleInput} useOptions={useOptions} />
-          }
-        </>
+          :
+          <>
+            <Basics handleInput={handleInput} partList={partList} />
+            <TrackingMethod handleInput={handleInput} />
+            <UseMetric handleInput={handleInput} useOptions={useOptions} />
+            {(inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) &&
+              <Lifespan handleInput={handleInput} useOptions={useOptions} />
+            }
+          </>
 
-      }
-
-
-        {formIsValid &&
-        <>
-          <PartSummary />
-          
-        </>
         }
+
+
+        {formIsValid && <PartSummary />}
+
         <Button variant="primary" type="submit" className="w-100" disabled={!formIsValid}>
           Submit
         </Button>
@@ -113,10 +124,3 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm }) => {
   );
 
 };
-
-
-
-export const EditPartFormWrapper = ({ handleSubmit }) => {
-
-}
-

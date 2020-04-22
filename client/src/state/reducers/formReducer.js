@@ -111,11 +111,12 @@ const formReducer = (state = initialFormState, action) => {
       return { ...state, formIsValid: action.payload };
     }
     
-    let { isReq, isOk } = state;
+    let { inputs, isReq, isOk } = state;
     let formIsValid = _.every(isReq, (req, key) => {
       if (!req) return true;
       return isOk[key];
     });
+    formIsValid = formIsValid && (inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date)
     return { ...state, formIsValid };
   }
 

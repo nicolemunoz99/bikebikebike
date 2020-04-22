@@ -113,10 +113,12 @@ body {
   overflow: auto;
 }
 
-
-
 .dropdown > button {
   width: 100%
+}
+
+.btn:disabled {
+  cursor: default;
 }
 
 /* form */

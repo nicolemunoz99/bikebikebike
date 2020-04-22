@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import xDate from 'xdate';
-import { PartFormWrapper, EditPartFormWrapper } from '../wrappers/partForm/Index.jsx';
-import { updatePartForm, resetEditingPart, submitNewPart } from '../../state/actions.js';
+import { PartFormWrapper } from '../wrappers/partForm/Index.jsx';
+import { updatePartForm, resetEditingPart, submitNewPart, showEditPartForm, resetForm } from '../../state/actions.js';
 
 
 
@@ -21,9 +21,11 @@ export const NewPartForm = () => {
 
   return (
     <>
-      <PartFormWrapper 
+      <PartFormWrapper
         handleSubmit={handleSubmitNewPart} 
         updatePartForm={updatePartForm}
+        reset={()=>dispatch(resetForm())}
+        title='New Component' 
       />
     </>
   );
@@ -55,6 +57,8 @@ export const EditPartForm = () => {
       <PartFormWrapper 
         submitAction={handleSubmitEditedPart} 
         updatePartForm={updatePartForm}
+        reset={()=>{dispatch(resetForm()); dispatch(showEditPartForm())}}
+        title='Edit Component'
       />
     </>
   );

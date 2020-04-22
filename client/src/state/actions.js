@@ -136,7 +136,8 @@ export const showNewPartForm = (bikeId) => (dispatch) => {
   dispatch(setModal('newPartForm'));
 };
 
-export const showEditPartForm = (bikeId, partId) => (dispatch, getState) => {
+export const showEditPartForm = (partId) => (dispatch, getState) => {
+  partId = partId || getState().parts.editingPart
   dispatch(setEditingPart(partId));
   dispatch(setModal('editPartForm'));
 
@@ -209,9 +210,11 @@ export const updateEditedPart = () => async (dispatch, getState) => {
 
   if (inputs.tracking_method === 'default') {
     let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
-    let origPartArr = _.map(inputs, (value, fieldName) => {return {[fieldName]: value}} );
-    let isEqualToDefault = _.every(defaultMetric, (field) => {
-      return _.some(origPartArr, field);
+
+    let isEqualToDefault = _.every(_.defaults(...defaultMetric), (value, fieldName) => {
+      if (typeof value !== 'boolean' && !value) return !value === !inputs[fieldName];
+      if (Number(value)) return Number(value) == Number(inputs[fieldName]);
+      return value == inputs[fieldName];
     });
 
     if (!isEqualToDefault) {
@@ -224,6 +227,7 @@ export const updateEditedPart = () => async (dispatch, getState) => {
     if (Number(value)) return Number(value) == Number(inputs[fieldName]);
     return value == inputs[fieldName];
   });
+  
   if (isEqualToOrig) dispatch(validateForm(false)); // disable submit button
 }
     

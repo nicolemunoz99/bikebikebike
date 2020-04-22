@@ -91,7 +91,7 @@ const PartList = () => {
         <div className="row no-gutters justify-content-end text-right">
           <div 
             className="col-auto mx-1 text-sm-center pointer" 
-            onClick={()=>dispatch(showEditPartForm(bikeId, id))}
+            onClick={()=>dispatch(showEditPartForm(id))}
           >
             <OverlayTrigger
               placement='top'
