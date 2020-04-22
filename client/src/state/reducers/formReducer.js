@@ -90,9 +90,9 @@ const formReducer = (state = initialFormState, action) => {
       newReqs = { ...newReqs, new_at_add: true, new_date: true };
     }
 
-    if (inputs.use_metric_dist) newReqs.lifespan_dist = true;
-    if (inputs.use_metric_time) newReqs.lifespan_time = true;
-    if (inputs.use_metric_date) newReqs.lifespan_date = true;
+    newReqs.lifespan_dist = inputs.use_metric_dist;
+    newReqs.lifespan_time = inputs.use_metric_time;
+    newReqs.lifespan_date = inputs.use_metric_date;
 
     return { ...state, isReq: { ...state.isReq, ...newReqs } };
   }

@@ -141,22 +141,23 @@ export const showEditPartForm = (bikeId, partId) => (dispatch, getState) => {
   dispatch(setModal('editPartForm'));
 
   let origPart = getState().parts.list[partId];
+  origPart.lifespan_date = xDate(origPart.lifespan_date).toString('yyyy-MM-dd')
   origPart = _.reduce(origPart, (dataTot, value, fieldName) => {
     return value !== null ? [...dataTot, { [fieldName]: value }] : dataTot;
   }, []);
+  
   dispatch(updatePartForm(origPart));
 };
 
 
 export const updatePartForm = (dataArr) => async (dispatch, getState) => {
   let { editingPart } = getState().parts;
-  console.log('editingPart: ', editingPart, editingPart >= 0)
+
   if (dataArr.length === 1) {
     let partType = getState().form.inputs.type;
     let distUnit = getState().user.measure_pref;
     let data = dataArr[0];
-
-    if (true) { //!(editingPart >= 0)
+    let fieldName = Object.keys(data)[0];
 
       if (data.type) dispatch(resetForm());
 
@@ -168,10 +169,7 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
         ]));
       }
 
-    }
-
     if (data.tracking_method === 'default') {
-      console.log('getting default metrics')
       let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
       dataArr = [
         ...dataArr,
@@ -179,6 +177,10 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
         { new_date: xDate(false).toString('yyyy-MM-dd') },
         ...defaultMetric
       ];
+    }
+
+    if (/use_metric_*/.test(fieldName)) {
+      dispatch(resetFields([ `lifespan_${fieldName.split('_')[2]}` ]));
     }
 
     if (editingPart === '' && data.new_at_add) {
@@ -194,7 +196,6 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
   dispatch(validateForm());
 
   if (editingPart !== '') {
-    console.log('yes, editingPart')
     dispatch(updateEditedPart())
   }
 };
@@ -205,25 +206,27 @@ export const updateEditedPart = () => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
   let partType = inputs.type;
 
-  // if default tracking
+
   if (inputs.tracking_method === 'default') {
     let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
-    let origPartArr = _.map(inputs, (value, fieldName) => {return {[fieldName]: value}} )
+    let origPartArr = _.map(inputs, (value, fieldName) => {return {[fieldName]: value}} );
     let isEqualToDefault = _.every(defaultMetric, (field) => {
       return _.some(origPartArr, field);
-    })
-    console.log('isEqualToDefault: ', isEqualToDefault)
-    // if current form state !== default metric
+    });
+
     if (!isEqualToDefault) {
-      // update tracking method to custom
       dispatch(updatePartForm( [{ tracking_method: 'custom' }] ));
     } 
   }
 
-  // // if current form state equals origPart state
-  // if (_.isEqual(inputs, origPart)) dispatch(validateForm(false));
-  //   // disable submit button
+  let isEqualToOrig = _.every(origPart, (value, fieldName) => {
+    if (typeof value !== 'boolean' && !value) return !value === !inputs[fieldName];
+    if (Number(value)) return Number(value) == Number(inputs[fieldName]);
+    return value == inputs[fieldName];
+  });
+  if (isEqualToOrig) dispatch(validateForm(false)); // disable submit button
 }
+    
 
 
 

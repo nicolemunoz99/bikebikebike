@@ -7,6 +7,7 @@ import { errMsgs } from '../../../validation.js';
 
 const Basics = ({ handleInput, partList }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
+  const { editingPart } = useSelector(state => state.parts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Basics = ({ handleInput, partList }) => {
               size="sm"
               variant="info"
               title={inputs.type ? partList[inputs.type].title : 'Type'}
-
+              disabled={!!editingPart}
             >
               {Object.keys(partList).map(partKey => {
                 return (

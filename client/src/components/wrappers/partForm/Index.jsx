@@ -101,13 +101,12 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm }) => {
         {formIsValid &&
         <>
           <PartSummary />
-
-          <Button variant="primary" type="submit" className="w-100">
-            Submit
-          </Button>
           
         </>
         }
+        <Button variant="primary" type="submit" className="w-100" disabled={!formIsValid}>
+          Submit
+        </Button>
 
       </Form>
     </ModalWrapper>
