@@ -4,6 +4,7 @@ import { Table, Form, Row, Col, Popover } from 'react-bootstrap';
 import xDate from 'xdate';
 import _ from 'lodash';
 import { capFirst } from '../utils.js';
+import WearMeter from './WearMeter.jsx';
 
 const PartDetails = () => {
   const distUnit = useSelector(state => state.user.measure_pref);
@@ -57,7 +58,17 @@ const PartDetails = () => {
           return (
             <tr key={i}>
             {Object.keys(metric).map((heading) => {
-              return <td key={heading}>{Math.round(metric[heading]) ? Math.round(metric[heading]) : metric[heading]}</td>
+              let value = Math.round(metric[heading]) ? Math.round(metric[heading]) : metric[heading];
+              return (
+                <td key={heading}>
+                  {heading === 'Wear' ? 
+                  <WearMeter wear={metric[heading]} />
+                  :
+                  <span>{value} </span>
+                  }
+                  
+                </td>
+              )
             })}
             </tr>
           )
