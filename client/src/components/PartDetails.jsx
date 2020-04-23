@@ -1,83 +1,75 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Table, Form, Row, Col, Popover } from 'react-bootstrap';
 import xDate from 'xdate';
 import _ from 'lodash';
 import { capFirst } from '../utils.js';
 
 const PartDetails = () => {
-  const { selectedPart } = useSelector(state => state.parts);
-  const { 
-    lifespan_dist, 
-    lifespan_time,
-    lifespan_date, 
-    p_dist_current, 
-    p_time_current, 
-    use_metric_date,
-    use_metric_time,
-    use_metric_dist,
-    tracking_method,
-    new_date,
-    p_date_added 
-  } = useSelector(state => state.parts.list[selectedPart]);
   const distUnit = useSelector(state => state.user.measure_pref);
+  const id = useSelector(state => state.parts.selectedPart);
+  const part = useSelector(state => state.parts.list[id]);
 
+  let serviceDate = part.service_date || part.new_date;
+  let lifespanInDays = xDate(serviceDate).diffDays(xDate(part.lifespan_date))
+  console.log(serviceDate, lifespanInDays)
 
-  let detailItems = {
-    'Replace/service in:': [
-      use_metric_dist ? `${(Number(lifespan_dist) - Number(p_dist_current)).toFixed(1)} ${distUnit}` : '',
-      use_metric_time ? `${(Number(lifespan_time) - Number(p_time_current)).toFixed(1)} hrs` : '',
-      use_metric_date ? `${Math.round(xDate(false).diffDays(xDate(lifespan_date)))} days` : ''
-    ], 
-    'Lifespan:': [
-      use_metric_dist ? `${(Number(lifespan_dist)).toFixed(1)} ${distUnit}` : '',
-      use_metric_time ? `${(Number(lifespan_time) - Number(p_time_current)).toFixed(1)} hrs` : '',
-      use_metric_date ? `${lifespan_date}` : ''
-    ], 
-    'Settings:': [
-      `${capFirst(tracking_method)} tracking via:`,
-      `${use_metric_dist ? 'Distance': ''}`,
-      `${use_metric_time ? 'Ride time': ''}`,
-      `${use_metric_date ? 'Date': ''}`
-    ],
-    'New:': [
-      new_date
-    ],
-    'Tracking Since:': [
-      p_date_added
-    ]
-  };
-
-
-
-  return(
-  <>
+  let data = [
     {
-      _.map(detailItems, (textArr, key) => {
-        return (
-          <div key={key} className="row no-gutters my-1 part-detail text-detail py-3">
-            <div className="col-sm-4">
-              {key}
-            </div>
-
-            <div className="col-sm-8 offset-1 offset-sm-0">
-              <div className="row no-gutters">
-                {textArr.map((textLine, i) => {
-                  return (
-                    <div key={i} className="col-12">{textLine}</div>
-                  )
-                })
-
-                }
-              </div>
-
-            </div>
-          </div>
-        )
-      })
+      Metric: `Distance (${distUnit})`,
+      Lifespan: part.lifespan_dist,
+      Current: part.p_dist_current,
+      Remaining: part.lifespan_dist - part.p_dist_current,
+      Wear: part.p_dist_current / part.lifespan_dist < 1 ? part.p_dist_current / part.lifespan_dist : 1
+    },
+    {
+      Metric: 'Ride time (hrs)',
+      Lifespan: part.lifespan_time,
+      Current: part.p_dist_current,
+      Remaining: part.lifespan_time - part.p_time_current,
+      Wear: part.p_time_current / part.lifespan_time < 1 ? part.p_time_current / part.lifespan_time : 1
+    },
+    {
+      Metric: 'Date (days)',
+      Lifespan: part.lifespan_date,
+      Current: xDate(serviceDate).diffDays(xDate()),
+      Remaining: xDate().diffDays(xDate(part.lifespan_date)),
+      Wear: xDate(serviceDate).diffDays(xDate()) / lifespanInDays < 1 ? xDate(serviceDate).diffDays(xDate()) / lifespanInDays : 1
     }
+  ];
 
-  </>
-  );
+  return (
+    <Table striped bordered hover size="sm">
+
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Lifespan</th>
+          <th>Current</th>
+          <th>Remaining</th>
+          <th>Wear</th>
+        </tr>
+      </thead>
+
+
+      <tbody>
+        {data.map((metric, i) => {
+          return (
+            <tr key={i}>
+            {Object.keys(metric).map((heading) => {
+              return <td key={heading}>{Math.round(metric[heading]) ? Math.round(metric[heading]) : metric[heading]}</td>
+            })}
+            </tr>
+          )
+        })
+
+        }
+
+      </tbody>
+
+
+    </Table>
+  )
 };
 
 export default PartDetails;

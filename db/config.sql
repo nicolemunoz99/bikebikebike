@@ -55,7 +55,9 @@ CREATE TABLE IF NOT EXISTS parts(
   lifespan_date BIGINT, -- ms
   p_dist_current DECIMAL,
   p_time_current DECIMAL,
+  p_days_current INT,
   p_date_added BIGINT,  -- ms
+  service_date BIGINT
   p_status VARCHAR
 );
 
