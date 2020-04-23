@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const WearMeter = ({ height='1rem', partId, wear }) => {
   const part = useSelector(state => state.parts.list[partId]);
 
-  wear = !isNaN(Number(wear)) ? wear : 0.5;
+  useEffect(() => {
+    wear = !isNaN(Number(wear)) ? wear : 0;
+  }, [wear])
 
 
   return (

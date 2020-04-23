@@ -5,7 +5,7 @@ import { getUserData } from '../state/actions.js';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
-import PartDetails from './PartDetails.jsx';
+import PartMetricTable from './PartDetails.jsx';
 import { setSelectedBike, resetSelectedBike, resetSelectedPart, showNewPartForm, showEditPartForm, setSelectedPart }from '../state/actions.js';
 
 const PartList = () => {
@@ -44,7 +44,7 @@ const PartList = () => {
                 <div className="col-auto">
                   <div className="row no-gutters">
                     <div className="col-12">
-                      Tracking since {bike.b_date_added}
+                      Tracking bike since {bike.b_date_added}
                     </div>
                     <div className="col-12">
                       {bike.b_dist_current} {distUnit}, {bike.b_time_current} hrs
@@ -132,7 +132,7 @@ const PartList = () => {
 
       
       <div className="col-12">
-        {selectedPart === id && <PartDetails />}
+        {selectedPart === id && <PartMetricTable />}
       </div>
 
       <div className="col-12 text-center">
