@@ -5,7 +5,7 @@ import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import BikeList from './BikeList.jsx';
 import StravaAuth from './StravaAuth.jsx';
-import PartList from './PartList.jsx';
+import PartList from './PartList/Index.jsx';
 
 import ModalIndex from './modals/Index.jsx'
 

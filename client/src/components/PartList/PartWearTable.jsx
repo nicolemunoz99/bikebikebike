@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import useMetricOptions from '../hooks/useMetricOptions.js';
-import { capFirst } from '../utils.js';
-import WearMeter from './WearMeter.jsx';
+import useMetricOptions from '../../hooks/useMetricOptions.js';
+import { capFirst } from '../../utils.js';
+import WearMeter from '../WearMeter.jsx';
 
-const PartMetricTable = () => {
-  const partId = useSelector(state => state.parts.selectedPart);
+const PartWearTable = ({ partId }) => {
+  partId = partId || useSelector(state => state.parts.selectedPart);
   let metrics = useMetricOptions(partId);
 
   let tableHeaders = ['metric', 'lifespan', 'current', 'wear'];
@@ -44,4 +44,4 @@ const PartMetricTable = () => {
   )
 };
 
-export default PartMetricTable;
+export default PartWearTable;

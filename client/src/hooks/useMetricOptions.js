@@ -31,7 +31,7 @@ const useMetricOptions = (partId=null) => {
       value: 'dist',
       fieldType: 'number', // new
       lifespan: Math.round(part.lifespan_dist),
-      current: (part.p_dist_current).toFixed(1),
+      current: (part.p_dist_current),
       wear: Number(part.p_dist_current) / Number(part.lifespan_dist) < 1 ? Number(part.p_dist_current) / Number(part.lifespan_dist) : 1
     },
 
@@ -41,7 +41,7 @@ const useMetricOptions = (partId=null) => {
       value: 'time',
       fieldType: 'number',
       lifespan: Math.round(part.lifespan_time),
-      current: (part.p_time_current).toFixed(1),
+      current: (part.p_time_current),
       wear: Number(part.p_time_current) / Number(part.lifespan_time) < 1 ? Number(part.p_time_current) / Number(part.lifespan_time) : 1
     },
 
