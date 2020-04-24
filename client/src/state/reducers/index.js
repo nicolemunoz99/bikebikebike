@@ -3,7 +3,8 @@ import {
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_MODAL, CLOSE_MODAL, 
   SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
-  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART, RESET_EDITING_PART
+  SET_PARTS, SET_DEFAULT_PARTS, 
+  SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART, RESET_EDITING_PART
 } from '../action-types.js';
 
 import formReducer from './formReducer.js';
@@ -95,7 +96,8 @@ Parts
 const initialPartState = {
   list: {},
   selectedPart: '',
-  editingPart: ''
+  editingPart: '',
+  default: {}
 };
 
 const partReducer = (state = initialPartState, action) => {
@@ -116,9 +118,15 @@ const partReducer = (state = initialPartState, action) => {
   if (action.type === SET_EDITING_PART) {
     return { ...state, editingPart: action.payload};
   }
+
   if (action.type === RESET_EDITING_PART) {
     return { ...state, editingPart: initialPartState.editingPart };
   }
+
+  if (action.type === SET_DEFAULT_PARTS) {
+    return { ...state, default: action.payload };
+  }
+
   return state;
 };
 

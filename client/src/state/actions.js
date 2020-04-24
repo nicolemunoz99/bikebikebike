@@ -5,7 +5,7 @@ import {
   SET_DATA_STATUS,
   SET_STRAVA_ACCESS_STATUS, SET_USER,
   SET_BIKES, SET_SELECTED_BIKE, RESET_SELECTED_BIKE,
-  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART, RESET_EDITING_PART,
+  SET_PARTS, SET_SELECTED_PART, RESET_SELECTED_PART, SET_EDITING_PART, RESET_EDITING_PART, SET_DEFAULT_PARTS,
   SET_MODAL, CLOSE_MODAL,
   FORM_INPUT, RESET_FIELDS, RESET_FORM, UPDATE_REQS, VALIDATE_FIELD, VALIDATE_FORM, SET_FORM_FOR_EDIT
 } from './action-types.js';
@@ -87,6 +87,10 @@ export const resetEditingPart = () => {
   return { type: RESET_EDITING_PART };
 };
 
+export const setDefaultParts = (defaultValues) => {
+  return { type: SET_DEFAULT_PARTS, payload: defaultValues};
+}
+
 /* **************************
 Form
 ************************** */
@@ -132,6 +136,7 @@ export const updateDataStatus = (str) => (dispatch) => {
 
 
 export const showNewPartForm = (bikeId) => (dispatch) => {
+  dispatch(getDefaults());
   dispatch(setSelectedBike(bikeId));
   dispatch(setModal('newPartForm'));
 };
@@ -156,7 +161,6 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
 
   if (dataArr.length === 1) {
     let partType = getState().form.inputs.type;
-    let distUnit = getState().user.measure_pref;
     let data = dataArr[0];
     let fieldName = Object.keys(data)[0];
 
@@ -171,7 +175,7 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
       }
 
     if (data.tracking_method === 'default') {
-      let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
+      let defaultMetric = getState().parts.default[partType].metrics;
       dataArr = [
         ...dataArr,
         { new_at_add: 'y' },
@@ -196,7 +200,6 @@ export const updatePartForm = (dataArr) => async (dispatch, getState) => {
 
 export const updateEditPartForm = (dataArr) => async (dispatch, getState) => {
   let { inputs } = getState().form;
-  let distUnit = getState().user.measure_pref;
   let partType = inputs.type;
   
   if (dataArr.length === 1) {
@@ -205,7 +208,7 @@ export const updateEditPartForm = (dataArr) => async (dispatch, getState) => {
     let value = data[fieldName]
 
     if (data.tracking_method === 'default') {
-      let defaultMetric = await dispatch(getDefaultMetric(partType, distUnit));
+      let defaultMetric = getState().parts.default[partType].metrics
       dataArr = [ ...dataArr, ...defaultMetric ];
     } 
 
@@ -251,9 +254,11 @@ const updateValidation = (dataArr) => (dispatch, getState) => {
 API calls
 */
 
-export const getDefaultMetric = (partType, distUnit) => async (dispatch, getState) => {
-  let metric = (await axios.get(`${process.env.THIS_API}/defaultMetric?partType=${partType}&distUnit=${distUnit}`)).data;
-  return metric;
+export const getDefaults = (partType, distUnit) => async (dispatch, getState) => {
+  let distUnit = getState().user.measure_pref;
+  let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
+  console.log('defaults in thunk', defaults)
+  dispatch(setDefaultParts(defaults))
 }
 
 export const submitNewPart = (data) => async (dispatch, getState) => {

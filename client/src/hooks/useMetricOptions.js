@@ -28,11 +28,10 @@ const useMetricOptions = (partId=null) => {
 
   let wearOptions = {
     'dist': {
-      text: `Distance ${distUnit}`, // formerly subText
-      optionLabel: 'Distance', // formerly undefined (was key name)
-      // field: 'use_metric_dist', // deleted
+      text: `Distance ${distUnit}`,
+      optionLabel: 'Distance',
       value: 'dist',
-      fieldType: 'number', // new
+      fieldType: 'number',
       lifespan: `${Math.round(part.lifespan_dist)} ${distUnit}`,
       current: `${part.p_dist_current} ${distUnit}`,
       wear: Number(part.p_dist_current) / Number(part.lifespan_dist) < 1 ? Number(part.p_dist_current) / Number(part.lifespan_dist) : 1

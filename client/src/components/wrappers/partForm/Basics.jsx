@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
@@ -7,7 +7,7 @@ import { errMsgs } from '../../../validation.js';
 
 const Basics = ({ handleInput, partList }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
-  const { editingPart } = useSelector(state => state.parts);
+  const { editingPart, default: defaultParts } = useSelector(state => state.parts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,15 +32,15 @@ const Basics = ({ handleInput, partList }) => {
               title={inputs.type ? partList[inputs.type].title : 'Type'}
               disabled={!!editingPart}
             >
-              {Object.keys(partList).map(partKey => {
+              {Object.keys(defaultParts).map(key => {
                 return (
                   <Dropdown.Item
-                    key={partKey}
+                    key={key}
                     onClick={handleInput}
                     id="type"
-                    value={partKey}
+                    value={key}
                   >
-                    {partList[partKey].title}
+                    {defaultParts[key].title}
                   </Dropdown.Item>
                 )
               })}

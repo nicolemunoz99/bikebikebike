@@ -8,7 +8,6 @@ const WearMetric = ({ handleInput }) => {
   const { inputs } = useSelector(state => state.form);
   const metrics = useMetricOptions();
 
-  console.log('re-render', metrics)
   return (
     <Form.Group as={CustomFormGroup}>
       
