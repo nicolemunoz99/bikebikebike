@@ -15,12 +15,14 @@ const ModalWrapper = ({ children, title, minHeight = "50%", cancelClose = false 
   };
 
   const handleScroll = (e) => {
-    let el = e.target;
-    if (el.scrollHeight - el.scrollTop === el.clientHeight) {
-      setIsAtBottom(true);
-    } else {
-      setIsAtBottom(false);
-      setIndicatorY(-el.scrollTop);
+    if (e.target === e.currentTarget){
+      let el = e.target;
+      if (el.scrollHeight - el.scrollTop === el.clientHeight) {
+        setIsAtBottom(true);
+      } else {
+        setIsAtBottom(false);
+        setIndicatorY(-el.scrollTop);
+      }
     }
   };
 

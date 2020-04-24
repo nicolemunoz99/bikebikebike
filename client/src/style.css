@@ -130,6 +130,11 @@ body {
   width: 100%
 }
 
+.dropdown-menu.show {
+  max-height: 10.1rem;
+  overflow: auto;
+}
+
 .btn:disabled {
   cursor: default;
 }

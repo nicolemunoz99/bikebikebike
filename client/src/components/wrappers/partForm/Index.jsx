@@ -12,7 +12,6 @@ import { resetForm } from '../../../state/actions.js';
 
 export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, submitLabel='Submit' }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
-  const distUnit = useSelector(state => state.user.measure_pref);
   const { editingPart } = useSelector(state => state.parts)
   const dispatch = useDispatch();
 
@@ -21,14 +20,6 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
       dispatch(resetForm());
     };
   }, []);
-
-  let partList = {
-    chain: { title: 'Chain' },
-    freehub: { title: 'Freehub' },
-    fork: { title: 'Suspension fork' },
-    cassette: { title: 'Cassette' },
-    custom: { title: '-- Custom --' }
-  };
   
 
   const handleInput = (e) => {
@@ -65,7 +56,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
 
         {editingPart === '' ?
           <>
-            <Basics handleInput={handleInput} partList={partList} />
+            <Basics handleInput={handleInput} />
 
             {isOk.type && (!isReq.custom_type || isOk.custom_type) && <TrackingMethod handleInput={handleInput} />}
 
@@ -84,7 +75,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
           </>
           :
           <>
-            <Basics handleInput={handleInput} partList={partList} />
+            <Basics handleInput={handleInput} />
             <TrackingMethod handleInput={handleInput} />
             <WearMetric handleInput={handleInput} />
             {(inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) &&
