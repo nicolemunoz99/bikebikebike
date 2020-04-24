@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
 
-const UseMetric = ({ useOptions, handleInput }) => {
+const WearMetric = ({ useOptions, handleInput }) => {
   const { inputs } = useSelector(state => state.form);
 
   return (
@@ -58,4 +58,4 @@ const useMetricTooltip = (
   </Popover>
 );
 
-export default UseMetric;
+export default WearMetric;

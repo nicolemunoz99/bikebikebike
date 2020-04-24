@@ -17,7 +17,7 @@ const useMetricOptions = (partId=null) => {
     });
 
     setMetrics(newMetrics);
-  }, [partId]);
+  }, [part]);
 
   let serviceDate = part.last_service_date || part.new_date;
   let lifespanInDays = xDate(serviceDate).diffDays(xDate(part.lifespan_date));

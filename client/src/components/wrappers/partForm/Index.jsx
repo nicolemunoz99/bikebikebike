@@ -4,7 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import ModalWrapper from '../ModalWrapper.jsx';
 import Basics from './Basics.jsx';
 import TrackingMethod from './TrackingMethod.jsx';
-import UseMetric from './UseMetric.jsx';
+import WearMetric from './WearMetric.jsx';
 import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
 import PartSummary from './PartSummary.jsx';
@@ -88,7 +88,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
 
             {(inputs.tracking_method === 'custom') &&
               <>
-                <UseMetric handleInput={handleInput} useOptions={useOptions} />
+                <WearMetric handleInput={handleInput} useOptions={useOptions} />
                 {(inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) &&
                   <>
                     <NewDate handleInput={handleInput} />
@@ -103,7 +103,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
           <>
             <Basics handleInput={handleInput} partList={partList} />
             <TrackingMethod handleInput={handleInput} />
-            <UseMetric handleInput={handleInput} useOptions={useOptions} />
+            <WearMetric handleInput={handleInput} useOptions={useOptions} />
             {(inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) &&
               <Lifespan handleInput={handleInput} useOptions={useOptions} />
             }
