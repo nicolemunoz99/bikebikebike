@@ -25,33 +25,33 @@ const useMetricOptions = (partId=null) => {
 
   let wearOptions = {
     'dist': {
-      metric: `Distance (${distUnit})`, // formerly subText
+      metric: `Distance`, // formerly subText
       optionLabel: 'Distance', // formerly undefined (was key name)
       // field: 'use_metric_dist', // deleted
       value: 'dist',
       fieldType: 'number', // new
-      lifespan: Math.round(part.lifespan_dist),
-      current: (part.p_dist_current),
+      lifespan: `${Math.round(part.lifespan_dist)} ${distUnit}`,
+      current: `${part.p_dist_current} ${distUnit}`,
       wear: Number(part.p_dist_current) / Number(part.lifespan_dist) < 1 ? Number(part.p_dist_current) / Number(part.lifespan_dist) : 1
     },
 
     'time': {
-      metric: 'Ride time (hrs)',
+      metric: 'Ride time',
       optionLabel: 'Ride time',
       value: 'time',
       fieldType: 'number',
-      lifespan: Math.round(part.lifespan_time),
-      current: (part.p_time_current),
+      lifespan: `${Math.round(part.lifespan_time)} hr`,
+      current: `${part.p_time_current} hr`,
       wear: Number(part.p_time_current) / Number(part.lifespan_time) < 1 ? Number(part.p_time_current) / Number(part.lifespan_time) : 1
     },
 
     'date': {
-      metric: 'Date (days)',
+      metric: 'Date',
       optionLabel: 'Date',
       value: 'date',
       fieldType: 'date',
-      lifespan: `${part.lifespan_date} (${Math.round(lifespanInDays)} days)`,
-      current: Math.round(xDate(serviceDate).diffDays(xDate())),
+      lifespan: `${part.lifespan_date} (${Math.round(lifespanInDays)} d)`,
+      current: `${Math.round(xDate(serviceDate).diffDays(xDate()))} d`,
       wear: xDate(serviceDate).diffDays(xDate()) / lifespanInDays < 1 ? xDate(serviceDate).diffDays(xDate()) / lifespanInDays : 1
     }
   };

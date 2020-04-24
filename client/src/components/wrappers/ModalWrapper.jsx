@@ -44,8 +44,7 @@ const ModalWrapper = ({ children, title, minHeight = "50%", cancelClose = false 
         {children}
 
         {!isAtBottom &&
-          <div className="row no-gutters scroll-more-wrapper" style={{ bottom: indicatorY }}>
-          </div>
+          <div className="row no-gutters scroll-more" style={{ bottom: indicatorY }} />
         }
 
       </div>

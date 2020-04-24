@@ -48,7 +48,7 @@ body {
 .part-detail {
   border: 1px rgb(209, 209, 209) solid;
   border-radius: 0.2rem;
-  padding: 1rem;
+  padding: 0.7rem 0.2rem;
 }
 
 .text-detail {
@@ -58,6 +58,7 @@ body {
 
 .meter {
   background-image: linear-gradient(to right, green, rgb(41, 128, 0), rgb(255, 230, 0), red);
+  min-width: 5rem;
 }
 
 .meter-mask {
@@ -115,12 +116,12 @@ body {
   overflow: auto;
 }
 
-.scroll-more-wrapper {
+.scroll-more {
   position: absolute;
-  background-image: linear-gradient(rgba(var(--modal-bg-col), 0.2), rgb(var(--modal-bg-col)));
+  background-image: linear-gradient(rgba(var(--modal-bg-col), 0), rgb(var(--modal-bg-col)));
   bottom: 0px;
   left: 0px;
-  height: 8rem;
+  height: 4rem;
   width: 100%;
   pointer-events: none;
 }

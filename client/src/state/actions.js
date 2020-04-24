@@ -298,8 +298,9 @@ export const submitEditedPart = (data) => async (dispatch, getState) => {
     await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
-    dispatch(updateDataStatus('ok'));
+    
     dispatch(getUserData());
+    dispatch(updateDataStatus('ok'));
   }
   catch (err) {
     dispatch(updateDataStatus('dataErr'));

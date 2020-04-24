@@ -12,7 +12,7 @@ const PartWearTable = ({ partId }) => {
   let tableHeaders = ['metric', 'lifespan', 'current', 'wear'];
 
   return (
-    <Table striped bordered hover size="sm">
+    <Table striped bordered hover size="sm" className="text-detail">
 
       <thead>
         <tr>
@@ -21,22 +21,25 @@ const PartWearTable = ({ partId }) => {
       </thead>
 
       <tbody>
+
         {metrics.map(metric => {
           metric.wear = <WearMeter wear={metric.wear} />
+          
           return (
             <tr key={metric.value}>
+              
               {tableHeaders.map((header, i) => {
+                
                 return (
                   <td key={i}>{metric[header]}</td>
                 )
-              })
 
-              }
+              })}
+
             </tr>
           )
-        })
 
-        }
+        })}
 
       </tbody>
 
