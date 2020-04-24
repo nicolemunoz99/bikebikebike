@@ -29,24 +29,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
     cassette: { title: 'Cassette' },
     custom: { title: '-- Custom --' }
   };
-
-  let useOptions = {
-    'Distance': {
-      field: 'use_metric_dist',
-      value: 'dist',
-      subText: `Distance (${distUnit})`
-    },
-    'Ride time': {
-      field: 'use_metric_time',
-      value: 'time',
-      subText: 'Ride time (hrs)'
-    },
-    'Date': {
-      field: 'use_metric_date',
-      value: 'date',
-      subText: 'Date'
-    }
-  }
+  
 
   const handleInput = (e) => {
     let value;
@@ -88,11 +71,11 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
 
             {(inputs.tracking_method === 'custom') &&
               <>
-                <WearMetric handleInput={handleInput} useOptions={useOptions} />
+                <WearMetric handleInput={handleInput} />
                 {(inputs.use_metric_date || inputs.use_metric_time || inputs.use_metric_dist) &&
                   <>
                     <NewDate handleInput={handleInput} />
-                    {isOk.new_date && <Lifespan handleInput={handleInput} useOptions={useOptions} />}
+                    {isOk.new_date && <Lifespan handleInput={handleInput} />}
                   </>
                 }
 
@@ -103,9 +86,9 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
           <>
             <Basics handleInput={handleInput} partList={partList} />
             <TrackingMethod handleInput={handleInput} />
-            <WearMetric handleInput={handleInput} useOptions={useOptions} />
+            <WearMetric handleInput={handleInput} />
             {(inputs.use_metric_dist || inputs.use_metric_time || inputs.use_metric_date) &&
-              <Lifespan handleInput={handleInput} useOptions={useOptions} />
+              <Lifespan handleInput={handleInput} />
             }
           </>
 

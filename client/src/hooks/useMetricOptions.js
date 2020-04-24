@@ -1,23 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import xDate from 'xdate';
+import _ from 'lodash';
 
 const useMetricOptions = (partId=null) => {
-  // if (partId === null) return wearOptions;
   let [metrics, setMetrics] = useState([]);
   let distUnit = useSelector(state => state.user.measure_pref);
-  let part = useSelector(state => state.parts.list[partId]);
+  let part = useSelector(state => state.parts.list[partId]) || {};
 
   useEffect(() => {
     let newMetrics = [];
-    Object.keys(wearOptions).forEach((option) => {
-      if (part[`use_metric_${option}`]) {
-        newMetrics.push(wearOptions[option]);
-      }
-    });
-
-    setMetrics(newMetrics);
+    if (partId !== null) {
+      Object.keys(wearOptions).forEach((option) => {
+        if (part[`use_metric_${option}`]) {
+          newMetrics.push(wearOptions[option]);
+        }
+      });
+      setMetrics(newMetrics);
+    }
   }, [part]);
+
+
 
   let serviceDate = part.last_service_date || part.new_date;
   let lifespanInDays = xDate(serviceDate).diffDays(xDate(part.lifespan_date));
@@ -25,7 +28,7 @@ const useMetricOptions = (partId=null) => {
 
   let wearOptions = {
     'dist': {
-      metric: `Distance`, // formerly subText
+      text: `Distance ${distUnit}`, // formerly subText
       optionLabel: 'Distance', // formerly undefined (was key name)
       // field: 'use_metric_dist', // deleted
       value: 'dist',
@@ -36,7 +39,7 @@ const useMetricOptions = (partId=null) => {
     },
 
     'time': {
-      metric: 'Ride time',
+      text: 'Ride time (hr)',
       optionLabel: 'Ride time',
       value: 'time',
       fieldType: 'number',
@@ -46,7 +49,7 @@ const useMetricOptions = (partId=null) => {
     },
 
     'date': {
-      metric: 'Date',
+      text: 'Date',
       optionLabel: 'Date',
       value: 'date',
       fieldType: 'date',
@@ -56,7 +59,8 @@ const useMetricOptions = (partId=null) => {
     }
   };
 
-  return metrics;
+
+  return partId !== null ? metrics : _.values(wearOptions);
 
 };
 

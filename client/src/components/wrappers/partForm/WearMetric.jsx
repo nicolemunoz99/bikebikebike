@@ -1,33 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
+import useMetricOptions from '../../../hooks/useMetricOptions.js';
 
-const WearMetric = ({ useOptions, handleInput }) => {
+const WearMetric = ({ handleInput }) => {
   const { inputs } = useSelector(state => state.form);
+  const metrics = useMetricOptions();
 
+  console.log('re-render', metrics)
   return (
     <Form.Group as={CustomFormGroup}>
       
       <FormHeader
         label="Use Metric"
-        tooltip={useMetricTooltip}
+        tooltip={wearMetricTooltip}
       />
 
       <Col sm={{span:8, offset:4}}>
         <Row>
 
           {
-            Object.keys(useOptions).map((key) => {
+            metrics.map((metric) => {
               return (
-                <Col sm="auto" key={key}>
+                <Col sm="auto" key={metric.value}>
                   <Form.Check
                     data-checkbox={true}
                     type="checkbox"
-                    label={key}
-                    id={useOptions[key].field}
+                    label={metric.optionLabel}
+                    id={`use_metric_${metric.value}`}
                     onChange={handleInput}
-                    checked={inputs[useOptions[key].field]}
+                    checked={inputs[`use_metric_${metric.value}`]}
                   />
                 </Col>
               )
@@ -42,7 +45,7 @@ const WearMetric = ({ useOptions, handleInput }) => {
   );
 };
 
-const useMetricTooltip = (
+const wearMetricTooltip = (
   <Popover id="use-metric-tooltip">
     <Popover.Content>
       <div>

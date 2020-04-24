@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
 import { errMsgs } from '../../../validation.js';
+import useMetricOptions from '../../../hooks/useMetricOptions.js';
 
-const Lifespan = ({ useOptions, handleInput }) => {
+const Lifespan = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
+  const metrics = useMetricOptions();
 
 
   return (
@@ -17,11 +19,10 @@ const Lifespan = ({ useOptions, handleInput }) => {
       />
 
       {
-        Object.keys(useOptions).map((useKey) => {
-          let metric = useOptions[useKey].value
+        metrics.map((metric) => {
           return (
-            <React.Fragment key={useKey}>
-              {inputs[`use_metric_${metric}`] &&
+            <React.Fragment key={metric.value}>
+              {inputs[`use_metric_${metric.value}`] &&
                 <Col sm={{ span: 8, offset: 4 }}>
                   <Row>
                     <Col
@@ -30,13 +31,13 @@ const Lifespan = ({ useOptions, handleInput }) => {
                     >
                       <Form.Control
                         as={CustomInput}
-                        err={isReq[`lifespan_${metric}`] && !isOk[`lifespan_${metric}`] ? errMsgs[`lifespan_${metric}`] : ''}
-                        subText={useOptions[useKey].subText}
-                        type={metric === "date" ? "date" : "number"}
+                        err={isReq[`lifespan_${metric.value}`] && !isOk[`lifespan_${metric.value}`] ? errMsgs[`lifespan_${metric.value}`] : ''}
+                        subText={metric.text}
+                        type={metric.fieldType}
                         placeholder=''
-                        id={`lifespan_${metric}`}
+                        id={`lifespan_${metric.value}`}
                         onChange={handleInput}
-                        value={inputs[`lifespan_${metric}`]}
+                        value={inputs[`lifespan_${metric.value}`]}
                         className="w-100"
                       />
                     </Col>

@@ -13,7 +13,7 @@ export const NewPartForm = () => {
 
   const handleSubmitNewPart = (e) => {
     e.preventDefault();
-    formData = { ...inputs }
+    let formData = { ...inputs }
     formData.p_bike_id = bikeId;
     dispatch(submitNewPart(formData));
   };
