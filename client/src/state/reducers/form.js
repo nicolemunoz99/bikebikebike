@@ -7,7 +7,7 @@ import {
   VALIDATE_FIELD,
   VALIDATE_FORM,
   SET_FORM_FOR_EDIT
-} from '../action-types.js';
+} from '../action-types/';
 import { isValid } from '../../validation.js';
 
 

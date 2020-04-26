@@ -5,7 +5,11 @@ import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from '../wrappers/PageWrapper.jsx';
 import PartPanel from './PartPanel.jsx'
 import { capFirst } from '../../utils.js';
-import { getUserData, setSelectedBike, resetSelectedBike, resetSelectedPart, showNewPartForm } from '../../state/actions.js';
+import { getUserData } from '../../state/actions/user.js';
+import { setSelectedBike, resetSelectedBike } from '../../state/actions/bikes.js';
+import { resetSelectedPart } from '../../state/actions/parts.js';
+import { showNewPartForm } from '../../state/actions/partForm.js';
+
 
 const PartList = () => {
   const bikeId = useParams().bikeId;

@@ -4,7 +4,8 @@ import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import WearMeter from '../WearMeter.jsx';
 import PartWearTable from './PartWearTable.jsx';
 import { capFirst } from '../../utils.js';
-import { setSelectedPart, showEditPartForm } from '../../state/actions.js';
+import { setSelectedPart } from '../../state/actions/parts.js';
+import { showEditPartForm } from '../../state/actions/partForm.js';
 
 
 const PartPanel = ({ partId }) => {

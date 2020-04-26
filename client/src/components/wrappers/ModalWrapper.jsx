@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { closeModal } from '../../state/actions.js';
+import { closeModal } from '../../state/actions/app.js';
 
 const ModalWrapper = ({ children, title, minHeight = "50%", cancelClose = false }) => {
   const [isAtBottom, setIsAtBottom] = useState(false)

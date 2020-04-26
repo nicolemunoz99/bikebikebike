@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
-import { getUserData } from '../state/actions.js';
+import { getUserData } from '../state/actions/user.js';
 Amplify.configure(config);
 
 const StravaAuth = () => {

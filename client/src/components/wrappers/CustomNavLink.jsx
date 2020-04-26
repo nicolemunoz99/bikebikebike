@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setModal } from '../../state/actions.js';
 import { withRouter } from 'react-router-dom';
+import { setModal } from '../../state/actions/app.js';
 
 const CustomNavLink = ({ history, to, modal=false, onClick, tag: Tag, staticContext, className, ...rest }) => {
   const dispatch = useDispatch();

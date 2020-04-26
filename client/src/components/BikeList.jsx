@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserData, showNewPartForm } from '../state/actions.js';
+import { getUserData } from '../state/actions/user.js';
+import { showNewPartForm } from '../state/actions/partForm.js';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';

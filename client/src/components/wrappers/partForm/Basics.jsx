@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import { resetFields } from '../../../state/actions.js';
+import { resetFields } from '../../../state/actions/partForm.js';
 import { errMsgs } from '../../../validation.js';
 
 const Basics = ({ handleInput }) => {

@@ -8,7 +8,7 @@ import WearMetric from './WearMetric.jsx';
 import NewDate from './NewDate.jsx';
 import Lifespan from './Lifespan.jsx';
 import PartSummary from './PartSummary.jsx';
-import { resetForm } from '../../../state/actions.js';
+import { resetForm } from '../../../state/actions/partForm.js';
 
 export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, submitLabel='Submit' }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)

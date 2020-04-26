@@ -1,7 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { PartFormWrapper } from '../wrappers/partForm/Index.jsx';
-import { updatePartForm, updateEditPartForm, resetEditingPart, submitNewPart, submitEditedPart, showEditPartForm, resetForm } from '../../state/actions.js';
+import { 
+  updatePartForm, 
+  updateEditPartForm, 
+  submitNewPart, 
+  submitEditedPart, 
+  showEditPartForm, 
+  resetForm 
+} from '../../state/actions/partForm.js';
+
+import { resetEditingPart } from '../../state/actions/parts.js';
 
 
 
