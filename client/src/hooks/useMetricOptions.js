@@ -48,7 +48,7 @@ const useMetricOptions = (partId=null) => {
     },
 
     'date': {
-      text: 'Date',
+      text: 'Date to be notified',
       optionLabel: 'Date',
       value: 'date',
       fieldType: 'date',

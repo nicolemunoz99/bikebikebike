@@ -67,7 +67,7 @@ export const getUserData = () => async (dispatch) => {
     console.log('normalized', normalUserData);
     dispatch(setBikes(normalUserData.entities.bikes));
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
-    dispatch(setParts(normalUserData.entities.parts));
+    if (normalUserData.entities.parts) dispatch(setParts(normalUserData.entities.parts));
 
     dispatch(updateDataStatus('ok'));
   }
