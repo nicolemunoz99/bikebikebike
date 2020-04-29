@@ -52,15 +52,15 @@ export const setFormForEdit = (fieldsAndValues) => {
 thunks
 ********/
 
-export const showNewPartForm = (bikeId) => (dispatch) => {
-  dispatch(getDefaults());
+export const showNewPartForm = (bikeId) => async (dispatch) => {
+  await dispatch(getDefaults());
   dispatch(setSelectedBike(bikeId));
   dispatch(setModal('newPartForm'));
 };
 
-export const showEditPartForm = (partId) => (dispatch, getState) => {
-  dispatch(getDefaults());
-  partId = partId || getState().parts.editingPart
+export const showEditPartForm = (partId) => async (dispatch, getState) => {
+  await dispatch(getDefaults());
+  partId = partId || getState().parts.editingPart;
   dispatch(setEditingPart(partId));
   dispatch(setModal('editPartForm'));
 

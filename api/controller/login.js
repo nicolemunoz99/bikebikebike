@@ -71,8 +71,9 @@ const login = {
     updatedDataset.measure_pref = athleteData.measurement_preference === 'feet' ? 'mi' : 'km';
 
     updatedDataset.last_login_date = last_login_date;
+    console.log('PRE-convert: ', console.log(JSON.stringify(updatedDataset, null, 2)))
     updatedDataset = convertToUserUnits(updatedDataset);
-    console.log('updatedDataset post-convert: ', updatedDataset)
+    console.log('POST-convert: ', console.log(JSON.stringify(updatedDataset, null, 2)))
     res.send(updatedDataset);
 
   }

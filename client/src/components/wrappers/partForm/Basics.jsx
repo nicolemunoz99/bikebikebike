@@ -9,6 +9,7 @@ const Basics = ({ handleInput }) => {
   const { inputs, isReq, isOk } = useSelector(state => state.form);
   const { editingPart, default: defaultParts } = useSelector(state => state.parts);
   const dispatch = useDispatch();
+  console.log('default Parts', defaultParts)
 
   useEffect(() => {
     if (inputs.type === 'default'){
