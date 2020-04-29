@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS parts(
   p_time_current DECIMAL,
   p_days_current INT,
   p_date_added BIGINT,  -- ms
-  service_date BIGINT
+  service_date BIGINT,
   p_status VARCHAR
 );
 

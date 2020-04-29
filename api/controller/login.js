@@ -106,6 +106,9 @@ const getUserWithBikesWithParts = async (stravaId) => {
     let partCollection = _.filter(rawData, _.matches({ 'p_bike_id': uniqEl.bike_id }));
     partCollection.forEach(partEl => {
       delete partEl.p_bike_id;
+      // calc wear
+      let wear = {};
+      
       bikeObj.parts.push(_.pick(partEl, partCols));
     });
     bikesWithParts.push(bikeObj);

@@ -10,7 +10,7 @@ import {
 
 import { getUserData } from './user.js';
 import { setSelectedBike } from './bikes.js';
-import { setDefaultParts } from './parts.js';
+import { setDefaultParts, setEditingPart } from './parts.js';
 import { setModal, updateDataStatus } from './app.js';
 
 
@@ -59,6 +59,7 @@ export const showNewPartForm = (bikeId) => (dispatch) => {
 };
 
 export const showEditPartForm = (partId) => (dispatch, getState) => {
+  dispatch(getDefaults());
   partId = partId || getState().parts.editingPart
   dispatch(setEditingPart(partId));
   dispatch(setModal('editPartForm'));
@@ -160,6 +161,7 @@ const checkIfEqualToOrig = () => (dispatch, getState) => {
 };
     
 const updateValidation = (dataArr) => (dispatch, getState) => {
+  console.log('dataArr', dataArr)
   dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());
@@ -173,7 +175,7 @@ export const getDefaults = () => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
   let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
   console.log('defaults in thunk', defaults)
-  dispatch(setDefaultParts(defaults))
+  dispatch(setDefaultParts(defaults));
 }
 
 export const submitNewPart = (data) => async (dispatch, getState) => {
