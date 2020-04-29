@@ -13,7 +13,7 @@ exports.convertToUserUnits = (dataset, distUnit = null) => {
         findTargets(value);
       } else {
         if (value && typeof value !== 'boolean') {
-          console.log('PRE key-value ', key, value)
+
           if (key.match(/dist/g)) { // m (strava API default)
             
             collection[key] = (distUnit === 'km' ? value / 1000 : value / 1609.34).toFixed(1);
@@ -27,7 +27,7 @@ exports.convertToUserUnits = (dataset, distUnit = null) => {
             if (key === 'last_login_date') collection[key] = xDate(value).toString('MMM dd, yyyy @ hh:mm');
             else collection[key] = xDate(value).toString('MMM dd, yyyy');
           }
-          console.log('POST key-value ', key, value)
+
         }
 
       }

@@ -5,7 +5,7 @@ import partReducer from './parts.js';
 import formReducer from './form.js';
 
 import { combineReducers } from 'redux';
-console.log('userReducer: ', userReducer)
+
 export default combineReducers({
   dataStatus: dataReducer,
   modal: modalReducer,

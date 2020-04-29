@@ -26,7 +26,6 @@ const part = {
       }
     }
 
-    console.log('newPart to insert', newPart)
     await insert('parts', newPart);
     res.sendStatus(200);
   },

@@ -16,6 +16,7 @@ import { setModal, updateDataStatus } from './app.js';
 
 import axios from 'axios';
 import _ from 'lodash';
+import xDate from 'xdate';
 import Amplify, { Auth } from "aws-amplify";
 import config from "../../aws-exports.js";
 Amplify.configure(config);
@@ -64,8 +65,10 @@ export const showEditPartForm = (partId) => async (dispatch, getState) => {
   dispatch(setEditingPart(partId));
   dispatch(setModal('editPartForm'));
 
-  let origPart = getState().parts.list[partId];
-  origPart.lifespan_date = xDate(origPart.lifespan_date).toString('yyyy-MM-dd')
+  let origPart = { ...getState().parts.list[partId] };
+
+  origPart.lifespan_date = origPart.lifespan_date ? xDate(origPart.lifespan_date).toString('yyyy-MM-dd') : origPart.lifespan_date;
+
   origPart = _.reduce(origPart, (dataTot, value, fieldName) => {
     return value !== null ? [...dataTot, { [fieldName]: value }] : dataTot;
   }, []);
@@ -160,8 +163,7 @@ const checkIfEqualToOrig = () => (dispatch, getState) => {
   if (isEqualToOrig) dispatch(validateForm(false)); // disable submit
 };
     
-const updateValidation = (dataArr) => (dispatch, getState) => {
-  console.log('dataArr', dataArr)
+const updateValidation = (dataArr) => (dispatch) => {
   dispatch(formInput(dataArr));
   dispatch(updateReqs());
   dispatch(validateField());
@@ -174,13 +176,13 @@ const updateValidation = (dataArr) => (dispatch, getState) => {
 export const getDefaults = () => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
   let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
-  console.log('defaults in thunk', defaults)
+
   dispatch(setDefaultParts(defaults));
 }
 
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
-  console.log('distUnit', distUnit)
+
   dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
