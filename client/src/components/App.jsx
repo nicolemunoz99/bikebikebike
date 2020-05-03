@@ -25,6 +25,7 @@ return (
         <Route exact path="/stravaAuth" component={StravaAuth} />
         <Route exact path="/bikes" component={BikeList} />
         <Route exact path="/bikes/:bikeId" component={PartList} />
+        <Route component={Landing} />
       </Switch>
     </Router>
 

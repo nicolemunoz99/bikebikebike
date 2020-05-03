@@ -19,9 +19,9 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist'));
 
 // ...api routes...
-app.use('/stravaAuth', stravaAuth); // strava auth redirects here
-app.get('/defaultMetric', defaultMetric);
-app.use('/api', authRoute);
+app.use('/stravaAuth', stravaAuth); // strava auth redirects here; no user auth required
+app.get('/defaultMetric', defaultMetric); // default metrics; no user auth required
+app.use('/api', authRoute); // user data; requires auth
 
 
 
