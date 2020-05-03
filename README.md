@@ -12,8 +12,7 @@ shocks or batteries.
 
 NB This app's name, BikeBikeBike, is in flux :)
 
-
-
+<br><br>
 ## Built With
 | Tech              | Role                           |
 |-------------------|--------------------------------|
@@ -33,7 +32,7 @@ NB This app's name, BikeBikeBike, is in flux :)
 | npm               | Package management             |
 
 
-
+<br><br>
 ## High-level App Flow
 ![image](readme-resources/app-strava-flow.jpg.001.jpg)
 __________________________
@@ -51,7 +50,8 @@ __________________________
 __________________________
 
 
+<br><br>
 ## SQL Schema
 <p align="center">
-<img src="readme-resources/app-strava-flow.jpg.006.jpg" width="600">
-  </p>
+  <img src="readme-resources/app-strava-flow.jpg.006.jpg" width="600">
+</p>
