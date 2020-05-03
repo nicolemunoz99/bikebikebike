@@ -52,4 +52,6 @@ __________________________
 
 
 ## SQL Schema
-![image](readme-resources/app-strava-flow.jpg.006.jpg)
+<p align="center">
+<img src="readme-resources/app-strava-flow.jpg.006.jpg" width="600">
+  </p>
