@@ -1,4 +1,4 @@
-# BikeBikeBike
+# About BikeBikeBike
 BikeBikeBike is a full-stack app tracks wear on bicycle components by pulling in a user's ride data (miles and hours) for 
 each of the user's bikes from [Strava](http://strava.com). Users create a BikeBikeBike account, sign in to their Strava account
 and grant BikeBikeBike permissions via OAuth 2.0, which allows the BikeBikeBike to make requests to [Strava](http://strava.com)'s API on the user's behalf.
@@ -14,7 +14,7 @@ NB This app's name, BikeBikeBike, is in flux :)
 
 
 
-## Built with
+## Built With
 | Tech              | Role                           |
 |-------------------|--------------------------------|
 | React             | UI                             |
@@ -34,7 +34,7 @@ NB This app's name, BikeBikeBike, is in flux :)
 
 
 
-## High-level app flow
+## High-level App Flow
 ![image](readme-resources/app-strava-flow.jpg.001.jpg)
 __________________________
 
@@ -50,3 +50,6 @@ __________________________
 ![image](readme-resources/app-strava-flow.jpg.005.jpg)
 __________________________
 
+
+## SQL Schema
+![image](readme-resources/app-strava-flow.jpg.006.jpg)
