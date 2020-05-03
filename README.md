@@ -10,7 +10,26 @@ has incurred. The user can view more detailed info about each bike's parts, and 
 retire a component for consumable parts, such as chains, or indicate that the part has been serviced, as in the case of freehubs, 
 shocks or batteries.
 
-NB This app's name, BikeBikeBike, is currently in flux :)
+NB This app's name, BikeBikeBike, is in flux :)
+
+## Built with
+| Tech              | Role                           |
+|-------------------|--------------------------------|
+| React             | UI                             |
+| Redux             | State management               |
+| React\-Boostrap   | Styling components             |
+| vanilla Bootstrap | Responsive styling             |
+| vanilla CSS       | Styling                        |
+| Webpack           | Bundler                        |
+| Babel             | JSX transpiler                 |
+| AWS Amplify       | Auth platform, user management |
+| Amazon Cognito    | Secure back end resources      |
+| Cognito\-Express  | User verification middleware   |
+| Postgres          | SQL database management        |
+| Node\.js          | JS runtime env                 |
+| Express           | Server framework               |
+| npm               | Package management             |
+
 
 ## High-level app flow
 ![image](readme-resources/app-strava-flow.jpg.001.jpg)
