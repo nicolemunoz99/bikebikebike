@@ -1,5 +1,5 @@
 # About BikeBikeBike
-BikeBikeBike is a full-stack app tracks wear on bicycle components by pulling in a user's ride data (miles and hours) for 
+BikeBikeBike is a full-stack app that tracks wear on bicycle components by pulling in a user's ride data (miles and hours) for 
 each of the user's bikes from [Strava](http://strava.com). Users create a BikeBikeBike account, sign in to their Strava account
 and grant BikeBikeBike permissions via OAuth 2.0, which allows the BikeBikeBike to make requests to [Strava](http://strava.com)'s API on the user's behalf.
 
@@ -10,7 +10,7 @@ has incurred. The user can view more detailed info about each bike's parts, and 
 retire a component for consumable parts, such as chains, or indicate that the part has been serviced, as in the case of freehubs, 
 shocks or batteries.
 
-NB This app's name, BikeBikeBike, is in flux :)
+NB The app's name, BikeBikeBike, is in flux :)
 
 <br><br>
 ## Built With
