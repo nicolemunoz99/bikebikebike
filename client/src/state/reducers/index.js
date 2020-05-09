@@ -1,4 +1,4 @@
-import appReducer from './app.js';
+import appControlsReducer from './appControls.js';
 import userReducer from './user.js';
 import bikeReducer from './bikes.js';
 import partReducer from './parts.js';
@@ -11,7 +11,7 @@ export default combineReducers({
   bikes: bikeReducer,
   parts: partReducer,
   form: formReducer,
-  app: appReducer
+  appControls: appControlsReducer
 });
 
 

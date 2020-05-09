@@ -4,20 +4,20 @@ import { NewPartForm, EditPartForm } from './PartForms.jsx';
 import { DataWait, DataErr } from './DataStatus.jsx';
 
 const ModalIndex = () => {
-  const { modal } = useSelector(state => state.app);
+  const { 
+    newPartForm,  
+    editPartForm,
+    dataWait,
+    dataErr
+  } = useSelector(state => state.appControls.modal);
 
-  const modalTypes = {
-    newPartForm: NewPartForm,
-    editPartForm: EditPartForm,
-    dataWait: DataWait,
-    dataErr: DataErr
-  }
-
-  const ModalToRender = modalTypes[modal] || null;
 
   return (
     <>
-      <ModalToRender />
+      { newPartForm && <NewPartForm /> }
+      { editPartForm && <EditPartForm /> }
+      { dataWait && <DataWait /> }
+      { dataErr && <DataErr /> }
     </>
   );
 };

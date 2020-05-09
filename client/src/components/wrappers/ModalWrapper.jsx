@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { closeModal } from '../../state/actions/app.js';
+import { closeModal } from '../../state/actions/appControls.js';
 
-const ModalWrapper = ({ children, title, minHeight = "50%", cancelClose = false }) => {
+const ModalWrapper = ({modal, children, title, minHeight = "50%", cancelClose = false }) => {
   const [isAtBottom, setIsAtBottom] = useState(false)
   const [indicatorY, setIndicatorY] = useState('0px');
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const ModalWrapper = ({ children, title, minHeight = "50%", cancelClose = false 
   const closeHandler = (e) => {
     if (cancelClose) return;
     if (e.target === e.currentTarget) {
-      dispatch(closeModal());
+      dispatch(closeModal(modal));
     };
   };
 

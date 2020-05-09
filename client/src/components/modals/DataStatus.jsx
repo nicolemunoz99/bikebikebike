@@ -4,7 +4,7 @@ import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 export const DataWait = () => {
 
   return (
-    <ModalWrapper cancelClose={true}>
+    <ModalWrapper cancelClose={true} modal="dataWait">
       <div className="row align-items-center">
         <div className="col text-center">
           Please wait ...
@@ -17,7 +17,7 @@ export const DataWait = () => {
 export const DataErr = () => {
 
   return (
-    <ModalWrapper title="Ooops">
+    <ModalWrapper title="Ooops" modal="dataErr">
       <div className="row align-items-center">
         <div className="col text-center">
           There was an error.

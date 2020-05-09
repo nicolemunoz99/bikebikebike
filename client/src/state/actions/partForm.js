@@ -11,7 +11,7 @@ import {
 import { getUserData } from './user.js';
 import { setSelectedBike } from './bikes.js';
 import { setDefaultParts, setEditingPart } from './parts.js';
-import { setModal, updateDataStatus } from './app.js';
+import { openModal, updateDataStatus } from './appControls.js';
 
 
 import axios from 'axios';
@@ -56,14 +56,14 @@ thunks
 export const showNewPartForm = (bikeId) => async (dispatch) => {
   await dispatch(getDefaults());
   dispatch(setSelectedBike(bikeId));
-  dispatch(setModal('newPartForm'));
+  dispatch(openModal('newPartForm'));
 };
 
 export const showEditPartForm = (partId) => async (dispatch, getState) => {
   await dispatch(getDefaults());
   partId = partId || getState().parts.editingPart;
   dispatch(setEditingPart(partId));
-  dispatch(setModal('editPartForm'));
+  dispatch(openModal('editPartForm'));
 
   let origPart = { ...getState().parts.list[partId] };
 

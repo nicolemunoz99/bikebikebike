@@ -34,6 +34,7 @@ export const NewPartForm = () => {
         updatePartForm={updatePartForm}
         reset={()=>dispatch(resetForm())}
         title='New Component'
+        modal='newPartForm'
       />
     </>
   );
@@ -65,6 +66,7 @@ export const EditPartForm = () => {
         reset={()=>{dispatch(resetForm()); dispatch(showEditPartForm())}}
         title='Edit Component'
         submitLabel='Update' 
+        modal='editPartForm'
       />
     </>
   );

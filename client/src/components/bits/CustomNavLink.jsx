@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { setModal } from '../../state/actions/app.js';
 import { Nav } from 'react-bootstrap';
 
 const CustomNavLink = ({ history, to, modal=false, onClick, tag: Tag, staticContext, className, ...rest }) => {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Redirect } from 'react-router-dom';
-import { setRedirectRoute } from '../../state/actions/app.js';
+import { setRedirectRoute } from '../../state/actions/appControls.js';
 
 
 // ... wraper for routes requiring auth

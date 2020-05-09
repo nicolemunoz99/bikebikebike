@@ -15,7 +15,7 @@ import config from "../aws-exports.js";
 Amplify.configure(config);
 
 const BikeList = () => {
-  const { dataStatus } = useSelector(state => state.app);
+  const { dataStatus } = useSelector(state => state.appControls);
   const { id, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
   const allBikes = useSelector(state => state.bikes.list);
   const allParts = useSelector(state => state.parts.list);

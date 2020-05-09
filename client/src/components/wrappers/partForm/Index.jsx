@@ -10,7 +10,7 @@ import Lifespan from './Lifespan.jsx';
 import PartSummary from './PartSummary.jsx';
 import { resetForm } from '../../../state/actions/partForm.js';
 
-export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, submitLabel='Submit' }) => {
+export const PartFormWrapper = ({ modal, handleSubmit, updatePartForm, title, reset, submitLabel='Submit' }) => {
   const { inputs, isOk, isReq, formIsValid } = useSelector(state => state.form)
   const { editingPart } = useSelector(state => state.parts)
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export const PartFormWrapper = ({ handleSubmit, updatePartForm, title, reset, su
 
 
   return (
-    <ModalWrapper title={title} minHeight="70%">
+    <ModalWrapper modal={modal} title={title} minHeight="70%">
       
       <Row 
         className='justify-content-center align-items-center no-gutters my-3 pointer text-muted'

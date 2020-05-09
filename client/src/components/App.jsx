@@ -12,7 +12,7 @@ import ModalIndex from './modals/Index.jsx'
 
 
 const App = () => {
-  const { modal } = useSelector(state => state.app);
+  const { modal } = useSelector(state => state.appControls);
 
   useEffect(() => {
   }, [modal])

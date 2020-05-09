@@ -4,7 +4,7 @@ import {
 
 import { setBikes } from './bikes.js';
 import { setParts } from './parts.js';
-import { updateDataStatus } from './app.js';
+import { updateDataStatus } from './appControls.js';
 
 import axios from 'axios';
 import { normalize, schema } from 'normalizr';
