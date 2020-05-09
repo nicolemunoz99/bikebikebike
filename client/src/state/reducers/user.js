@@ -10,8 +10,7 @@ const initialUserState = {
   last_login_date: '',
   join_date: '',
   bikes: [],
-  authState: 'signUp',
-  redirectRoute: '/',
+  authState: '',
   hasStravaAccess: false
 };
 

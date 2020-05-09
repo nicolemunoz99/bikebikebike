@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { withRouter } from "react-router";
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData } from '../state/actions/user.js';
 import { showNewPartForm } from '../state/actions/partForm.js';
@@ -123,6 +124,4 @@ const BikeList = () => {
   )
 };
 
-export default withAuthenticator(BikeList, {includeGreetings: true} );
-
-// export default BikeList;
+export default withRouter(BikeList);

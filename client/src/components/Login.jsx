@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { setAuthState2 } from '../state/actions/user.js';
-
+import { setRedirectRoute } from '../state/actions/app.js';
 
 // Amplify auth components
 import { Authenticator, SignIn, SignUp, ConfirmSignUp, ForgotPassword } from 'aws-amplify-react';
 import { Hub } from 'aws-amplify';
 
 const Login = ({ history }) => {
-  const { redirectRoute, authState } = useSelector(state => state.user);
+  const { authState } = useSelector(state => state.user);
+  const { redirectRoute } = useSelector(state => state.app);
   const dispatch = useDispatch();
 
   useEffect(() => {
     return () => {
-      dispatch(setRedirect('/bikes'));
-      dispatch(setLoginErr(''));
+      dispatch(setRedirectRoute('/bikes'));
     };
   },[]);
 
   useEffect(() => {
-    // redirect after successful login to origin route, or to /bikes if /login accessed directly
+    // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
     if (authState === 'signedIn') history.replace(redirectRoute ? redirectRoute : '/bikes');
   }, [authState]);
 
