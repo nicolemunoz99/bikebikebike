@@ -7,21 +7,20 @@ import{
 
 
  const initialAppState = {
-  dataStatus: 'ok',
   modal: {
     newPartForm: false,
     editPartForm: false,
     dataWait: false,
-    dataErr: false
+    err: false
   },
   redirectRoute: '/bikes'
  }
 
 const appControlsReducer = (state = initialAppState, action) => {
   // ... data status ...
-  if (action.type === SET_DATA_STATUS) {
-    return { ...state, dataStatus: action.payload };
-  }
+  // if (action.type === SET_DATA_STATUS) {
+  //   return { ...state, dataStatus: action.payload };
+  // }
 
   // ... modals ...
   if (action.type === OPEN_MODAL) {

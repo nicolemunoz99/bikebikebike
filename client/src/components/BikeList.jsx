@@ -16,6 +16,7 @@ Amplify.configure(config);
 
 const BikeList = () => {
   const { dataStatus } = useSelector(state => state.appControls);
+  const { dataWait } = useSelector(state => state.appControls.modal);
   const { id, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
   const allBikes = useSelector(state => state.bikes.list);
   const allParts = useSelector(state => state.parts.list);
@@ -29,7 +30,7 @@ const BikeList = () => {
   return (
 
     <PageWrapper title="Bikes">
-{ dataStatus === 'ok' &&
+{ !dataWait &&
       <div className="mt-3">
       
         {

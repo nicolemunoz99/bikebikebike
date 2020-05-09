@@ -4,7 +4,7 @@ import {
 
 import { setBikes } from './bikes.js';
 import { setParts } from './parts.js';
-import { updateDataStatus } from './appControls.js';
+import { openModal, closeModal } from './appControls.js';
 
 import axios from 'axios';
 import { normalize, schema } from 'normalizr';
@@ -32,7 +32,7 @@ thunks
 ********/
 
 export const getUserData = () => async (dispatch) => {
-  dispatch(updateDataStatus('dataWait'));
+  dispatch(openModal('dataWait'));
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
@@ -42,12 +42,13 @@ export const getUserData = () => async (dispatch) => {
 
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));
-      dispatch(updateDataStatus('ok'));
+      dispatch(closeModal('dataWait'));
       return;
-    } else {
-      dispatch(setStravaAccessStatus(true));
-    }
-
+    } 
+    
+    dispatch(setStravaAccessStatus(true));
+    
+    // normalize state
     userData = response.data;
     console.log('userData: ', userData);
 
@@ -67,22 +68,20 @@ export const getUserData = () => async (dispatch) => {
     );
 
 
-    const normalUserData = await normalize(userData, user);
+    const normalUserData = normalize(userData, user);
 
     console.log('normalized', normalUserData);
     dispatch(setBikes(normalUserData.entities.bikes));
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     if (normalUserData.entities.parts) dispatch(setParts(normalUserData.entities.parts));
 
-    dispatch(updateDataStatus('ok'));
+    dispatch(closeModal('dataWait'));
   }
 
   catch (err) {
     
-    if (err.response.status === 401) { } // user not Cognito-authenticated; 
-      // TODO redirect to login
-    //else
-    dispatch(updateDataStatus('dataErr'))
+    dispatch(closeModal('dataWait'));
+    dispatch(openModal('err'))
 
   }
 

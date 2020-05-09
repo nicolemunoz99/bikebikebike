@@ -11,7 +11,7 @@ import {
 import { getUserData } from './user.js';
 import { setSelectedBike } from './bikes.js';
 import { setDefaultParts, setEditingPart } from './parts.js';
-import { openModal, updateDataStatus } from './appControls.js';
+import { openModal, closeModal } from './appControls.js';
 
 
 import axios from 'axios';
@@ -182,24 +182,25 @@ export const getDefaults = () => async (dispatch, getState) => {
 
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
+  dispatch(openModal('dataWait'));
 
-  dispatch(updateDataStatus('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
 
     await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
-    dispatch(updateDataStatus('ok'));
+    dispatch(closeModal('dataWait'));
     dispatch(getUserData());
   }
   catch (err) {
-    dispatch(updateDataStatus('dataErr'));
+    dispatch(closeModal('dataWait'));
+    dispatch(openModal('err'));
   }
 };
 
 export const submitEditedPart = (data) => async (dispatch, getState) => {
-  dispatch(updateDataStatus('dataWait'));
+  dispatch(openModal('dataWait'));
   let distUnit = getState().user.measure_pref;
   let origPart = getState().parts.list[data.part_id]
   let partId = data.part_id;
@@ -211,7 +212,7 @@ export const submitEditedPart = (data) => async (dispatch, getState) => {
   });
 
   if (Object.keys(data).length === 0) { // no new info submitted
-    dispatch(updateDataStatus('ok'));
+    dispatch(closeModal('dataWait'));
     return;
   }; 
 
@@ -224,9 +225,10 @@ export const submitEditedPart = (data) => async (dispatch, getState) => {
     });
     
     dispatch(getUserData());
-    dispatch(updateDataStatus('ok'));
+    dispatch(closeModal('dataWait'));
   }
   catch (err) {
-    dispatch(updateDataStatus('dataErr'));
+    dispatch(closeModal('dataWait'));
+    dispatch(openModal('err'));
   }
 };

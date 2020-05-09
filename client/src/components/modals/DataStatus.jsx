@@ -14,10 +14,10 @@ export const DataWait = () => {
   );
 };
 
-export const DataErr = () => {
+export const Err = () => {
 
   return (
-    <ModalWrapper title="Ooops" modal="dataErr">
+    <ModalWrapper title="Ooops" modal="err">
       <div className="row align-items-center">
         <div className="col text-center">
           There was an error.
