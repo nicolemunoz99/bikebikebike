@@ -1,15 +1,18 @@
 import {
+  SET_AUTH_STATE,
   SET_STRAVA_ACCESS_STATUS,
   SET_USER
 } from '../action-types/'
 
 const initialUserState = {
-  hasStravaAccess: false,
   id: null,
   measure_pref: '',
   last_login_date: '',
   join_date: '',
-  bikes: []
+  bikes: [],
+  authState: 'signUp',
+  redirectRoute: '/',
+  hasStravaAccess: false
 };
 
 const userReducer = (state = initialUserState, action) => {
@@ -20,6 +23,10 @@ const userReducer = (state = initialUserState, action) => {
 
   if (action.type === SET_USER) {
     return {...state, ...action.payload};
+  }
+
+  if (action.type === SET_AUTH_STATE) {
+    return { ...state, authState: action.authState };
   }
 
   return state;

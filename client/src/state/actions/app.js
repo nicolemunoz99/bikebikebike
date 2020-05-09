@@ -1,7 +1,6 @@
 import {
-  SET_DATA_STATUS, SET_MODAL, CLOSE_MODAL
+  SET_DATA_STATUS, SET_MODAL, CLOSE_MODAL, SET_REDIRECT_ROUTE
 } from '../action-types/';
-
 
 
 export const setDataStatus = (str) => {
@@ -14,6 +13,10 @@ export const setModal = (modalType) => {
 
 export const closeModal = () => {
   return { type: CLOSE_MODAL };
+};
+
+export const setRedirectRoute = (redirectRoute) => {
+  return { type: SET_REDIRECT_ROUTE, redirectRoute};
 };
 
 /********

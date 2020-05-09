@@ -4,10 +4,12 @@ app
 export const SET_DATA_STATUS = "SET_DATA_STATUS";
 export const SET_MODAL = "SET_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
+export const SET_REDIRECT_ROUTE = "SET_REDIRECT_ROUTE";
 
 /********
 user
 ********/
+export const SET_AUTH_STATE = "SET_AUTH_STATE";
 export const SET_STRAVA_ACCESS_STATUS = "SET_STRAVA_ACCESS_STATUS";
 export const SET_USER = "SET_USER";
 

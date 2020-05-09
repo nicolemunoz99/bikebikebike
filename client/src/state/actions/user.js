@@ -1,5 +1,5 @@
 import {
-  SET_STRAVA_ACCESS_STATUS, SET_USER 
+  SET_AUTH_STATE, SET_STRAVA_ACCESS_STATUS, SET_USER 
 } from '../action-types/';
 
 import { setBikes } from './bikes.js';
@@ -14,6 +14,10 @@ import config from "../../aws-exports.js";
 Amplify.configure(config);
 
 
+export const setAuthState2 = (authState) => {
+  return { type: SET_AUTH_STATE, authState };
+};
+
 export const setStravaAccessStatus = (bool) => {
   return { type: SET_STRAVA_ACCESS_STATUS, payload: bool };
 };
@@ -21,6 +25,7 @@ export const setStravaAccessStatus = (bool) => {
 export const setUser = (userInfo) => {
   return { type: SET_USER, payload: userInfo };
 };
+
 
 /********
 thunks
@@ -80,13 +85,5 @@ export const getUserData = () => async (dispatch) => {
     dispatch(updateDataStatus('dataErr'))
 
   }
-
-  // /////////////////
-  // // DEV DATASET
-  // let userData = devData;
-  // // end DEV DATASET
-  // /////////////////
-
-
 
 }

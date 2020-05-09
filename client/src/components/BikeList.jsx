@@ -5,7 +5,7 @@ import { showNewPartForm } from '../state/actions/partForm.js';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import CustomNavLink from './wrappers/CustomNavLink.jsx';
+import CustomNavLink from './bits/CustomNavLink.jsx';
 
 // aws auth stuff
 import Amplify, { Auth } from "aws-amplify";
@@ -14,7 +14,7 @@ import config from "../aws-exports.js";
 Amplify.configure(config);
 
 const BikeList = () => {
-  const dataStatus = useSelector(state => state.dataStatus);
+  const { dataStatus } = useSelector(state => state.app);
   const { id, bikes: bikeIds, measure_pref: distUnit } = useSelector(state => state.user);
   const allBikes = useSelector(state => state.bikes.list);
   const allParts = useSelector(state => state.parts.list);

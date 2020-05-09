@@ -11,7 +11,7 @@ import ModalIndex from './modals/Index.jsx'
 
 
 const App = () => {
-  const modal = useSelector(state => state.modal);
+  const { modal } = useSelector(state => state.app);
 
   useEffect(() => {
   }, [modal])
@@ -29,11 +29,7 @@ return (
       </Switch>
     </Router>
 
-    { modal ?
-      <ModalIndex />
-      :
-      null
-    }
+    { modal && <ModalIndex /> }
 
   </div>
 )

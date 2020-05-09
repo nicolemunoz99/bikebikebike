@@ -4,7 +4,7 @@ import { NewPartForm, EditPartForm } from './PartForms.jsx';
 import { DataWait, DataErr } from './DataStatus.jsx';
 
 const ModalIndex = () => {
-  const modal = useSelector(state => state.modal);
+  const { modal } = useSelector(state => state.app);
 
   const modalTypes = {
     newPartForm: NewPartForm,
