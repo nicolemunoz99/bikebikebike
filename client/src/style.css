@@ -139,6 +139,15 @@ body {
   cursor: default;
 }
 
+.navbar {
+  background-color: rgba(187, 190, 3, 0.9);
+}
+
+.nav-link {
+  color: black !important;
+  text-align: center !important;
+}
+
 .nav-link.active {
   border: 1px solid;
   opacity: 0.8;
