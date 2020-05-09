@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useParams, withRouter, useRouteMatch } from 'react-router';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from '../wrappers/PageWrapper.jsx';
 import PartPanel from './PartPanel.jsx'
@@ -11,7 +11,7 @@ import { resetSelectedPart } from '../../state/actions/parts.js';
 import { showNewPartForm } from '../../state/actions/partForm.js';
 
 
-const PartList = () => {
+const PartList = ({ paramsProps }) => {
   const bikeId = useParams().bikeId;
   const bike = useSelector(state => state.bikes.list[bikeId]);
   const { id } = useSelector(state => state.user);
@@ -26,7 +26,6 @@ const PartList = () => {
       dispatch(resetSelectedPart());
     };
   }, []);
-
 
   return (
     <>{bike &&
@@ -62,4 +61,4 @@ const PartList = () => {
   );
 };
 
-export default PartList;
+export default withRouter(PartList);

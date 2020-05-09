@@ -15,9 +15,10 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(setRedirectRoute('/bikes'));
+      dispatch(setRedirectRoute());
     };
   },[]);
+
 
   useEffect(() => {
     // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
