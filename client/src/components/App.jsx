@@ -21,16 +21,10 @@ return (
     <Router>
       <Switch >
         <Route exact path="/" component={Landing} />
-        <Route exact path="/login" component={Login} />
-        
+        <Route exact path="/login" component={Login} />     
         <Route exact path="/stravaAuth" component={StravaAuth} />
-        {/* <Route exact path="/bikes" component={BikeList} /> */}
-        {/* <Route exact path="/bikes/:bikeId" component={PartList} /> */}
-
-        {/* <ProtectedRoute exact path="/stravaAuth" render={StravaAuth} /> */}
         <ProtectedRoute exact path="/bikes" render={BikeList} />
         <ProtectedRoute exact path="/bikes/:bikeId" render={PartList} />
-        
         <Route component={Landing} />
       </Switch>
     </Router>
