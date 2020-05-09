@@ -1,11 +1,19 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { setModal } from '../../state/actions/app.js';
+import { Nav } from 'react-bootstrap';
 
 const CustomNavLink = ({ history, to, modal=false, onClick, tag: Tag, staticContext, className, ...rest }) => {
-  const dispatch = useDispatch();
+  
+  // props specific to links in NavBar
+  let navLinkProps = {};
+  if (Tag === Nav.Link) {
+    navLinkProps = {
+      active: history.location.pathname === to ? true : false,
+      eventKey: to
+    };
+  }
   
 
   return (
@@ -13,14 +21,12 @@ const CustomNavLink = ({ history, to, modal=false, onClick, tag: Tag, staticCont
   <Tag
       {...rest}
       onClick={(event) => {
-          if (modal) {
-            dispatch(setModal(modal));
-            return;
-          }
           onClick(event);
           history.push(to)
       }}
       className={`pointer ${className}`}
+
+      { ...navLinkProps }
   />
 )};
 

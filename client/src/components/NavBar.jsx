@@ -35,7 +35,15 @@ const NavNav = () => {
         </Nav>
 
         <Nav>
-          { isLoggedIn && <Nav.Link onClick={handleLogout}>Log out</Nav.Link> }
+          { isLoggedIn && 
+            <CustomNavLink
+              tag={Nav.Link} 
+              onClick={handleLogout}
+              to={'/login'}
+            >
+                Log out
+            
+            </CustomNavLink> }
 
           {!isLoggedIn &&
             <>

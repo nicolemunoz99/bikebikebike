@@ -139,6 +139,15 @@ body {
   cursor: default;
 }
 
+.nav-link.active {
+  border: 1px solid;
+  opacity: 0.8;
+  border-radius: 1rem;
+  cursor: default;
+  pointer-events: none;
+}
+
+
 /* form */
 .input-err {
   border: 1px solid var(--color-error);

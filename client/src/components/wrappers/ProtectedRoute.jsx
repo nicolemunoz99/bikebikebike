@@ -14,7 +14,7 @@ export const ProtectedRoute = ({ exact, path, render }) => {
     if (authState !== 'signedIn') dispatch(setRedirectRoute(path));
   }, [authState]);
 
-  console.log('authstate in PR', authState)
+
   // redirect to login if not signed in
   render = authState === 'signedIn' ? render : () => <Redirect to='/login' />;
   return (

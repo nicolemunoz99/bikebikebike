@@ -25,10 +25,10 @@ const Login = ({ history }) => {
   }, [authState]);
 
   // Amplify utility
-  Hub.listen('auth', res => {
-    // listen for login errors
-    if (/failure/.test(res.payload.event)) dispatch(setLoginErr(res.payload.event));
-  });
+  // Hub.listen('auth', res => {
+  //   // listen for login errors
+  //   if (/failure/.test(res.payload.event)) dispatch(setLoginErr(res.payload.event));
+  // });
   
   const handleAuthStateChange = (state) => dispatch(setAuthState2(state));
 
