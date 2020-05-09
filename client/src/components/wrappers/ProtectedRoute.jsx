@@ -12,13 +12,11 @@ export const ProtectedRoute = ({ exact, path, render }) => {
   useEffect(() => {
     // define route to redirect to after successfull login
     if (authState !== 'signedIn') dispatch(setRedirectRoute(path));
-    console.log('setting redirectRoute in PR')
   }, [authState]);
 
   console.log('authstate in PR', authState)
   // redirect to login if not signed in
   render = authState === 'signedIn' ? render : () => <Redirect to='/login' />;
-  console.log(exact, path, render);
   return (
     <Route 
       exact={exact}
