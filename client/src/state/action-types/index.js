@@ -1,5 +1,5 @@
 /********
-app
+app controls
 ********/
 export const SET_DATA_STATUS = "SET_DATA_STATUS";
 export const OPEN_MODAL = "OPEN_MODAL";

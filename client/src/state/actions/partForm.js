@@ -136,7 +136,7 @@ export const updateEditPartForm = (dataArr) => async (dispatch, getState) => {
     if ( (fieldName.includes('use_metric_') || fieldName.includes('lifespan_')) && inputs.tracking_method === 'default' ) {
       if (Number(value) && Number(value) == Number(inputs[fieldName])) dataArr.push({ tracking_method: 'custom' });
       else if (value !== inputs[fieldName]) dataArr.push({ tracking_method: 'custom' });
-      else if ( value !== inputs[fieldName] ) dataArr.push({ tracking_method: 'custom' });
+      // else if (value !== inputs[fieldName]) dataArr.push({ tracking_method: 'custom' });
 
       if (Number(value)) {
         dataArr = Number(value) == Number(inputs[fieldName]) ? dataArr : [ ...dataArr, { tracking_method: 'custom' } ];

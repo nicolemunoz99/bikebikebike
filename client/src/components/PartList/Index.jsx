@@ -4,7 +4,7 @@ import { useParams, withRouter, useRouteMatch } from 'react-router';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from '../wrappers/PageWrapper.jsx';
 import PartPanel from './PartPanel.jsx'
-import { capFirst } from '../../utils.js';
+import _ from 'lodash';
 import { getUserData } from '../../state/actions/user.js';
 import { setSelectedBike, resetSelectedBike } from '../../state/actions/bikes.js';
 import { resetSelectedPart } from '../../state/actions/parts.js';
@@ -29,7 +29,7 @@ const PartList = ({ paramsProps }) => {
 
   return (
     <>{bike &&
-      <PageWrapper title={capFirst(bike.name)}>
+      <PageWrapper title={_.upperFirst(bike.name)}>
         <Row noGutters>
           <Col sm={10}>
             <div>
@@ -43,7 +43,7 @@ const PartList = ({ paramsProps }) => {
           <Col sm={2} className="m-auto pointer" onClick={() => dispatch(showNewPartForm(bikeId))}>
               <OverlayTrigger
                 placement='left'
-                overlay={<Tooltip> {`add part to ${capFirst(bike.name)}`} </Tooltip>}
+                overlay={<Tooltip> {`add part to ${_.upperFirst(bike.name)}`} </Tooltip>}
               >
                 <span className="material-icons panel-menu-text"> add </span>
               </OverlayTrigger>

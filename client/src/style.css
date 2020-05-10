@@ -2,7 +2,7 @@
   --fade-start: rgb(240, 240, 240);
   --fade-end: rgb(255, 255, 255);
   --modal-bg-col: 240, 240, 240;
-  --theme: linear-gradient(to right, var(--fade-end), var(--fade-end));
+  --theme: 187, 190, 3;
 }
 
 .material-icons.md-48 { font-size: 32px; }
@@ -53,7 +53,12 @@ body {
 
 .text-detail {
   font-size: 0.9em;
-  padding-left: 2rem;
+  /* padding-left: 2rem; */
+}
+
+.controls-wrapper {
+  background-color: black;
+  color: white;
 }
 
 .meter {
@@ -73,24 +78,18 @@ body {
 }
 
 .bbb-button {
-  background-color: gray;
+  background-color: rgb(var(--theme));
+  color: black;
+  border-radius: 0.7rem;
+  width: 100%;
+  padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+}
+
+
+
+.bbb-button:active  {
+  background-color: black;
   color: white;
-  border-color: gray;
-  border-radius: 50%;
-  border-width: 4px;
-  height: 2.4rem;
-  width: 2.4rem;
-}
-
-.bbb-button:hover {
-  background-color: gray;
-  border-color: var(--gray-dark);
-}
-
-.bbb-button:active, .bbb-button:focus  {
-  background-color: white !important;
-  border-color: var(--silver) !important;
-  color: var(--fade-start) !important;
 }
 
 
@@ -102,7 +101,7 @@ body {
   height: 100%;
   background-color: rgb(0, 0, 0, 0.7);
   align-items: center;
-  z-index: 900;
+  z-index: 1060;
 }
 
 
@@ -140,7 +139,11 @@ body {
 }
 
 .navbar {
-  background-color: rgba(187, 190, 3, 0.9);
+  background-color: rgba(var(--theme), 0.9);
+}
+
+.bg-theme {
+  background-color: rgb(var(--theme));
 }
 
 .nav-link {
