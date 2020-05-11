@@ -1,7 +1,6 @@
 /********
 app controls
 ********/
-export const SET_DATA_STATUS = "SET_DATA_STATUS";
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 export const SET_REDIRECT_ROUTE = "SET_REDIRECT_ROUTE";

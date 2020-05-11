@@ -6,6 +6,7 @@ import { showNewPartForm } from '../state/actions/partForm.js';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 import WearMeter from './WearMeter.jsx';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import _ from 'lodash';
 import CustomNavLink from './bits/CustomNavLink.jsx';
 
 // aws auth stuff
@@ -48,7 +49,7 @@ const BikeList = () => {
       <CustomNavLink to={`/bikes/${id}`}>
         <div className="row">
           <div className="col-12 panel-title">
-            {bike.name}
+            {_.upperFirst(bike.name)}
           </div>
           <div className="col-12 text-detail">
             <div>
@@ -95,7 +96,7 @@ const BikeList = () => {
 
             <div key={partId} className="row no-gutters align-items-center">
               <div className="col-4 text-right text-detail pr-1">
-                {part.type}:
+                {_.upperFirst(part.type || part.custom_type)}:
               </div>
 
               <div className="col-8">

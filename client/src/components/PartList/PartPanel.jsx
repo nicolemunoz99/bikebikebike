@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import WearMeter from '../WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
-
+import _ from 'lodash';
 import { setSelectedPart } from '../../state/actions/parts.js';
 
 
@@ -23,7 +23,7 @@ const PartPanel = ({ partId }) => {
 
           <Row noGutters>
             <Col xs={'auto'} className="panel-title">
-              {part.custom_type || part.type}
+              {_.upperFirst(part.custom_type || part.type)}
             </Col>
           </Row>
 

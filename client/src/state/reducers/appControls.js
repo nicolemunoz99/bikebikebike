@@ -1,5 +1,4 @@
 import{
-  SET_DATA_STATUS,
   OPEN_MODAL, CLOSE_MODAL,
   SET_REDIRECT_ROUTE, RESET_REDIRECT_ROUTE
 } from '../action-types/';
@@ -11,16 +10,14 @@ import{
     newPartForm: false,
     editPartForm: false,
     dataWait: false,
-    err: false
+    err: false,
+    confirmRetire: false,
+    confirmService: false
   },
   redirectRoute: '/bikes'
  }
 
 const appControlsReducer = (state = initialAppState, action) => {
-  // ... data status ...
-  // if (action.type === SET_DATA_STATUS) {
-  //   return { ...state, dataStatus: action.payload };
-  // }
 
   // ... modals ...
   if (action.type === OPEN_MODAL) {

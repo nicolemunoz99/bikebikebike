@@ -1,5 +1,4 @@
 import {
-  SET_DATA_STATUS, 
   OPEN_MODAL, CLOSE_MODAL,
   SET_REDIRECT_ROUTE, RESET_REDIRECT_ROUTE,
 } from '../action-types/';
