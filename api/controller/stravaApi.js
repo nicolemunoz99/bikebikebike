@@ -1,6 +1,4 @@
-const { get } = require('../db.js');
 const axios = require('axios');
-const xDate = require('xdate')
 
 
 const strava = {

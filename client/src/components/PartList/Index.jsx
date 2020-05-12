@@ -11,7 +11,7 @@ import { resetSelectedPart } from '../../state/actions/parts.js';
 import { showNewPartForm } from '../../state/actions/partForm.js';
 
 
-const PartList = ({ paramsProps }) => {
+const PartList = () => {
   const bikeId = useParams().bikeId;
   const bike = useSelector(state => state.bikes.list[bikeId]);
   const { id } = useSelector(state => state.user);

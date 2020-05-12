@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Landing from './Landing.jsx';
 import Login from './Login.jsx';
@@ -33,9 +33,7 @@ return (
         <Route exact path="/signup" key={'signup'} component={Login} />   
         <ProtectedRoute exact path="/stravaAuth" render={StravaAuth} />
         <ProtectedRoute exact path="/bikes" render={BikeList} />
-
         <ProtectedRoute exact path="/bikes/:bikeId" key='part' render={PartList} />
-        {/* <Route exact path="/bikes/:bikeId" component={PartList} /> */}
         <Route component={Landing} />
       </Switch>
     </Router>
