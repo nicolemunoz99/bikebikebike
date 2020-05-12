@@ -81,7 +81,7 @@ const BikeList = () => {
 
   {/* wear meters */}
   <div className="row no-gutters justify-content-end">
-    <div className="col-sm-8">
+    <div className="col-sm-10">
 
       {bike.parts.map(partId => {
         return (
