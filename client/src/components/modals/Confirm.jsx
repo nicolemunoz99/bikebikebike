@@ -4,7 +4,7 @@ import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { Row, Col, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { closeModal } from '../../state/actions/appControls.js';
-import { submitEditedPart } from '../../state/actions/partForm.js';
+import { retirePart, servicePart } from '../../state/actions/parts.js';
 
 export const ConfirmRetire = () => {
   const partId = useSelector(state => state.parts.selectedPart);
@@ -15,20 +15,17 @@ export const ConfirmRetire = () => {
   const bikeName = _.upperFirst(bike.name);
   const partType = part.custom_type || part.type;
 
-  const handleRetire = () => {
-
-  };
 
   return (
     <Confirm
       modal={'confirmRetire'}
-      confirmAction={handleRetire}
+      confirmAction={() => dispatch(retirePart(partId))}
     >
       <p className="h4">
         <strong> {_.upperFirst(partType)}</strong> on <strong>{bikeName}</strong>
       </p>
       <p>
-        Remove component?
+        Retire component?
       </p>
 
     </Confirm>
@@ -47,14 +44,11 @@ export const ConfirmService = () => {
   const bikeName = _.upperFirst(bike.name);
   const partType = part.custom_type || part.type;
 
-  const handleServicePart = () => {
-
-  };
 
   return (
     <Confirm
       modal={'confirmService'}
-      confirmAction={handleServicePart}
+      confirmAction={() => dispatch(servicePart(partId))}
     >
       <p className="h4">
         <strong> {_.upperFirst(partType)}</strong> on <strong>{bikeName}</strong>
@@ -70,6 +64,8 @@ export const ConfirmService = () => {
 
 
 const Confirm = ({ modal, children, confirmAction }) => {
+  const dispatch = useDispatch();
+  
   return (
     <ModalWrapper modal={modal} title='Confirm'>
 

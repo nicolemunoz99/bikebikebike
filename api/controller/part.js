@@ -37,6 +37,31 @@ const part = {
       whereVar: {part_id: editedPart.part_id},
       updateVars: editedPart
     });
+    return res.sendStatus(200);
+  },
+
+  service: async (req, res) => {
+    console.log('service endpoint')
+    // reset distance, time and date of last service
+    await update('parts', {
+      whereVar: {part_id: req.query.partId},
+      updateVars: {
+        p_dist_current: 0, 
+        p_time_current: 0,
+        last_date_serviced: Date.now()
+      }
+    });
+    // future feature: add entry to services table
+    res.sendStatus(200);
+  },
+
+  retire: async (req, res) => {
+    await update('parts', {
+      whereVar: {part_id: req.query.partId},
+      updateVars: {
+        p_status: 'retired'
+      }
+    });
     res.sendStatus(200);
   }
 };

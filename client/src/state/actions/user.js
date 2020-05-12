@@ -36,6 +36,8 @@ export const getUserData = () => async (dispatch) => {
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
+    console.log('authData in user.js: ', authData);
+    console.log('Auth in user.js', Auth)
     let response = await axios.get(`${process.env.THIS_API}/api/login`, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });

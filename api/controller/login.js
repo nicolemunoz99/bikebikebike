@@ -82,7 +82,7 @@ const login = {
 const getUserWithBikesWithParts = async (stravaId) => {
 
   let queryText = `SELECT * FROM user_info LEFT JOIN ` +
-    `(SELECT * FROM bikes LEFT JOIN parts ON bikes.bike_id=parts.p_bike_id WHERE bikes.strava_id=${stravaId}) b ` +
+    `(SELECT * FROM bikes LEFT JOIN (SELECT * FROM parts WHERE parts.p_status='active') a ON bikes.bike_id=a.p_bike_id WHERE bikes.strava_id=${stravaId}) b ` +
     `ON user_info.id=b.strava_id WHERE user_info.id=${stravaId}`
 
   // let queryText = 'select * from bikes';

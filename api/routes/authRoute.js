@@ -16,14 +16,12 @@ const cognitoExpress = new CognitoExpress({
 
 // verify tokens with AWS Cognito
 authRoute.use((req, res, next) => {
-  console.log('IN authRoute')
   let accessTokenFromClient = req.headers.accesstoken;
   if (!accessTokenFromClient) return res.status(401).send('Cognito Access Token missing from headers');
   
   cognitoExpress.validate(accessTokenFromClient, (err, cognitoResponse) => {
     if (err) return res.status(401).send(err);
-    
-    console.log('authenticated!', cognitoResponse.username);
+
     req.query.username = cognitoResponse.username;
     next();
   });
@@ -69,7 +67,11 @@ authRoute.use( async (req, res, next) => {
 
 authRoute.get('/login', login.get);
 authRoute.post('/part', part.post);
+authRoute.put('/part/retire', part.retire);
+authRoute.put('/part/service', part.service);
 authRoute.put('/part', part.put);
+
+
 
 
 

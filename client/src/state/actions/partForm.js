@@ -190,6 +190,7 @@ export const submitNewPart = (data) => async (dispatch, getState) => {
     await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
+    dispatch(closeModal('newPartForm'));
     dispatch(closeModal('dataWait'));
     dispatch(getUserData());
   }
