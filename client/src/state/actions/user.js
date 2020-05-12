@@ -3,7 +3,7 @@ import {
 } from '../action-types/';
 
 import { setBikes } from './bikes.js';
-import { setParts } from './parts.js';
+import { setParts, getDefaults } from './parts.js';
 import { openModal, closeModal } from './appControls.js';
 
 import axios from 'axios';
@@ -36,8 +36,7 @@ export const getUserData = () => async (dispatch) => {
   let userData;
   try {
     let authData = await Auth.currentAuthenticatedUser();
-    console.log('authData in user.js: ', authData);
-    console.log('Auth in user.js', Auth)
+
     let response = await axios.get(`${process.env.THIS_API}/api/login`, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
@@ -52,7 +51,6 @@ export const getUserData = () => async (dispatch) => {
     
     // normalize state
     userData = response.data;
-    console.log('userData: ', userData);
 
     const part = new schema.Entity('parts',
       {},
@@ -76,7 +74,7 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setBikes(normalUserData.entities.bikes));
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     if (normalUserData.entities.parts) dispatch(setParts(normalUserData.entities.parts));
-
+    await dispatch(getDefaults());
     dispatch(closeModal('dataWait'));
   }
 

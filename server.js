@@ -10,7 +10,7 @@ const cors = require('cors'),
 
 const authRoute = require('./api/routes/authRoute.js');
 const stravaAuth = require('./api/controller/stravaAuth.js');
-const defaultMetric = require('./api/controller/defaultMetric.js')
+const defaultMetric = require('./api/defaultMetric/defaultMetric.js')
 
 app.use('*', cors());
 

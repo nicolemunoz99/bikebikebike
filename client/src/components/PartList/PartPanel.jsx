@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import WearMeter from '../WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
 import _ from 'lodash';
 import { setSelectedPart } from '../../state/actions/parts.js';
-
+import usePartTypeRender from '../../hooks/usePartTypeRender.js';
 
 
 const PartPanel = ({ partId }) => {
@@ -13,7 +13,7 @@ const PartPanel = ({ partId }) => {
   const distUnit = useSelector(state => state.user.measure_pref);
   const { selectedPart } = useSelector(state => state.parts);
   const dispatch = useDispatch();
-
+  const partTypeRender = usePartTypeRender(part);
 
   return (
   <>
@@ -23,7 +23,7 @@ const PartPanel = ({ partId }) => {
 
           <Row noGutters>
             <Col xs={'auto'} className="panel-title">
-              {_.upperFirst(part.custom_type || part.type)}
+              { partTypeRender }
             </Col>
           </Row>
 

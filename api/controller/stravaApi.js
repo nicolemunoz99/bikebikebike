@@ -8,7 +8,6 @@ const strava = {
   get: {
 
     infoWithBikes: (token) => {
-      console.log('IN strava.infoWithBikes.get', token)
       return axios.get(`${process.env.STRAVA_API}/athlete`, {
         headers: { Authorization: `Bearer ${token}`}
       });

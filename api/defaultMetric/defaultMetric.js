@@ -1,5 +1,5 @@
+const {convertToUserUnits} = require('../controller/convertUnits.js');
 const xDate = require('xdate');
-const { convertToUserUnits } = require('./convertUnits.js');
 
 const defaultMetric = (req, res) => {
   
@@ -22,7 +22,7 @@ const defaultMetric = (req, res) => {
         {use_metric_date: false}
       ]
     },
-
+  
     freehub: {
       title: 'Freehub',
       metrics: [
@@ -34,7 +34,7 @@ const defaultMetric = (req, res) => {
         {use_metric_date: false}
       ]
     },
-
+  
     fork: {
       title: 'Suspension fork',
       metrics: [
@@ -46,7 +46,7 @@ const defaultMetric = (req, res) => {
         {use_metric_dist: false}
       ]
     },
-
+  
     shock: {
       title: 'Shock',
       metrics: [
@@ -58,7 +58,7 @@ const defaultMetric = (req, res) => {
         {use_metric_dist: false},
       ]
     },
-
+  
     cassette: {
       title: 'Cassette',
       metrics: [
@@ -70,7 +70,7 @@ const defaultMetric = (req, res) => {
         {use_metric_date: false}
       ]
     },
-
+  
     brake_fluid: {
       title: 'Hydraulic brake',
       metrics: [
@@ -82,7 +82,7 @@ const defaultMetric = (req, res) => {
         {use_metric_time: false},
       ]
     },
-
+  
     batt_derail_etap: {
       title: 'eTap battery (derailleur)',
       metrics: [
@@ -96,7 +96,7 @@ const defaultMetric = (req, res) => {
         {use_metric_date: false}
       ]
     },
-
+  
     batt_drop_etap: {
       title: 'eTap battery (dropper)',
       metrics: [
@@ -110,24 +110,25 @@ const defaultMetric = (req, res) => {
         {use_metric_date: false}
       ]
     },
-
+  
     batt_derail_di2: {
       title: 'Di2 battery',
       metrics: [
         {p_brand: 'Shimano'},
         {p_model: 'Di2'},
         {lifespan_time: ''}, // hrs
-        {lifespan_dist: 1000 * 10}, // 1000 km
+        {lifespan_dist: 1000 * 1000}, // 1000 km
         {lifespan_date: ''},
         {use_metric_time: false},
         {use_metric_dist: true},
         {use_metric_date: false}
       ]
     }
-
+  
   };
 
   res.send( convertToUserUnits(partInfo, distUnit) );
 };
+
 
 module.exports = defaultMetric;

@@ -54,13 +54,11 @@ thunks
 ********/
 
 export const showNewPartForm = (bikeId) => async (dispatch) => {
-  await dispatch(getDefaults());
   dispatch(setSelectedBike(bikeId));
   dispatch(openModal('newPartForm'));
 };
 
 export const showEditPartForm = (partId) => async (dispatch, getState) => {
-  await dispatch(getDefaults());
   partId = partId || getState().parts.editingPart;
   dispatch(setEditingPart(partId));
   dispatch(openModal('editPartForm'));
@@ -172,13 +170,6 @@ const updateValidation = (dataArr) => (dispatch) => {
 
 
 // API calls:
-
-export const getDefaults = () => async (dispatch, getState) => {
-  let distUnit = getState().user.measure_pref;
-  let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
-
-  dispatch(setDefaultParts(defaults));
-}
 
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;

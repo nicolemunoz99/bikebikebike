@@ -13,7 +13,9 @@ const PartSummary = () => {
   } = useSelector(state => state.form.inputs);
 
   const distUnit = useSelector(state => state.user.measure_pref);
+  const defaultMetrics = useSelector(state => state.parts.default);
 
+  const partToRender = custom_type || defaultMetrics[type].title
 
 
   return (
@@ -22,7 +24,7 @@ const PartSummary = () => {
       
         
       <FormHeader 
-        label={`The ${tracking_method.toUpperCase()} life/service interval for your ${type === 'custom' ? custom_type : type} is:`}
+        label={`The ${tracking_method.toUpperCase()} life/service interval for your ${partToRender}`}
       />
         
 

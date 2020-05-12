@@ -1,21 +1,27 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Landing from './Landing.jsx';
 import Login from './Login.jsx';
-import BikeList from './BikeList.jsx';
+import BikeList from './BikeList/Index.jsx';
 import StravaAuth from './StravaAuth.jsx';
 import NavBar from './NavBar.jsx';
 import PartList from './PartList/Index.jsx';
 import ProtectedRoute from './wrappers/ProtectedRoute.jsx'
 import ModalIndex from './modals/Index.jsx'
+import { getDefaults } from '../state/actions/parts.js';
 
 
 const App = () => {
   const { modal } = useSelector(state => state.appControls);
+  const { user } = useSelector(state => state)
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  }, [modal])
+    if (user && user.measure_pref) {
+      dispatch(getDefaults());
+    }
+  }, [user.measure_pref])
 
 return (
   <div>

@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const xDate = require('xdate');
 
-exports.convertToUserUnits = (dataset, distUnit = null) => {
+const convertToUserUnits = (dataset, distUnit = null) => {
   
   distUnit = distUnit || dataset.measure_pref;
 
@@ -13,7 +13,7 @@ exports.convertToUserUnits = (dataset, distUnit = null) => {
         findTargets(value);
       } else {
         if (value && typeof value !== 'boolean') {
-
+          
           if (key.match(/dist/g)) { // m (strava API default)
             
             collection[key] = (distUnit === 'km' ? value / 1000 : value / 1609.34).toFixed(1);
@@ -40,7 +40,7 @@ exports.convertToUserUnits = (dataset, distUnit = null) => {
 
 
 
-exports.convertToDbUnits = (data, distUnit) => {
+const convertToDbUnits = (data, distUnit) => {
     _.forEach(data, (value, key) => {
       if (value && typeof data[key] !== 'boolean') {
         if (key.match(/dist/g)) { // m (strava API default)
@@ -61,6 +61,6 @@ exports.convertToDbUnits = (data, distUnit) => {
   return data;
 };
 
-
+module.exports = { convertToDbUnits, convertToUserUnits }
 
 

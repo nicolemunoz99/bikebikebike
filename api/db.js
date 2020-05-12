@@ -50,7 +50,7 @@ const insert = async (table, keyValues) => {
           `VALUES(${valuesStr}) RETURNING *`,
     values: [...Object.values(keyValues)]
   };
-  console.log(params);
+
   let newEntry = await dbQuery(params);
   return newEntry;
 };

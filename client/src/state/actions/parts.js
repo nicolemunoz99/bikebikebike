@@ -39,10 +39,18 @@ export const setDefaultParts = (defaultValues) => {
 };
 
 // ... async / thunks ...
+
+// default tracking metrics
+export const getDefaults = () => async (dispatch, getState) => {
+  let distUnit = getState().user.measure_pref;
+  let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
+
+  dispatch(setDefaultParts(defaults));
+}
+
 export const retirePart = (partId) => async (dispatch) => {
   try {
     dispatch(openModal('dataWait'));
-    console.log('Auth in parts.js', Auth)
     let authData = await Auth.currentAuthenticatedUser();
 
     await axios.put(`${process.env.THIS_API}/api/part/retire?partId=${partId}`, {}, {
@@ -63,7 +71,7 @@ export const servicePart = (partId) => async (dispatch) => {
   dispatch(openModal('dataWait'));
   try {
     let authData = await Auth.currentAuthenticatedUser();
-    console.log('authData: ', authData);
+
     await axios.put(`${process.env.THIS_API}/api/service/part?partId=${partId}`, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });

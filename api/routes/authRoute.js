@@ -29,11 +29,8 @@ authRoute.use((req, res, next) => {
 
 // check if strava permissions in db
 authRoute.use( async (req, res, next) => {
-  console.log('req.query', {...req.query});
 
   let permissions = await get('strava', {username: req.query.username});
-
-  console.log('strava table: ', permissions);
 
   if (permissions.length === 0 || permissions[0].scope !== 'read,activity:read_all,profile:read_all') {
     res.status(201).send('user has not granted strava permissions');
@@ -48,9 +45,7 @@ authRoute.use( async (req, res, next) => {
   let { permissions } = req.body;
 
   if ( (permissions.expires_at*1000 - Date.now()) < 3600 ) {  // expires within 1 hr
-    
-    console.log('refreshing strava token')
-    
+        
     let stravaRefreshQuery = `?client_id=${process.env.STRAVA_CLIENT_ID}` +
       `&client_secret=${process.env.STRAVA_CLIENT_SECRET}` +
       `&refresh_token=${permissions.refresh_token}` +
