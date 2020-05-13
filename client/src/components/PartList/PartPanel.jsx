@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import WearMeter from '../WearMeter.jsx';
+import WearMeter from '../bits/WearMeter.jsx';
 import PartDetails from './PartDetails.jsx';
 import _ from 'lodash';
 import { setSelectedPart } from '../../state/actions/parts.js';
@@ -19,7 +19,7 @@ const PartPanel = ({ partId }) => {
   <>
     {part &&
       <Row noGutters className="justify-content-center">
-        <Col xs={12} className="part-panel px-3 pt-3 pb-1">
+        <Col xs={12} className={`part-panel${partId===selectedPart ? '-active' : ''} px-3 pt-3 pb-1`}>
 
           <Row noGutters>
             <Col xs={'auto'} className="panel-title">

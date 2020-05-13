@@ -4,24 +4,8 @@ import xDate from 'xdate';
 import _ from 'lodash';
 
 const useMetricOptions = (partId=null) => {
-  let [metrics, setMetrics] = useState([]);
   let distUnit = useSelector(state => state.user.measure_pref);
   let part = useSelector(state => state.parts.list[partId]) || {};
-
-  useEffect(() => {
-    let newMetrics = [];
-    if (partId !== null) {
-      Object.keys(wearOptions).forEach((option) => {
-        if (part[`use_metric_${option}`]) {
-          newMetrics.push(wearOptions[option]);
-        }
-      });
-      setMetrics(newMetrics);
-    }
-  }, [part]);
-
-
-
   let serviceDate = part.last_service_date || part.new_date;
   let lifespanInDays = xDate(serviceDate).diffDays(xDate(part.lifespan_date));
 
@@ -58,8 +42,17 @@ const useMetricOptions = (partId=null) => {
     }
   };
 
+  if (partId === null ) return _.values(wearOptions);
+  
+  let newMetrics = [];
+  Object.keys(wearOptions).forEach((option) => {
+    if (part[`use_metric_${option}`]) {
+      newMetrics.push(wearOptions[option]);
+    }
+  });
+  console.log('newMetrics in useMetricOptions', newMetrics)
 
-  return partId !== null ? metrics : _.values(wearOptions);
+  return newMetrics;
 
 };
 

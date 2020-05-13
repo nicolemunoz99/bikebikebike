@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Table, Row, Col } from 'react-bootstrap';
 import useMetricOptions from '../../hooks/useMetricOptions.js';
 import _ from 'lodash';
-import WearMeter from '../WearMeter.jsx';
+import WearMeter from '../bits/WearMeter.jsx';
 import PartControls from './PartControls.jsx';
 
 const PartDetails = () => {

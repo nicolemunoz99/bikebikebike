@@ -87,7 +87,7 @@ export const PartFormWrapper = ({ modal, handleSubmit, updatePartForm, title, re
 
         {formIsValid && <PartSummary />}
 
-        <Button variant="primary" type="submit" className="w-100" disabled={!formIsValid}>
+        <Button bsPrefix="bbb-button" variant="primary" type="submit" className="w-100" disabled={!formIsValid}>
           {submitLabel}
         </Button>
 

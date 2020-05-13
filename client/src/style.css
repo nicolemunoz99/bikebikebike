@@ -12,7 +12,7 @@ html {
 }
 
 body {
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgb(var(--modal-bg-col));
 }
 
 .pointer {
@@ -35,6 +35,9 @@ body {
 .part-panel {
   border-style: solid none solid none;
   border-width: 1px
+}
+.part-panel-active {
+  background-color: white;
 }
 
 .page-title {
@@ -86,6 +89,17 @@ body {
 }
 
 
+.bbb-button:disabled, .bbb-button:disabled:hover {
+  background-color: rgb(var(--theme),0.2);
+  color: gray;
+  cursor: default;
+  border: inherit;
+}
+
+.bbb-button:hover {
+  border-color: black;
+  border-width: 1px;
+}
 
 .bbb-button:active  {
   background-color: black;
