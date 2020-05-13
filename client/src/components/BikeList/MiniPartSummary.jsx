@@ -13,7 +13,6 @@ const MiniPartSummary = ({ partId }) => {
   
   let metrics = _.orderBy(useMetricOptions(partId), [(metric) => metric.wear], ['desc']);
   let maxWear = metrics[0] ? metrics[0].wear : 0;
-  console.log('metrics', partId, metrics)
   
   return (
     <Row noGutters className="align-items-center my-3 my-sm-1">

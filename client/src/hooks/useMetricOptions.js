@@ -50,7 +50,6 @@ const useMetricOptions = (partId=null) => {
       newMetrics.push(wearOptions[option]);
     }
   });
-  console.log('newMetrics in useMetricOptions', newMetrics)
 
   return newMetrics;
 

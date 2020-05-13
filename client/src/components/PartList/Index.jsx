@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, withRouter, useRouteMatch } from 'react-router';
+import { useParams, withRouter } from 'react-router';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import PageWrapper from '../wrappers/PageWrapper.jsx';
 import PartPanel from './PartPanel.jsx'
 import _ from 'lodash';
-import { getUserData } from '../../state/actions/user.js';
 import { setSelectedBike, resetSelectedBike } from '../../state/actions/bikes.js';
 import { resetSelectedPart } from '../../state/actions/parts.js';
 import { showNewPartForm } from '../../state/actions/partForm.js';
@@ -13,14 +12,12 @@ import { showNewPartForm } from '../../state/actions/partForm.js';
 
 const PartList = () => {
   const bikeId = useParams().bikeId;
-  const bike = useSelector(state => state.bikes.list[bikeId]);
-  const { id } = useSelector(state => state.user);
+  const bike = useSelector(state => state.bikes.list)[bikeId];
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setSelectedBike(bikeId));
-    if (!id) dispatch(getUserData());
     return () => {
       dispatch(resetSelectedBike());
       dispatch(resetSelectedPart());

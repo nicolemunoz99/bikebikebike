@@ -3,19 +3,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route, Redirect } from 'react-router-dom';
 import { setRedirectRoute } from '../../state/actions/appControls.js';
+import { getUserData } from '../../state/actions/user.js';
+import { getDefaults } from '../../state/actions/parts.js';
 
 
 // ... wraper for routes requiring auth
   const ProtectedRoute = ({ exact, path, render, ...routeProps }) => {
-  const { authState } = useSelector(state => state.user);
+  const { authState, id, measure_pref } = useSelector(state => state.user);
+  const { default: defaultParts } = useSelector(state => state.parts);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    // define route to redirect to after successfull login
+    if (authState === 'signedIn' && !id ) dispatch(getUserData());
+
+    // set route to redirect to after successfull login
     if (authState !== 'signedIn') dispatch(setRedirectRoute(routeProps.location.pathname));
   }, [authState]);
+
+  useEffect(() => {
+    if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
+  }, [measure_pref]);
   
+
   // redirect to login if not signed in
   render = authState === 'signedIn' ? render : () => <Redirect to='/login' />;
   
