@@ -8,22 +8,15 @@ import _ from 'lodash';
 import { setSelectedBike, resetSelectedBike } from '../../state/actions/bikes.js';
 import { resetSelectedPart } from '../../state/actions/parts.js';
 import { showNewPartForm } from '../../state/actions/partForm.js';
-import { sortByWear } from '../../helpers/sortParts.js';
+import { usePartSort } from '../../hooks/wearHooks.js';
 
 const PartList = () => {
-  const [orderedParts, setOrderedParts] = useState([])
-  const allParts = useSelector(state => state.parts.list);
   const bikeId = useParams().bikeId
   const bike = useSelector(state => state.bikes.list)[bikeId];
   const distUnit = useSelector(state => state.user.measure_pref);
+  const orderedParts = usePartSort(bike);
   const dispatch = useDispatch();
-  console.log('orderedParts', orderedParts);
-  useEffect(() => {
-    if (bike && allParts) {
-      let ordered = sortByWear(_.pick(allParts, bike.parts));
-      setOrderedParts(ordered);
-    }
-  }, [bike, allParts]);
+
 
   useEffect(() => {
   dispatch(setSelectedBike(bikeId));

@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import MiniPartSummary from './MiniPartSummary.jsx';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { showNewPartForm } from '../../state/actions/partForm.js';
 import CustomNavLink from '../bits/CustomNavLink.jsx';
-import usePartOrder from '../../hooks/usePartOrder.js';
 import _ from 'lodash';
 import { setSelectedBike } from '../../state/actions/bikes.js';
-
+import { usePartSort } from '../../hooks/wearHooks.js';
 
 const BikePanel = ({ bikeId }) => {
   const bike = useSelector(state => state.bikes.list)[bikeId];
   const { measure_pref: distUnit } = useSelector(state => state.user);
-  const sortedParts = usePartOrder(bike.parts);
+  const orderedParts = usePartSort(bike);
   const dispatch = useDispatch();
 
+  
   return (
 
     <div className="shadow p-3 mb-5 bg-white rounded panel">
@@ -66,7 +66,7 @@ const BikePanel = ({ bikeId }) => {
       <div className="row no-gutters justify-content-end">
         <div className="col-sm-10">
 
-          {sortedParts.map(partId => {
+          {orderedParts.map(partId => {
             return <MiniPartSummary key={partId} partId={partId} />
           })}
 

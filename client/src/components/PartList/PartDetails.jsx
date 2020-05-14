@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Row, Col } from 'react-bootstrap';
-import { useMetricOptions } from '../../hooks/useMetricOptions.js';
+import { useMetricOptions } from '../../hooks/wearHooks.js';
 import _ from 'lodash';
 import WearMeter from '../bits/WearMeter.jsx';
 import PartControls from './PartControls.jsx';

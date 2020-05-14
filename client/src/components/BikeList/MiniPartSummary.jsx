@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import _ from 'lodash';
 import usePartTypeRender from '../../hooks/usePartTypeRender.js';
-import { useMetricOptions } from '../../hooks/useMetricOptions.js';
+import { useMetricOptions } from '../../hooks/wearHooks.js';
 import WearMeter from '../bits/WearMeter.jsx';
 
 
