@@ -30,6 +30,7 @@ export const RESET_SELECTED_PART = "RESET_SELECTED_PART";
 export const SET_EDITING_PART = "SET_EDITING_PART";
 export const RESET_EDITING_PART = "RESET_EDITING_PART";
 export const SET_DEFAULT_PARTS = "SET_DEFAULT_PARTS";
+export const SET_PARTS_TO_SORT = "SET_PARTS_TO_SORT";
 
 /********
 partForm

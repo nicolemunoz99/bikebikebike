@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, withRouter } from 'react-router';
 import { Row, Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
@@ -8,21 +8,31 @@ import _ from 'lodash';
 import { setSelectedBike, resetSelectedBike } from '../../state/actions/bikes.js';
 import { resetSelectedPart } from '../../state/actions/parts.js';
 import { showNewPartForm } from '../../state/actions/partForm.js';
-
+import { sortByWear } from '../../helpers/sortParts.js';
 
 const PartList = () => {
-  const bikeId = useParams().bikeId;
+  const [orderedParts, setOrderedParts] = useState([])
+  const allParts = useSelector(state => state.parts.list);
+  const bikeId = useParams().bikeId
   const bike = useSelector(state => state.bikes.list)[bikeId];
   const distUnit = useSelector(state => state.user.measure_pref);
   const dispatch = useDispatch();
+  console.log('orderedParts', orderedParts);
+  useEffect(() => {
+    if (bike && allParts) {
+      let ordered = sortByWear(_.pick(allParts, bike.parts));
+      setOrderedParts(ordered);
+    }
+  }, [bike, allParts]);
 
   useEffect(() => {
-    dispatch(setSelectedBike(bikeId));
+  dispatch(setSelectedBike(bikeId));
     return () => {
       dispatch(resetSelectedBike());
       dispatch(resetSelectedPart());
     };
   }, []);
+
 
   return (
     <>{bike &&
@@ -50,7 +60,7 @@ const PartList = () => {
         <div className="w-100" />
 
         <div className='mt-4'>
-          {bike.parts.map((partId) => <PartPanel key={partId} partId={partId} />)}
+          {orderedParts.map( (id) => <PartPanel key={id} partId={id} />)}
         </div>
 
       </PageWrapper>

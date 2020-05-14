@@ -1,16 +1,18 @@
-import useMetricOptions from './useMetricOptions.js';
 import _ from 'lodash';
+import { useMetricOptions } from './useMetricOptions.js';
 
-
-const usePartOrder = (partIds) => {
+const usePartOrder = (partIds=[], order='default') => {
   
   let metrics = {};
-  partIds.forEach((id) => {
-    let partMetrics = useMetricOptions(id);
-    metrics[id] = partMetrics.sort((a, b) => b.wear - a.wear)
+  partIds.forEach(id => {
+    let sortedMetrics = _.orderBy(useMetricOptions(id), [(metric) => metric.wear], ['desc']);
+    metrics[id] = sortedMetrics
   });
 
-  let orderedPartIds = _.orderBy(partIds, [ (id) => metrics[id][0].wear ], ['desc']);
+  let orderedPartIds = [ ...partIds ];
+
+
+  orderedPartIds = _.orderBy(orderedPartIds, [ (id) => metrics[id][0].wear ], ['desc'])
 
   return orderedPartIds;
 };

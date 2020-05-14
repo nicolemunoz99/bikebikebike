@@ -4,14 +4,16 @@ import {
   SET_SELECTED_PART, 
   RESET_SELECTED_PART, 
   SET_EDITING_PART, 
-  RESET_EDITING_PART
+  RESET_EDITING_PART,
+  SET_PARTS_TO_SORT
 } from '../action-types/';
 
 const initialPartState = {
   list: {},
   selectedPart: '',
   editingPart: '',
-  default: {}
+  default: {},
+  toSort: []
 };
 
 const partReducer = (state = initialPartState, action) => {
@@ -39,6 +41,10 @@ const partReducer = (state = initialPartState, action) => {
 
   if (action.type === SET_DEFAULT_PARTS) {
     return { ...state, default: action.payload };
+  }
+
+  if (action.type === SET_PARTS_TO_SORT) {
+    return { ...state, toSort: action.partIds}
   }
 
   return state;

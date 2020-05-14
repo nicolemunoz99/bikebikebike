@@ -6,6 +6,7 @@ import { showNewPartForm } from '../../state/actions/partForm.js';
 import CustomNavLink from '../bits/CustomNavLink.jsx';
 import usePartOrder from '../../hooks/usePartOrder.js';
 import _ from 'lodash';
+import { setSelectedBike } from '../../state/actions/bikes.js';
 
 
 const BikePanel = ({ bikeId }) => {
@@ -21,7 +22,10 @@ const BikePanel = ({ bikeId }) => {
 
         {/* summary links to details page*/}
         <div className="col-6">
-          <CustomNavLink to={`/bikes/${bikeId}`}>
+          <CustomNavLink 
+            onClick={() => dispatch(setSelectedBike(bikeId))}
+            to={`/bikes/${bikeId}`}
+          >
             <div className="row">
               <div className="col-12 panel-title">
                 {_.upperFirst(bike.name)}
@@ -44,7 +48,6 @@ const BikePanel = ({ bikeId }) => {
 
         {/* add part button */}
         <div className="col-6" >
-
           <div className="row no-gutters justify-content-end text-right">
             <div className="col-auto mx-1 text-sm-center pointer" onClick={() => dispatch(showNewPartForm(bikeId))}>
               <OverlayTrigger
@@ -54,10 +57,9 @@ const BikePanel = ({ bikeId }) => {
                 <span className="material-icons panel-menu-text"> add </span>
               </OverlayTrigger>
             </div>
-
           </div>
-
         </div>
+
       </div>
 
       {/* wear meters */}
@@ -65,9 +67,7 @@ const BikePanel = ({ bikeId }) => {
         <div className="col-sm-10">
 
           {sortedParts.map(partId => {
-            return (
-              <MiniPartSummary key={partId} partId={partId} />
-            )
+            return <MiniPartSummary key={partId} partId={partId} />
           })}
 
         </div>

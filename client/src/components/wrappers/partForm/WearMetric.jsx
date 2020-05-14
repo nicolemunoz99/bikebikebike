@@ -2,11 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Row, Col, Popover } from 'react-bootstrap';
 import { CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
-import useMetricOptions from '../../../hooks/useMetricOptions.js';
+import { wearOptions } from '../../../helpers/staticData.js';
 
 const WearMetric = ({ handleInput }) => {
   const { inputs } = useSelector(state => state.form);
-  const metrics = useMetricOptions();
+  const metrics = wearOptions(useSelector(state => state.user.measure_pref));
 
   return (
     <Form.Group as={CustomFormGroup}>

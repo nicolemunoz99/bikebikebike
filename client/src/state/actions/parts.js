@@ -4,7 +4,8 @@ import {
   RESET_SELECTED_PART, 
   SET_EDITING_PART,
   RESET_EDITING_PART, 
-  SET_DEFAULT_PARTS
+  SET_DEFAULT_PARTS,
+  SET_PARTS_TO_SORT
 } from '../action-types/';
 import { openModal, closeModal } from './appControls.js';
 import { getUserData } from './user.js';
@@ -36,6 +37,10 @@ export const resetEditingPart = () => {
 
 export const setDefaultParts = (defaultValues) => {
   return { type: SET_DEFAULT_PARTS, payload: defaultValues};
+};
+
+export const setPartsToSort = (partIds) => {
+  return { type: SET_PARTS_TO_SORT, partIds};
 };
 
 // ... async / thunks ...

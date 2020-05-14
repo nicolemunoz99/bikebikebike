@@ -2,57 +2,48 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import xDate from 'xdate';
 import _ from 'lodash';
+import { wearOptions } from '../helpers/staticData.js';
+import wearCalc from '../helpers/wearCalc.js';
 
-const useMetricOptions = (partId=null) => {
+export const useMetricOptions = (partId) => {
   let distUnit = useSelector(state => state.user.measure_pref);
-  let part = useSelector(state => state.parts.list[partId]) || {};
-  let serviceDate = part.last_service_date || part.new_date;
-  let lifespanInDays = xDate(serviceDate).diffDays(xDate(part.lifespan_date));
-
-
-  let wearOptions = {
-    'dist': {
-      text: `Distance ${distUnit}`,
-      optionLabel: 'Distance',
-      value: 'dist',
-      fieldType: 'number',
-      lifespan: `${Math.round(part.lifespan_dist)} ${distUnit}`,
-      current: `${part.p_dist_current} ${distUnit}`,
-      wear: Number(part.p_dist_current) / Number(part.lifespan_dist) < 1 ? Number(part.p_dist_current) / Number(part.lifespan_dist) : 1
-    },
-
-    'time': {
-      text: 'Ride time (hr)',
-      optionLabel: 'Ride time',
-      value: 'time',
-      fieldType: 'number',
-      lifespan: `${Math.round(part.lifespan_time)} hr`,
-      current: `${part.p_time_current} hr`,
-      wear: Number(part.p_time_current) / Number(part.lifespan_time) < 1 ? Number(part.p_time_current) / Number(part.lifespan_time) : 1
-    },
-
-    'date': {
-      text: 'Date to be notified',
-      optionLabel: 'Date',
-      value: 'date',
-      fieldType: 'date',
-      lifespan: `${part.lifespan_date} (${Math.round(lifespanInDays)} d)`,
-      current: `${Math.round(xDate(serviceDate).diffDays(xDate()))} d`,
-      wear: xDate(serviceDate).diffDays(xDate()) / lifespanInDays < 1 ? xDate(serviceDate).diffDays(xDate()) / lifespanInDays : 1
-    }
-  };
-
-  if (partId === null ) return _.values(wearOptions);
-  
-  let newMetrics = [];
-  Object.keys(wearOptions).forEach((option) => {
-    if (part[`use_metric_${option}`]) {
-      newMetrics.push(wearOptions[option]);
-    }
-  });
-
-  return newMetrics;
-
+  let part = useSelector(state => state.parts.list)[partId];
+  return (wearCalc(part, distUnit));
 };
 
-export default useMetricOptions;
+// export const usePartSort = (partIds) => {
+//   let distUnit = useSelector(state => state.user.measure_pref);
+//   let parts = useSelector(state => state.parts.list);
+
+//   // within each part, order by wearMetric
+//   let sortedWearMetrics = partIds.map((id) => {
+//     return _.orderBy(wearCalc(parts[id], distUnit), [(metric) => metric.wear], ['desc']);
+//   });
+
+//   // between parts, order by max wearMetric
+//   let sortedParts = 
+
+//   // return sortedPartIds
+// }
+
+export const usePartSort = (bikeId) => {
+  let partIds = useSelector(state => state.bikes.list)[bikeId].parts;
+  let parts = useSelector(state => state.parts.list);
+  console.log('partIds', partIds)
+  console.log('bikeId', bikeId)
+  // sort wear metrics for each part
+  let currentWear = {};
+  partIds.forEach((id) => {
+    currentWear[id] = _.orderBy(wearCalc(parts[id]), [(metric) => metric.wear], ['desc']);
+  });
+
+  // return partIds ordered by decreasing wear
+  return _.orderBy(partIds, [ (id) => currentWear[id][0] ], ['desc']);
+
+
+}
+
+
+
+
+

@@ -25,6 +25,7 @@ return (
         <ProtectedRoute exact path="/stravaAuth" render={StravaAuth} />
         <ProtectedRoute exact path="/bikes" render={BikeList} />
         <ProtectedRoute exact path="/bikes/:bikeId" key='part' render={PartList} />
+        {/* <Route exact path="/bikes/:bikeId" component={PartList} />  */}
         <Route component={Landing} />
       </Switch>
     </Router>
