@@ -70,6 +70,6 @@ In the spirit of not 'reiventing the wheel', I looked into 3rd-party libraries f
 
 I also used React-Bootstrap for the first time here, which I really like. It hugely improves readability and, for me, speeds up building out components.
 
-Another feature of this app that added just a touch more challenge was the distance units that the user prefers. I pulled in the user's preference for miles vs kilometers from Strava. Several places throughout the app, I needed to render the unit, and there was a lot of repetition of pulling in this unit and the wear for each component, that I finally saw my first opportunity to create a [custom React hook](https://github.com/nicolemunoz99/bikebikebike/blob/master/client/src/hooks/useMetricOptions.js).
+Another feature of this app that added just a touch more challenge was the distance units that the user prefers. I pulled in the user's preference for miles vs kilometers from Strava. Several places throughout the app, I needed to render the unit, and there was a lot of repetition of pulling in this unit and the wear for each component, that I finally saw my first opportunity to create a [custom React hook](https://github.com/nicolemunoz99/bikebikebike/blob/master/client/src/hooks/).
 
 There are some more features I want to build. For example, I want the user to be able to pull in the service history for a component. This will require add a 'services' table to my SQL schema. Stay tuned. 
