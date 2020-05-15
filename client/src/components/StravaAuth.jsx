@@ -10,9 +10,10 @@ import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
 Amplify.configure(config);
 
-const StravaAuth = () => {
+const StravaAuth = ({ history }) => {
   const [username, setUsername] = useState('');
   const hasStravaAccess = useSelector(state => state.user.hasStravaAccess);
+  const { redirectRoute } = useSelector(state => state.appControls);
 
 
   useEffect(() => {
@@ -26,7 +27,10 @@ const StravaAuth = () => {
     }
   }, []);
 
-
+  useEffect(() => {
+    // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
+    if (hasStravaAccess) history.replace(redirectRoute ? redirectRoute : '/bikes');
+  }, [hasStravaAccess]);
 
   return (
     <>

@@ -15,7 +15,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetRedirectRoute());
+      // dispatch(resetRedirectRoute());
     };
   },[]);
 
