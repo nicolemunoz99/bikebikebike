@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import CustomNavLink from './bits/CustomNavLink.jsx';
 import { setAuthState2 } from '../state/actions/user.js';
 import { Auth } from 'aws-amplify';
+import _ from 'lodash';
 
 const NavNav = () => {
   const { authState } = useSelector(state => state.user);
@@ -22,28 +23,29 @@ const NavNav = () => {
 
   return (
     <Navbar sticky="top" collapseOnSelect expand="sm">
-      
+
       <Navbar.Brand>BikeBikeBike</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      
+
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
 
           <CustomNavLink tag={Nav.Link} to="/">Home</CustomNavLink>
           <CustomNavLink tag={Nav.Link} to="/bikes">Bikes</CustomNavLink>
 
+          <NavPartsByBikeDropdown />
         </Nav>
 
         <Nav>
-          { isLoggedIn && 
+          {isLoggedIn &&
             <CustomNavLink
-              tag={Nav.Link} 
+              tag={Nav.Link}
               onClick={handleLogout}
               to={'/login'}
             >
-                Log out
-            
-            </CustomNavLink> }
+              Log out
+            </CustomNavLink>
+          }
 
           {!isLoggedIn &&
             <>
@@ -65,10 +67,36 @@ const NavNav = () => {
             </>
           }
         </Nav>
-        
+
       </Navbar.Collapse>
     </Navbar>
   );
 };
+
+const NavPartsByBikeDropdown = () => {
+  const bikes = useSelector(state => state.bikes.list);
+
+  const bikeIds = Object.keys(bikes);
+
+  return (
+    <>
+      {bikes && 
+        <NavDropdown title="Parts" id="parts-dropdown">
+          
+          {bikeIds.map(id => {
+            return <NavDropdown.Item key={id} eventKey={id}>{bikes[id].name}</NavDropdown.Item>
+          })
+
+          }
+
+          <NavDropdown.Divider />
+
+          <NavDropdown.Item eventKey="parts-retired">Retired</NavDropdown.Item>
+
+        </NavDropdown>
+      }
+    </>
+  )
+}
 
 export default NavNav;
