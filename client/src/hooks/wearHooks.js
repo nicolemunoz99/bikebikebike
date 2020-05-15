@@ -14,7 +14,7 @@ export const useMetricOptions = (partId) => {
 
 
 export const usePartSort = (bike) => {
-  const [orderedPartsIds, setOrderedParts] = useState([])
+  const [orderedPartIds, setOrderedParts] = useState([])
   const allParts = useSelector(state => state.parts.list);
 
   useEffect(() => {
@@ -24,5 +24,6 @@ export const usePartSort = (bike) => {
     }
   }, [bike, allParts]);
 
-  return orderedPartsIds;
+  return orderedPartIds;
 };
+

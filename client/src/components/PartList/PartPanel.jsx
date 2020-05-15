@@ -6,6 +6,7 @@ import PartDetails from './PartDetails.jsx';
 import _ from 'lodash';
 import { setSelectedPart } from '../../state/actions/parts.js';
 import usePartTypeRender from '../../hooks/usePartTypeRender.js';
+import { sortMetrics } from '../../helpers/sortParts.js';
 
 
 const PartPanel = ({ partId }) => {
@@ -14,6 +15,8 @@ const PartPanel = ({ partId }) => {
   const { selectedPart } = useSelector(state => state.parts);
   const dispatch = useDispatch();
   const partTypeRender = usePartTypeRender(part);
+
+  const maxWear = sortMetrics(part)[0].wear;
 
   return (
   <>
@@ -28,6 +31,7 @@ const PartPanel = ({ partId }) => {
           </Row>
 
           <Row noGutters>
+
             <Col sm={6} className="text-detail">
               <div>
                 {part.p_brand} {part.p_model}
@@ -41,12 +45,13 @@ const PartPanel = ({ partId }) => {
             </Col>
 
             <Col sm={6} className="align-self-end text-right">
-              <WearMeter wear={0.2} />
+              <WearMeter wear={maxWear} />
             </Col>
+
           </Row>
 
           
-          {selectedPart === partId && <PartDetails /> }
+          { selectedPart === partId && <PartDetails /> }
 
           <Row>
             <Col className="text-center">
