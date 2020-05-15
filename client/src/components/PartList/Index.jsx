@@ -9,6 +9,7 @@ import { setSelectedBike, resetSelectedBike } from '../../state/actions/bikes.js
 import { resetSelectedPart } from '../../state/actions/parts.js';
 import { showNewPartForm } from '../../state/actions/partForm.js';
 import { usePartSort } from '../../hooks/wearHooks.js';
+import { NoParts } from '../noDataToRender/Index.jsx';
 
 const PartList = () => {
   const bikeId = useParams().bikeId
@@ -58,7 +59,7 @@ const PartList = () => {
         <div className='mt-4'>
           {orderedParts.map( (id) => <PartPanel key={id} partId={id} />)}
         </div>
-
+        <NoParts />
       </PageWrapper>
     }</>
   );

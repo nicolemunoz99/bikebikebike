@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import { useSelector } from 'react-redux';
 import PageWrapper from '../wrappers/PageWrapper.jsx';
 import BikePanel from './BikePanel.jsx'
-
+import { NoBikes } from '../noDataToRender/Index.jsx';
 
 
 const BikeList = () => {
@@ -21,6 +21,8 @@ const BikeList = () => {
         })}
       </div>
     }
+
+    {!dataWait && !bikeIds.length && <NoBikes /> }
     </PageWrapper>
 
   )

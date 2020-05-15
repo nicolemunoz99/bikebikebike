@@ -11,7 +11,6 @@ import ModalIndex from './modals/Index.jsx'
 
 import { ProtectedRoute, StravaPermissionsRoute } from './wrappers/ProtectedRoute.jsx'
 
-
 const App = () => {
   const { modal } = useSelector(state => state.appControls);
 

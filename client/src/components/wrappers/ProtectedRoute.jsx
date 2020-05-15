@@ -14,7 +14,7 @@ export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps 
 
   useEffect(() => {
     // get user data if user is signed in 
-    if ( authState === 'signedIn' && !id ) {console.log('here'); dispatch(getUserData())};
+    if ( authState === 'signedIn' && !id ) dispatch(getUserData());
 }, [authState])
 
   useEffect(() => {
