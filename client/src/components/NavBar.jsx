@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import CustomNavLink from './bits/CustomNavLink.jsx';
 import { setAuthState2 } from '../state/actions/user.js';
+import { destroySession } from '../state/actions/appControls.js'
 import { Auth } from 'aws-amplify';
 import _ from 'lodash';
 
@@ -14,6 +15,7 @@ const NavNav = () => {
 
   const handleLogout = async () => {
     try {
+      dispatch(destroySession());
       await Auth.signOut();
     }
     catch (err) {
@@ -93,7 +95,7 @@ const NavPartsByBikeDropdown = () => {
 
           <NavDropdown.Divider />
 
-          <NavDropdown.Item eventKey="parts-retired">Retired</NavDropdown.Item>
+          <NavDropdown.Item disabled eventKey="parts-retired">Retired (future feature)</NavDropdown.Item>
 
         </NavDropdown>
       }

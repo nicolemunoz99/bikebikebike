@@ -12,6 +12,7 @@ user
 export const SET_AUTH_STATE = "SET_AUTH_STATE";
 export const SET_STRAVA_ACCESS_STATUS = "SET_STRAVA_ACCESS_STATUS";
 export const SET_USER = "SET_USER";
+export const DESTROY_SESSION = "DESTROY_SESSION";
 
 
 /********

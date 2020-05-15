@@ -172,7 +172,9 @@ button:focus {
   overflow: auto;
 }
 
-
+.navbar-brand {
+  font-size: 2rem;
+}
 
 .navbar {
   background-color: rgba(var(--theme), 0.9);

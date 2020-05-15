@@ -1,5 +1,5 @@
 import {
-  SET_AUTH_STATE, SET_STRAVA_ACCESS_STATUS, SET_USER 
+  SET_AUTH_STATE, SET_STRAVA_ACCESS_STATUS, SET_USER
 } from '../action-types/';
 
 import { setBikes } from './bikes.js';
