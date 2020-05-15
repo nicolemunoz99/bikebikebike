@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import { Row, Col } from 'react-bootstrap';
 import PageWrapper from './wrappers/PageWrapper.jsx';
 
 // auth stuff
@@ -28,7 +27,7 @@ const StravaAuth = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
+    // redirect after permissions granted
     if (hasStravaAccess) history.replace(redirectRoute ? redirectRoute : '/bikes');
   }, [hasStravaAccess]);
 

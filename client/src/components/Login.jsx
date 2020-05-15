@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { setAuthState2 } from '../state/actions/user.js';
-import { resetRedirectRoute } from '../state/actions/appControls.js';
 
 // Amplify auth components
 import { Authenticator, SignIn, SignUp, ConfirmSignUp, ForgotPassword } from 'aws-amplify-react';
@@ -12,12 +11,6 @@ const Login = ({ history }) => {
   const { authState } = useSelector(state => state.user);
   const { redirectRoute } = useSelector(state => state.appControls);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      // dispatch(resetRedirectRoute());
-    };
-  },[]);
 
 
   useEffect(() => {
