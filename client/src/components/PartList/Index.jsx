@@ -19,12 +19,15 @@ const PartList = () => {
 
 
   useEffect(() => {
-  dispatch(setSelectedBike(bikeId));
     return () => {
       dispatch(resetSelectedBike());
       dispatch(resetSelectedPart());
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(setSelectedBike(bikeId));
+  }, [bikeId]);
 
 
   return (

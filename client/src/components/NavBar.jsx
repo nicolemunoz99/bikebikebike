@@ -83,9 +83,11 @@ const NavPartsByBikeDropdown = () => {
       {bikes && 
         <NavDropdown title="Parts" id="parts-dropdown">
           
-          {bikeIds.map(id => {
-            return <NavDropdown.Item key={id} eventKey={id}>{bikes[id].name}</NavDropdown.Item>
-          })
+          {bikeIds.map(id => (
+            <CustomNavLink tag={NavDropdown.Item} to={`/bikes/${id}`} key={id} eventKey={id} >
+              {_.upperFirst(bikes[id].name)}
+            </CustomNavLink>)
+          )
 
           }
 
