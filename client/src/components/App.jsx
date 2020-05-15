@@ -7,8 +7,9 @@ import BikeList from './BikeList/Index.jsx';
 import StravaAuth from './StravaAuth.jsx';
 import NavBar from './NavBar.jsx';
 import PartList from './PartList/Index.jsx';
-import ProtectedRoute from './wrappers/ProtectedRoute.jsx'
 import ModalIndex from './modals/Index.jsx'
+
+import { ProtectedRoute, StravaPermissionsRoute } from './wrappers/ProtectedRoute.jsx'
 
 
 const App = () => {
@@ -23,8 +24,8 @@ return (
         <Route exact path="/login" key={'login'} component={Login} />     
         <Route exact path="/signup" key={'signup'} component={Login} />   
         <ProtectedRoute exact path="/stravaAuth" render={StravaAuth} />
-        <ProtectedRoute exact path="/bikes" render={BikeList} />
-        <ProtectedRoute exact path="/bikes/:bikeId" key='part' render={PartList} />
+        <StravaPermissionsRoute exact path="/bikes" key="bikes" render={BikeList} />
+        <StravaPermissionsRoute exact path="/bikes/:bikeId" key='parts' render={PartList} />
         {/* <Route exact path="/bikes/:bikeId" component={PartList} />  */}
         <Route component={Landing} />
       </Switch>

@@ -1,38 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withRouter } from 'react-router';
+import { Row, Col } from 'react-bootstrap';
+import PageWrapper from './wrappers/PageWrapper.jsx';
+
+// auth stuff
 import Amplify, { Auth } from "aws-amplify";
 import config from "../aws-exports.js";
-import { getUserData } from '../state/actions/user.js';
 Amplify.configure(config);
 
 const StravaAuth = () => {
   const [username, setUsername] = useState('');
   const hasStravaAccess = useSelector(state => state.user.hasStravaAccess);
-  const dispatch = useDispatch();
+
 
   useEffect(() => {
-    if (hasStravaAccess) return;
-    let getUsername = async () => {
-      let newUsername = (await Auth.currentAuthenticatedUser()).username;
-      setUsername(newUsername);
-    };
-    getUsername();
+    // get username redirectURL query
+    if (!hasStravaAccess) {
+      let getUsername = async () => {
+        let newUsername = (await Auth.currentAuthenticatedUser()).username;
+        setUsername(newUsername);
+      };
+      getUsername();
+    }
   }, []);
 
-  useEffect(() => {
-    if (username) {
-      dispatch(getUserData());
-    }
-  }, [username])
 
-  
+
   return (
-    <div>
+    <>
     { !hasStravaAccess ?
       
-      <div>
+      <PageWrapper>
         <p>
           Looks like you haven't given Bike App access to your Strava activity data.
         </p>
@@ -41,7 +41,7 @@ const StravaAuth = () => {
           access to your activity data. Upon clicking below you'll be redirected to Strava's site for authorization.
         </p>
         <p>
-          To revoke access... on Strava's site or this app.
+          To revoke access, go to your Settings in your Strava account, select "My Apps", and click "Revoke Access".
         </p>
         <div>
           <a href={`https://www.strava.com/oauth/authorize` +
@@ -49,16 +49,17 @@ const StravaAuth = () => {
                     `&response_type=code` +
                     `&redirect_uri=${process.env.THIS_API}/stravaAuth?username=${username}` +
                     `&approval_prompt=force&scope=activity:read_all,profile:read_all`}>
-            Go to Strava's site to authorize Bike App. 
+            Go to Strava's site to give permissions. 
           </a>
         </div>
-      </div>
+      </PageWrapper>
 
       :
+
       <Redirect to="/bikes" />
     }
-    </div>
+    </>
   )
 };
 
-export default withAuthenticator(StravaAuth, {includeGreetings: true});
+export default withRouter(StravaAuth);

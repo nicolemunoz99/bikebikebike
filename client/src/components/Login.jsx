@@ -39,7 +39,7 @@ const Login = ({ history }) => {
       hideDefault={true}
       onStateChange={handleAuthStateChange}
       authState={authState}
-      usernameAttributes="Email"
+      usernameAttributes="Username"
     >
       <SignIn />
       <SignUp

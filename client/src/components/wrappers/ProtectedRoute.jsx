@@ -8,23 +8,15 @@ import { getDefaults } from '../../state/actions/parts.js';
 
 
 // ... wraper for routes requiring auth
-  const ProtectedRoute = ({ exact, path, render, ...routeProps }) => {
-  const { authState, id, measure_pref } = useSelector(state => state.user);
-  const { default: defaultParts } = useSelector(state => state.parts);
+export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps }) => {
+  const { authState } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (authState === 'signedIn' && !id ) dispatch(getUserData());
-
-    // set route to redirect to after successfull login
+    // if not logged in, set route to redirect to after successfull login
     if (authState !== 'signedIn') dispatch(setRedirectRoute(routeProps.location.pathname));
   }, [authState]);
-
-  useEffect(() => {
-    if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
-  }, [measure_pref]);
-  
-
+ 
   // redirect to login if not signed in
   render = authState === 'signedIn' ? render : () => <Redirect to='/login' />;
   
@@ -35,25 +27,37 @@ import { getDefaults } from '../../state/actions/parts.js';
       render={render}
     />
   );
-};
-
-export default withRouter(ProtectedRoute);
+});
 
 
 
-// // ... wrapper for routes that require app-level auth AND strava permissions
-// export const StravaPermissionsRoute = ({ exact, path, render}) => {
-//   const { hasStravaAccess } = useSelector(state => state.user);
 
-//   render = hasStravaAccess ? render : () => <Redirect to='/stravaAuth' />;s
+// ... wrapper for routes that require app-level auth AND strava permissions
+export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
+  const { hasStravaAccess, id, measure_pref } = useSelector(state => state.user);
+  const { authState } = useSelector(state => state.user);
+  const dispatch = useDispatch();
   
-//   return (
-//     <ProtectedRoute
-//       exact={exact}
-//       path={path}
-//       render={render}
-//     />
-//   )
+  useEffect(() => {
+    if (!hasStravaAccess) dispatch(setRedirectRoute('/stravaAuth'));
+  }, [hasStravaAccess])
 
-// }
+  useEffect(() => {
+
+    // get user data after auth and strava permissions granted
+    if ( hasStravaAccess && authState === 'signedIn' && !id ) dispatch(getUserData());
+    // get default metrics for parts
+    if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
+  }, [])
+
+  render = (hasStravaAccess && authState === 'signedIn') ? render : () => <Redirect to='/stravaAuth' />;
+  
+  return (
+    <ProtectedRoute
+      exact={exact}
+      path={path}
+      render={render}
+    />
+  );
+});
 
