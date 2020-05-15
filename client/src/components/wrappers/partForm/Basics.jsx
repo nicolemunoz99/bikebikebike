@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Form, Row, Col, Dropdown, DropdownButton, Button } from 'react-bootstrap';
 import { CustomInput, CustomFormGroup, FormHeader } from './CustomFormBits.jsx';
 import { resetFields } from '../../../state/actions/partForm.js';
 import { errMsgs } from '../../../validation.js';
@@ -28,9 +28,9 @@ const Basics = ({ handleInput }) => {
           <Col xs="12" className="mb-1">
             <DropdownButton
               size="sm"
-              variant="info"
               title={inputs.type ? defaultParts[inputs.type].title : 'Type'}
               disabled={!!editingPart}
+              bsPrefix="bbb-dd-button"
             >
               {Object.keys(defaultParts).map(key => {
                 return (

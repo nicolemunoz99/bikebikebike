@@ -80,6 +80,8 @@ body {
   outline: 1px solid rgb(233, 233, 233);
 }
 
+/* buttons and dropdowns */
+
 .bbb-button {
   background-color: rgb(var(--theme));
   color: black;
@@ -104,6 +106,28 @@ body {
 .bbb-button:active  {
   background-color: black;
   color: white;
+}
+
+.bbb-dd-button {
+  background-color: white;
+  color: black;
+  border-radius: 0.4rem;
+  width: 100%;
+  padding: 0.3rem 0.2rem 0.3rem 0.2rem;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: var(--gray-dark);
+  color: white;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  cursor: default;
+}
+
+button:focus {
+  outline: 3px auto grey
 }
 
 
@@ -148,9 +172,7 @@ body {
   overflow: auto;
 }
 
-.btn:disabled {
-  cursor: default;
-}
+
 
 .navbar {
   background-color: rgba(var(--theme), 0.9);
