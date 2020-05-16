@@ -9,18 +9,24 @@
 
 html {
   background-image: var(--theme);
+  min-height: 100%;
 }
 
 body {
   background-color: rgb(var(--modal-bg-col));
+  min-height: 100%;
 }
 
+p {
+  margin: 1.5rem 0rem 1.5rem 0rem;
+}
 
 a {
-  color: rgb(255, 123, 0);
+  color: rgb(24, 6, 184);
 }
 a:hover {
-  color: var(--ion-color-primary-tint);
+  font-style: underline;
+  color: inherit
 }
 
 .pointer {
@@ -99,7 +105,7 @@ a:hover {
   color: black;
   border-radius: 0.7rem;
   width: 100%;
-  padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 
@@ -121,8 +127,8 @@ a:hover {
 }
 
 .bbb-dd-button {
-  background-color: white;
-  color: black;
+  background-color: rgb(51, 51, 51);
+  color: white;
   border-radius: 0.4rem;
   width: 100%;
   padding: 0.3rem 0.2rem 0.3rem 0.2rem;
@@ -166,6 +172,15 @@ button:focus {
   overflow: auto;
 }
 
+.modal-title {
+  font-size: 2.3rem;
+  border: 0.1rem solid rgb(var(--theme));
+  background-color: white;
+  padding: 1rem;
+  border-radius:1rem;
+  margin-top: 1rem;
+}
+
 .scroll-more {
   position: absolute;
   background-image: linear-gradient(rgba(var(--modal-bg-col), 0), rgb(var(--modal-bg-col)));
@@ -191,6 +206,11 @@ button:focus {
 
 .navbar {
   background-color: rgba(var(--theme), 0.95);
+}
+
+.navbar.footer {
+  /* background-color: rgb(var(--modal-bg-col)); */
+  background-color: none !important;
 }
 
 .bg-theme {

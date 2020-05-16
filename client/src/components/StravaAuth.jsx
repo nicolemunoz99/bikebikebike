@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import PageWrapper from './wrappers/PageWrapper.jsx';
+import { Button } from 'react-bootstrap';
 
 // auth stuff
 import Amplify, { Auth } from "aws-amplify";
@@ -33,6 +34,7 @@ const StravaAuth = ({ history }) => {
 
   return (
     <>
+    
     { !hasStravaAccess ?
       
       <PageWrapper>
@@ -46,16 +48,18 @@ const StravaAuth = ({ history }) => {
         <p>
           To revoke access, go to your Settings in your Strava account, select "My Apps", and click "Revoke Access".
         </p>
-        <div>
-          <a href={
-            `https://www.strava.com/oauth/authorize` +
+        <div className="text-center mt-4">
+
+          <Button
+            bsPrefix="bbb-button"
+            href={`https://www.strava.com/oauth/authorize` +
             `?client_id=${process.env.STRAVA_CLIENT_ID}` +
             `&response_type=code` +
             `&redirect_uri=${process.env.THIS_API}/stravaAuth?username=${username}` +
-            `&approval_prompt=force&scope=activity:read_all,profile:read_all`
-          }>
-            Go to Strava's site to give permissions. 
-          </a>
+            `&approval_prompt=force&scope=activity:read_all,profile:read_all`}
+          >
+            Go to Strava's site to grant access. 
+          </Button>
         </div>
       </PageWrapper>
 

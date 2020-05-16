@@ -85,10 +85,10 @@ export const PartFormWrapper = ({ modal, handleSubmit, updatePartForm, title, re
 
         }
 
-        {formIsValid && <PartSummary />}
+        { formIsValid && <PartSummary /> }
 
         <Button bsPrefix="bbb-button" variant="primary" type="submit" className="w-100" disabled={!formIsValid}>
-          {submitLabel}
+          {formIsValid ? submitLabel : 'Form incomplete'}
         </Button>
 
       </Form>

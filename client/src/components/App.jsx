@@ -28,7 +28,6 @@ return (
         <StravaPermissionsRoute exact path="/bikes/:bikeId" key='parts' render={PartList} />
         <Route component={Landing} />
       </Switch>
-      <Footer />
     </Router>
 
     { modal && <ModalIndex /> }

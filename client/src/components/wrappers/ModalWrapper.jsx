@@ -41,7 +41,7 @@ const ModalWrapper = ({modal, children, title, minHeight = "50%", cancelClose = 
           </div>
         }
 
-        <div className="display-4 mb-4">
+        <div className="modal-title mb-4">
           {title}
         </div>
 
