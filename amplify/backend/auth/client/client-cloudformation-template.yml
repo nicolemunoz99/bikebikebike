@@ -9,18 +9,6 @@ Parameters:
     Type: String
   
   
-  
-  
-  functionclientCustomMessageArn: 
-    Type: String
-    Default: functionclientCustomMessageArn
-  
-  functionclientCustomMessageName: 
-    Type: String
-    Default: functionclientCustomMessageName
-  
-  
-  
 
     
   identityPoolName:
@@ -58,10 +46,10 @@ Parameters:
                 
   defaultPasswordPolicy:
     Type: String
-                
+            
   passwordPolicyMinLength:
-    Type: Number
-                  
+    Type: String
+                      
   passwordPolicyCharacters:
     Type: CommaDelimitedList
               
@@ -112,7 +100,7 @@ Parameters:
                     
   userPoolGroupList:
     Type: CommaDelimitedList
-                  
+      
   verificationBucketName:
     Type: String
                                             
@@ -124,7 +112,7 @@ Parameters:
               
   dependsOn:
     Type: CommaDelimitedList
-    
+                
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
@@ -199,19 +187,6 @@ Resources:
         
       
       
-      LambdaConfig:
-        
-        
-          CustomMessage: !Ref functionclientCustomMessageArn
-        
-        
-        
-        
-        
-        
-        
-        
-      
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
@@ -223,9 +198,9 @@ Resources:
         PasswordPolicy:
           MinimumLength: !Ref passwordPolicyMinLength
           RequireLowercase: true
-          RequireNumbers: true
+          RequireNumbers: false
           RequireSymbols: false
-          RequireUppercase: true
+          RequireUppercase: false
           
       MfaConfiguration: !Ref mfaConfiguration
       SmsVerificationMessage: !Ref smsVerificationMessage
@@ -235,15 +210,6 @@ Resources:
     
   
     
-  
-  UserPoolCustomMessageLambdaInvokePermission: 
-    Type: "AWS::Lambda::Permission"
-    DependsOn: UserPool
-    Properties: 
-      Action: "lambda:invokeFunction"
-      Principal: "cognito-idp.amazonaws.com"
-      FunctionName: !Ref functionclientCustomMessageName
-      SourceArn: !GetAtt UserPool.Arn
     
   
     

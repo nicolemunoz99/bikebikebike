@@ -52,8 +52,15 @@ const signUpConfig = {
   hideAllDefaults: true,
   signUpFields: [
     {
-      label: 'Email',
+      label: 'Username',
       key: 'username',
+      required: true,
+      displayOrder: 1,
+      type: 'string'
+    },
+    {
+      label: 'Email',
+      key: 'email',
       required: true,
       displayOrder: 1,
       type: 'string'

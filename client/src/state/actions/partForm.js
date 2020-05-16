@@ -192,6 +192,7 @@ export const submitNewPart = (data) => async (dispatch, getState) => {
 };
 
 export const submitEditedPart = (data) => async (dispatch, getState) => {
+  dispatch(closeModal('editPartForm'))
   dispatch(openModal('dataWait'));
   let distUnit = getState().user.measure_pref;
   let origPart = getState().parts.list[data.part_id]
@@ -220,6 +221,7 @@ export const submitEditedPart = (data) => async (dispatch, getState) => {
     dispatch(closeModal('dataWait'));
   }
   catch (err) {
+    console.log('err', err)
     dispatch(closeModal('dataWait'));
     dispatch(openModal('err'));
   }

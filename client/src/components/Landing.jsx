@@ -26,7 +26,8 @@ const Landing = () => {
           <p>
             While you can add a narrow selection of parts to your bikes on Strava, BikeBikeBike! 
             is different in that you can:
-            <ul>
+          </p>
+          <ul>
               <li>
                 choose a default or define a custom specification for the life/service interval
                 for your part;
@@ -52,10 +53,7 @@ const Landing = () => {
                 move a part among your bikes (in progress);
               </li>
             </ul>
-          </p>
-          <p>
 
-          </p>
         </Col>
 
       </Row>

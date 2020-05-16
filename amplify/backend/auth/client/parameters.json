@@ -12,14 +12,12 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Your verification code",
-    "emailVerificationMessage": "Your verification code is {####}",
-    "defaultPasswordPolicy": true,
-    "passwordPolicyMinLength": 8,
+    "emailVerificationSubject": "BikeBikeBike! confirmation code",
+    "emailVerificationMessage": "Your confirmation code is {####}",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": "6",
     "passwordPolicyCharacters": [
-        "Requires Lowercase",
-        "Requires Uppercase",
-        "Requires Numbers"
+        "Requires Lowercase"
     ],
     "requiredAttributes": [
         "email"
@@ -40,7 +38,7 @@
     "thirdPartyAuth": false,
     "userPoolGroups": false,
     "adminQueries": false,
-    "triggers": "{\"CustomMessage\":[\"verification-link\"]}",
+    "triggers": "{}",
     "hostedUI": false,
     "userPoolGroupList": [],
     "verificationBucketName": "clientverificationbucket",
@@ -60,15 +58,5 @@
         "Ref": "AWS::StackId"
     },
     "permissions": [],
-    "dependsOn": [
-        {
-            "category": "function",
-            "resourceName": "clientCustomMessage",
-            "triggerProvider": "Cognito",
-            "attributes": [
-                "Arn",
-                "Name"
-            ]
-        }
-    ]
+    "dependsOn": []
 }

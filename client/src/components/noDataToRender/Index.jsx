@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import { showNewPartForm} from '../../state/actions/partForm.js'
 
@@ -22,12 +22,14 @@ export const NoBikes = () => (
 
 export const NoParts = () => {
   const dispatch = useDispatch();
+  const bikeId = useSelector(state => state.bikes.selectedBike);
+
   return (
   <NoDataWrapper>
       <p className="text-center">Looks like this bikes doesn't have any parts</p>
       <Row className="justify-content-center">
         <Col xs={12} sm={6} md={4}>
-          <Button bsPrefix='bbb-button' onClick={() => dispatch(showNewPartForm())}>Add</Button>
+          <Button bsPrefix='bbb-button' onClick={() => dispatch(showNewPartForm(bikeId))}>Add</Button>
         </Col>
       </Row>
     </NoDataWrapper>

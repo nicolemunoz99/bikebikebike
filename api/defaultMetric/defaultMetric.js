@@ -88,7 +88,7 @@ const defaultMetric = (req, res) => {
       metrics: [
         {p_brand: 'SRAM'},
         {p_model: 'RED eTap'},
-        {lifepsan_time: 20 * 3600}, // 20 hrs
+        {lifespan_time: 20 * 3600}, // 20 hrs
         {lifespan_dist: ''},
         {lifespan_date: ''},
         {use_metric_time: true},

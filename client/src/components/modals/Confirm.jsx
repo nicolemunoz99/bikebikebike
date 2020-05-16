@@ -5,6 +5,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import _ from 'lodash';
 import { closeModal } from '../../state/actions/appControls.js';
 import { retirePart, servicePart } from '../../state/actions/parts.js';
+import usePartTypeRender from '../../hooks/usePartTypeRender.js';
 
 export const ConfirmRetire = () => {
   const partId = useSelector(state => state.parts.selectedPart);
@@ -13,8 +14,7 @@ export const ConfirmRetire = () => {
   const dispatch = useDispatch();
 
   const bikeName = _.upperFirst(bike.name);
-  const partType = part.custom_type || part.type;
-
+  const partTypeRender = usePartTypeRender(part);
 
   return (
     <Confirm
@@ -22,7 +22,7 @@ export const ConfirmRetire = () => {
       confirmAction={() => dispatch(retirePart(partId))}
     >
       <p className="h4">
-        <strong> {_.upperFirst(partType)}</strong> on <strong>{bikeName}</strong>
+        <strong> {_.upperFirst(partTypeRender)}</strong> on <strong>{bikeName}</strong>
       </p>
       <p>
         Retire component?
@@ -39,11 +39,10 @@ export const ConfirmService = () => {
   const partId = useSelector(state => state.parts.selectedPart);
   const part = useSelector(state => state.parts.list)[partId];
   const bike = useSelector(state => state.bikes.list)[useSelector(state => state.bikes.selectedBike)];
+  const partTypeRender = usePartTypeRender(part);
   const dispatch = useDispatch();
   
   const bikeName = _.upperFirst(bike.name);
-  const partType = part.custom_type || part.type;
-
 
   return (
     <Confirm
@@ -51,7 +50,7 @@ export const ConfirmService = () => {
       confirmAction={() => dispatch(servicePart(partId))}
     >
       <p className="h4">
-        <strong> {_.upperFirst(partType)}</strong> on <strong>{bikeName}</strong>
+        <strong> {_.upperFirst(partTypeRender)}</strong> on <strong>{bikeName}</strong>
       </p>
       <p>
         Reset distance and ride time to zero?
@@ -65,6 +64,11 @@ export const ConfirmService = () => {
 
 const Confirm = ({ modal, children, confirmAction }) => {
   const dispatch = useDispatch();
+
+  const handleClose = () => {
+    dispatch(closeModal(modal));
+    confirmAction();
+  }
   
   return (
     <ModalWrapper modal={modal} title='Confirm'>
@@ -82,7 +86,7 @@ const Confirm = ({ modal, children, confirmAction }) => {
           </Button>
         </Col>
         <Col>
-          <Button onClick={confirmAction} className="w-100" variant="success">
+          <Button onClick={handleClose} className="w-100" variant="success">
             <span className="material-icons panel-menu-text d-block">check_circle</span>
           </Button>
         </Col>

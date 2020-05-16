@@ -34,7 +34,7 @@ const PartList = () => {
   return (
     <>{bike &&
       <PageWrapper title={_.upperFirst(bike.name)}>
-        <Row noGutters>
+        <Row noGutters className="part-list-header">
           <Col sm={10}>
             <div>
               Tracking bike since {bike.b_date_added}

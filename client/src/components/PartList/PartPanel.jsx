@@ -22,7 +22,7 @@ const PartPanel = ({ partId }) => {
   <>
     {part &&
       <Row noGutters className="justify-content-center">
-        <Col xs={12} className={`part-panel${partId===selectedPart ? '-active' : ''} px-3 pt-3 pb-1`}>
+        <Col xs={12} className={`part-panel ${partId===selectedPart ? 'active' : ''} px-3`}>
 
           <Row noGutters>
             <Col xs={'auto'} className="panel-title">
@@ -44,16 +44,18 @@ const PartPanel = ({ partId }) => {
               </div>
             </Col>
 
-            <Col sm={6} className="align-self-end text-right">
+            {selectedPart !== partId &&
+              <Col sm={6} className="align-self-end text-right">
               <WearMeter wear={maxWear} />
             </Col>
+            }
 
           </Row>
 
           
           { selectedPart === partId && <PartDetails /> }
 
-          <Row>
+          <Row className="mt-3">
             <Col className="text-center">
               <OverlayTrigger
                 placement='top'

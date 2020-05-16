@@ -9,22 +9,21 @@ import { getDefaults } from '../../state/actions/parts.js';
 
 // ... wrapper for routes requiring auth
 export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps }) => {
-  const { authState, id, hasStravaAccess } = useSelector(state => state.user);
+  const { authState, id } = useSelector(state => state.user);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    // get user data if user is signed in 
-    if ( authState === 'signedIn' && !id ) {
-      console.log('routeProps', routeProps)
-      dispatch(getUserData())
-    };
-}, [authState])
 
   useEffect(() => {
     // if not logged in, set route to redirect to after successfull login
     let redirectRoute = routeProps.location.pathname !== '/stravaAuth' ? routeProps.location.pathname : '/bikes'
     if (authState !== 'signedIn') dispatch(setRedirectRoute(redirectRoute));
-  }, [authState]);
+
+    // get user data if user is signed in 
+    if ( authState === 'signedIn' && !id ) {
+      dispatch(getUserData())
+    };
+
+}, [authState])
+
  
   // redirect to login if not signed in
   render = authState === 'signedIn' ? render : () => <Redirect to='/login' />;
@@ -46,6 +45,7 @@ export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
   const { hasStravaAccess, id, measure_pref } = useSelector(state => state.user);
   const { authState } = useSelector(state => state.user);
   const { default: defaultParts} = useSelector(state => state.parts);
+  const { redirectRoute } = useSelector(state => state.appControls);
   const dispatch = useDispatch();
   
 
@@ -54,7 +54,8 @@ export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
     if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
   }, [])
 
-  render = (hasStravaAccess && authState === 'signedIn') ? render : () => <Redirect to='/stravaAuth' />;
+  // render = (hasStravaAccess && authState === 'signedIn') ? render : () => <Redirect to={redirectRoute} />;
+  
   
   return (
     <ProtectedRoute

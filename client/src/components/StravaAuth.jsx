@@ -17,7 +17,7 @@ const StravaAuth = ({ history }) => {
 
 
   useEffect(() => {
-    // get username redirectURL query
+    // get username to put in redirectURL query
     if (!hasStravaAccess) {
       let getUsername = async () => {
         let newUsername = (await Auth.currentAuthenticatedUser()).username;

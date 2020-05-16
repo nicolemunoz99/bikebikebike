@@ -12,13 +12,6 @@
             "AmplifyAppId": "d2dxut5d4tyu6y"
         },
         "categories": {
-            "function": {
-                "clientCustomMessage": {
-                    "REDIRECTURL": "http://localhost:8080/signup",
-                    "EMAILSUBJECT": "",
-                    "EMAILMESSAGE": ""
-                }
-            },
             "auth": {
                 "client": {}
             }

@@ -7,6 +7,7 @@ const part = {
   post: async (req, res) => {
     let { access_token } = req.body.permissions;
     let newPart = convertToDbUnits(req.body.data, req.query.distUnit);
+    console.log('newPart', newPart)
     newPart.p_date_added = xDate().getTime();
     newPart.p_status = 'active';
     if (newPart.new_at_add === 'y') {

@@ -48,9 +48,15 @@ a:hover {
 
 .part-panel {
   border-style: solid none solid none;
-  border-width: 1px
+  border-width: 1px;
+  padding: 3rem 0rem 0.5rem 0rem;
 }
-.part-panel-active {
+
+.part-list-header {
+  margin-bottom: 3.5rem;
+}
+
+.part-panel.active {
   background-color: white;
 }
 
@@ -79,7 +85,7 @@ a:hover {
 }
 
 .meter {
-  background-image: linear-gradient(to right, green, rgb(41, 128, 0), rgb(255, 230, 0), red);
+  background-image: linear-gradient(to right, green, rgb(255, 230, 0), red);
   min-width: 5rem;
 }
 
