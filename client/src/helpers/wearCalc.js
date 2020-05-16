@@ -1,5 +1,5 @@
 const wearCalc = (part, distUnit='') => {
-  let serviceDate = part.last_service_date || part.new_date;
+  let serviceDate = part.last_date_serviced || part.new_date;
   let lifespanInDays = xDate(serviceDate).diffDays(xDate(part.lifespan_date));
   
   let wear = {

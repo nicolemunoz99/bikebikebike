@@ -77,7 +77,7 @@ export const servicePart = (partId) => async (dispatch) => {
   try {
     let authData = await Auth.currentAuthenticatedUser();
 
-    await axios.put(`${process.env.THIS_API}/api/service/part?partId=${partId}`, {
+    await axios.put(`${process.env.THIS_API}/api/part/service?partId=${partId}`, {}, {
       headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
     });
     

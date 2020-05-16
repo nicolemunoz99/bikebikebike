@@ -11,7 +11,7 @@ const WearMeter = ({ height='1rem', partId, wear }) => {
 
   return (
     <div className="row no-gutters">
-    <div className="col-12 wm-wrapper outline-grey">
+    <div className="col-12 wm-wrapper border">
       <div className="meter" style={{height:height}}>
         <div className="meter-mask" style={{width:(1-wear)*100+'%'}} />
       </div>

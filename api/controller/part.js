@@ -52,7 +52,7 @@ const part = {
       }
     });
     // future feature: add entry to services table
-    res.sendStatus(200);
+    return res.sendStatus(200);
   },
 
   retire: async (req, res) => {
@@ -62,7 +62,7 @@ const part = {
         p_status: 'retired'
       }
     });
-    res.sendStatus(200);
+    return res.sendStatus(200);
   }
 };
 

@@ -59,7 +59,9 @@ const PartList = () => {
         <div className='mt-4'>
           {orderedParts.map( (id) => <PartPanel key={id} partId={id} />)}
         </div>
-        <NoParts />
+      
+        { orderedParts.length === 0 && <NoParts /> }
+
       </PageWrapper>
     }</>
   );

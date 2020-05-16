@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS parts(
   use_metric_date BOOLEAN,
   new_at_add VARCHAR,
   new_date BIGINT,
-  last_service_date BIGINT,
+  last_date_serviced BIGINT,
   lifespan_dist DECIMAL,
   lifespan_time DECIMAL, -- seconds
   lifespan_date BIGINT, -- ms

@@ -59,7 +59,7 @@ const PartDetails = () => {
           </Col>
 
           <Col sm={4} md={5} className="part-detail text-detail text-center my-1">
-            {part.last_service_date ? `Last serviced ${part.last_service_date}` : `New on ${part.new_date}`}
+            {part.last_date_serviced ? `Last serviced ${part.last_date_serviced}` : `New on ${part.new_date}`}
           </Col>
         </Row>
 
