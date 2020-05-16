@@ -90,6 +90,10 @@ a:hover {
   padding: 2rem;
 }
 
+.footer {
+  margin-top: 5rem;
+}
+
 /* buttons and dropdowns */
 
 .bbb-button {

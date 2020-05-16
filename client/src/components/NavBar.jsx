@@ -26,7 +26,15 @@ const NavNav = () => {
   return (
     <Navbar sticky="top" collapseOnSelect expand="sm">
 
-      <Navbar.Brand>BikeBikeBike!</Navbar.Brand>
+      <Navbar.Brand>
+        <span className="d-none d-sm-inline-block">BikeBikeBike!</span>
+        <span className="d-inline-block d-sm-none">
+          <span className="material-icons mr-1">directions_bike</span>
+          <span className="material-icons mr-1">directions_bike</span>
+          <span className="material-icons mr-1">directions_bike</span>!
+        </span>
+      </Navbar.Brand>
+
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
       <Navbar.Collapse id="responsive-navbar-nav">
@@ -34,8 +42,8 @@ const NavNav = () => {
 
           <CustomNavLink tag={Nav.Link} to="/">Home</CustomNavLink>
           <CustomNavLink tag={Nav.Link} to="/bikes">Bikes</CustomNavLink>
-
           <NavPartsByBikeDropdown />
+        
         </Nav>
 
         <Nav>
@@ -75,6 +83,7 @@ const NavNav = () => {
   );
 };
 
+
 const NavPartsByBikeDropdown = () => {
   const bikes = useSelector(state => state.bikes.list);
 
@@ -100,7 +109,7 @@ const NavPartsByBikeDropdown = () => {
         </NavDropdown>
       }
     </>
-  )
-}
+  );
+};
 
 export default NavNav;

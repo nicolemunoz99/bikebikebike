@@ -6,6 +6,7 @@ import Login from './Login.jsx';
 import BikeList from './BikeList/Index.jsx';
 import StravaAuth from './StravaAuth.jsx';
 import NavBar from './NavBar.jsx';
+import Footer from './Footer.jsx';
 import PartList from './PartList/Index.jsx';
 import ModalIndex from './modals/Index.jsx'
 
@@ -15,7 +16,7 @@ const App = () => {
   const { modal } = useSelector(state => state.appControls);
 
 return (
-  <div>
+  <>
     <Router>
       <NavBar />
       <Switch >
@@ -27,11 +28,12 @@ return (
         <StravaPermissionsRoute exact path="/bikes/:bikeId" key='parts' render={PartList} />
         <Route component={Landing} />
       </Switch>
+      <Footer />
     </Router>
 
     { modal && <ModalIndex /> }
 
-  </div>
+  </>
 )
 };
 
