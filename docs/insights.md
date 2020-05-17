@@ -1,0 +1,14 @@
+## Insights
+This project has been teaching me that I don't need to reinvent the wheel. This is the first app I built using 3rd-party authentication and authorization. With [Amazon Cognito](https://aws.amazon.com/cognito/) and [AWS Amplify](https://aws.amazon.com/amplify/), the UI requires authentication for access, but the database is fully protected with Cognito-Express middleware. The API endpoints containing user data require a BikeBikeBike user account.
+
+I normalized state shape using the Normalizr library. This lets me have separate reducers for bikes and parts, with the part IDs belonging to each bike stored in an array. I found this architecture of state management much for efficient to work with both in terms of writing code (no need to search through parts for a given part ID) and in terms of state storage (no need to duplicate data by storing e.g., 'selected part' state as the entire part object).
+
+The [forms for adding and editing bike parts](https://github.com/nicolemunoz99/bikebikebike/blob/master/client/src/components/wrappers/partForm/Index.jsx) was probably the most time-consuming part of the project. The sub-components that the form displays are based on previous selections from the user. In order to speed up the UI dev process, I chose to keep state of the controlled form in the Redux store. This allowed me to take advantage of Redux browser dev tools and pin state while building the form's sub-components, instead of constantly having to click through the app to return the form's state prior to the app refreshing.
+
+In the spirit of not 'reiventing the wheel', I looked into 3rd-party libraries for form verification. However, given the conditional complexity of this form (e.g., required fields for lifespan metrics depended on the user's previous selection of what metrics they wanted to use), I couldn't find a library that suited my needs. Consequently, this was the most complex form verification I built out. However, given my passion for bikes and the features I thought were necessary to make the app useful, I'm extremely happy with the outcome.
+
+I also used React-Bootstrap for the first time here, which I really like. It hugely improves readability and, for me, speeds up building out components.
+
+Another feature of this app that added just a touch more challenge was the distance units that the user prefers. I pulled in the user's preference for miles vs kilometers from Strava. Several places throughout the app, I needed to render the unit, and there was a lot of repetition of pulling in this unit and the wear for each component, that I finally saw my first opportunity to create a [custom React hook](https://github.com/nicolemunoz99/bikebikebike/blob/master/client/src/hooks/).
+
+There are some more features I want to build. For example, I want the user to be able to pull in the service history for a component. This will require add a 'services' table to my SQL schema. Stay tuned. 
