@@ -21,7 +21,7 @@ const Landing = () => {
             Strava allows you to add bikes to your profile and select which bike you use for each
             ride you do. BikeBikeBike! allows you add parts to each of the bikes you have in your Strava
             account and keeps a running tab of the distance and ride time incurred on each bike,
-            and therefore, an each bike component.
+            and therefore, on each bike component.
           </p>
           <p>
             While you can add a narrow selection of parts to your bikes on Strava, BikeBikeBike! 
