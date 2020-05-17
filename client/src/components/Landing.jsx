@@ -43,7 +43,7 @@ const Landing = () => {
                 wear (useful for user new to BBB but have tracking their bikes on Strava for a while); 
               </li>
               <li>
-                see a nifty visual indicator for how soon you'll need to replace/service a part;
+                quickly see the status of your parts with a visual indicator;
               </li>
               <li>
                 keep a service log for certain non-consumable parts, as in the case of overhauling,
