@@ -12,7 +12,8 @@ import{
     dataWait: false,
     err: false,
     confirmRetire: false,
-    confirmService: false
+    confirmService: false,
+    limitedAccess: false
   },
   redirectRoute: '/bikes'
  }

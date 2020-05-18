@@ -39,11 +39,11 @@ const StravaAuth = ({ history }) => {
       
       <PageWrapper>
         <p>
-          Looks like you haven't given Bike App access to your Strava activity data.
+          Looks like you haven't given BikeBikeBike! access to your Strava activity data.
         </p>
         <p>
-          In order to track component usage via your strava activities, grant Bike App
-          access to your activity data. Upon clicking below you'll be redirected to Strava's site for authorization.
+          In order to track component usage via your strava activities, click the link below to grant BikeBikeBike! permission to
+          access to your activity data. You'll be redirected to Strava's site for authorization.
         </p>
         <p>
           To revoke access, go to your Settings in your Strava account, select "My Apps", and click "Revoke Access".

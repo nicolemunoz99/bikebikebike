@@ -9,24 +9,31 @@ import { getDefaults } from '../../state/actions/parts.js';
 
 // ... wrapper for routes requiring auth
 export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps }) => {
-  const { authState, id } = useSelector(state => state.user);
+  const { authState, id, hasStravaAccess } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     // if not logged in, set route to redirect to after successfull login
     let redirectRoute = routeProps.location.pathname !== '/stravaAuth' ? routeProps.location.pathname : '/bikes'
-    if (authState !== 'signedIn') dispatch(setRedirectRoute(redirectRoute));
+    
+
+    if (authState !== 'signedIn') {
+      dispatch(setRedirectRoute(redirectRoute));
+      return;
+    };
 
     // get user data if user is signed in 
     if ( authState === 'signedIn' && !id ) {
-      dispatch(getUserData())
+      dispatch(getUserData());
     };
 
-}, [authState])
+
+}, [authState, hasStravaAccess])
 
  
   // redirect to login if not signed in
-  render = authState === 'signedIn' ? render : () => <Redirect to='/login' />;
+  if (authState !== 'signedIn') render = () => <Redirect to='/login' />;
+
   
   return (
     <Route 
@@ -52,10 +59,10 @@ export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
   useEffect(() => {
     // get default metrics for parts
     if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
-  }, [])
-
-  // render = (hasStravaAccess && authState === 'signedIn') ? render : () => <Redirect to={redirectRoute} />;
+  }, []);
   
+
+  if (authState === 'signedIn' && !hasStravaAccess) render = () => <Redirect to='/stravaAuth' />;
   
   return (
     <ProtectedRoute

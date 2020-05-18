@@ -16,13 +16,21 @@ const cognitoExpress = new CognitoExpress({
 
 // verify tokens with AWS Cognito
 authRoute.use((req, res, next) => {
+  console.log('auth route')
   let accessTokenFromClient = req.headers.accesstoken;
   if (!accessTokenFromClient) return res.status(401).send('Cognito Access Token missing from headers');
   
   cognitoExpress.validate(accessTokenFromClient, (err, cognitoResponse) => {
     if (err) return res.status(401).send(err);
 
-    req.query.username = cognitoResponse.username;
+    // ... LIMIT ACCESS for demo account...
+    if (cognitoResponse.username === 'demo') { 
+      req.query.username = cognitoResponse.username;
+      req.body.limitedAccess = true; 
+    }
+    else if (cognitoResponse.username === 'demo_api') { req.query.username = 'demo'; }
+    else { req.query.username = cognitoResponse.username; }
+
     next();
   });
 });
@@ -31,7 +39,7 @@ authRoute.use((req, res, next) => {
 authRoute.use( async (req, res, next) => {
 
   let permissions = await get('strava', {username: req.query.username});
-
+  console.log('permissions: ', permissions)
   if (permissions.length === 0 || permissions[0].scope !== 'read,activity:read_all,profile:read_all') {
     res.status(201).send('user has not granted strava permissions');
     return;
@@ -60,7 +68,18 @@ authRoute.use( async (req, res, next) => {
   next();
 });
 
-authRoute.get('/login', login.get);
+// authRoute.get('/login', async (req,res) => {await login.get (req,res)});
+
+authRoute.get('/login', login.get );
+
+authRoute.use( (req,res, next) => {
+  // scoped down permissions - can't modify data
+  if (req.body.limitedAccess) {
+    return res.status(403).send('limitedAccess')
+  }
+  next();
+});
+
 authRoute.post('/part', part.post);
 authRoute.put('/part/retire', part.retire);
 authRoute.put('/part/service', part.service);

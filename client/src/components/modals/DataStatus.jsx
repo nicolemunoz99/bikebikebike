@@ -26,3 +26,17 @@ export const Err = () => {
     </ModalWrapper>
   );
 };
+
+export const LimitedAccess = () => {
+
+  return (
+    <ModalWrapper title="Limited Access" modal="limitedAccess">
+      <div className="row align-items-center">
+        <div className="col text-center">
+          You are using a demo account that has been granted limited access. If you would like to
+          access API endpoints, you'll have to create BikeBikeBike and <a href="http://strava.com" target="NONE">Strava</a> accounts.  
+        </div>
+      </div>
+    </ModalWrapper>
+  )
+}
