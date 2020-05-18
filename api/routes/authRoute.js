@@ -68,8 +68,6 @@ authRoute.use( async (req, res, next) => {
   next();
 });
 
-// authRoute.get('/login', async (req,res) => {await login.get (req,res)});
-
 authRoute.get('/login', login.get );
 
 authRoute.use( (req,res, next) => {

@@ -52,7 +52,6 @@ export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
   const { hasStravaAccess, id, measure_pref } = useSelector(state => state.user);
   const { authState } = useSelector(state => state.user);
   const { default: defaultParts} = useSelector(state => state.parts);
-  const { redirectRoute } = useSelector(state => state.appControls);
   const dispatch = useDispatch();
   
 
