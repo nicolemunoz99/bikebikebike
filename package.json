@@ -6,8 +6,8 @@
   "scripts": {
     "fe-dev": "webpack-dev-server --env.ENVIRONMENT=development",
     "build": "webpack --env.ENVIRONMENT=production --mode production",
-    "be-dev": "NODE_ENV=development nodemon server.js",
-    "start": "NODE_ENV=production node server.js"
+    "be-dev": "NODE_ENV=development nodemon app.js",
+    "start": "NODE_ENV=production node app.js"
   },
   "repository": {
     "type": "git",
