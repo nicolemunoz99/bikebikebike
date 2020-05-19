@@ -7,12 +7,6 @@ import App from './components/App.jsx';
 
 import './style.css';
 
-//// DELETE ////
-import xDate from 'xdate';
-window.xDate = xDate;
-import _ from 'lodash';
-window._ = _;
-//////
 
 render(
 
