@@ -15,13 +15,6 @@ import { openModal, closeModal } from './appControls.js';
 import { httpReq } from './httpReqs.js';
 
 
-import axios from 'axios';
-import _ from 'lodash';
-import xDate from 'xdate';
-import Amplify, { Auth } from "aws-amplify";
-import config from "../../aws-exports.js";
-Amplify.configure(config);
-
 export const formInput = (keyValue) => {
   return { type: FORM_INPUT, payload: keyValue };
 };

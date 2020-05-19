@@ -9,12 +9,9 @@ import {
 } from '../action-types/';
 
 import { httpReq } from './httpReqs.js';
-import { openModal, closeModal } from './appControls.js';
+import { closeModal } from './appControls.js';
 import { getUserData } from './user.js';
 import axios from 'axios';
-import Amplify, { Auth } from "aws-amplify";
-import config from "../../aws-exports.js";
-Amplify.configure(config);
 
 
 export const setParts = (parts) => {
