@@ -10,13 +10,12 @@ import { getDefaults } from '../../state/actions/parts.js';
 // ... wrapper for routes requiring auth
 export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps }) => {
   const { authState, id, hasStravaAccess } = useSelector(state => state.user);
+  const state = useSelector (state => state);
   const dispatch = useDispatch();
-
   useEffect(() => {
     // if not logged in, set route to redirect to after successfull login
     let redirectRoute = routeProps.location.pathname !== '/stravaAuth' ? routeProps.location.pathname : '/bikes'
     
-
     if (authState !== 'signedIn') {
       dispatch(setRedirectRoute(redirectRoute));
       return;
@@ -24,11 +23,14 @@ export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps 
 
     // get user data if user is signed in 
     if ( authState === 'signedIn' && !id ) {
+      console.log('routeProps', routeProps)
+      console.log('state', state);
       dispatch(getUserData());
     };
 
 
-}, [authState, hasStravaAccess])
+}, [authState, hasStravaAccess]);
+
 
  
   // redirect to login if not signed in
@@ -48,7 +50,7 @@ export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps 
 
 
 // ... wrapper for routes that require app-level auth AND strava permissions
-export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
+export const StravaPermissionsRoute = withRouter( ({ history, exact, path, render }) => {
   const { hasStravaAccess, id, measure_pref } = useSelector(state => state.user);
   const { authState } = useSelector(state => state.user);
   const { default: defaultParts} = useSelector(state => state.parts);
@@ -60,8 +62,9 @@ export const StravaPermissionsRoute = withRouter( ({ exact, path, render }) => {
     if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
   }, []);
   
-
-  if (authState === 'signedIn' && !hasStravaAccess) render = () => <Redirect to='/stravaAuth' />;
+  useEffect(() => {
+    if (authState === 'signedIn' && !hasStravaAccess) render = () => <Redirect to='/stravaAuth' />;
+  }, [authState, hasStravaAccess])
   
   return (
     <ProtectedRoute

@@ -30,20 +30,15 @@ thunks
 
 export const getUserData = () => async (dispatch) => {
 
-
-  dispatch(openModal('dataWait'));
-
-  try {
     
     let response = await dispatch(httpReq('get', '/api/login'))
 
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));
-      dispatch(closeModal('dataWait'));
       return;
     } 
     
-    dispatch(setStravaAccessStatus(true));
+    // dispatch(setStravaAccessStatus(true));
     
     // normalize state
     let userData = response.data;
@@ -68,13 +63,12 @@ export const getUserData = () => async (dispatch) => {
 
     console.log('normalized', normalUserData);
     dispatch(setBikes(normalUserData.entities.bikes));
-    dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
+    
+    let userState = normalUserData.entities.user[normalUserData.result];
+    userState.hasStravaAccess = true;
+    dispatch(setUser(userState));
+    
     if (normalUserData.entities.parts) dispatch(setParts(normalUserData.entities.parts));
-    await dispatch(getDefaults());
-  }
 
-  catch (err) {
-    console.log('err', err);
-  }
 
 };
