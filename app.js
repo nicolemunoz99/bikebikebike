@@ -8,9 +8,8 @@ const cors = require('cors'),
       path = require('path'),
       bodyParser = require('body-parser');
 
-const authRoute = require('./api/routes/authRoute.js');
-const stravaAuth = require('./api/controller/stravaAuth.js');
-const defaultMetric = require('./api/defaultMetric/defaultMetric.js')
+const api = require('./api');
+
 
 app.use('*', cors());
 
@@ -19,10 +18,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist'));
 
 // ...api routes...
-app.use('/stravaAuth', stravaAuth); // strava auth redirects here; no user auth required
-app.get('/defaultMetric', defaultMetric); // default metrics; no user auth required
-app.use('/api', authRoute); // user data; requires auth
-
+app.use('/api', api);
 
 
 // ...client routes...

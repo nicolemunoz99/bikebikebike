@@ -45,7 +45,7 @@ export const setPartsToSort = (partIds) => {
 // default tracking metrics
 export const getDefaults = () => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
-  let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
+  let defaults = (await axios.get(`${process.env.THIS_API}/api/defaultMetric?distUnit=${distUnit}`)).data;
 
   dispatch(setDefaultParts(defaults));
 }
