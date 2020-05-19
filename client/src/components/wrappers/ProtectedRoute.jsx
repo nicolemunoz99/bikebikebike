@@ -23,8 +23,6 @@ export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps 
 
     // get user data if user is signed in 
     if ( authState === 'signedIn' && !id ) {
-      console.log('routeProps', routeProps)
-      console.log('state', state);
       dispatch(getUserData());
     };
 
@@ -58,13 +56,14 @@ export const StravaPermissionsRoute = withRouter( ({ history, exact, path, rende
   
 
   useEffect(() => {
-    // get default metrics for parts
+    // get default metrics for parts once user data loaded
     if (measure_pref && !Object.keys(defaultParts).length) dispatch(getDefaults());
-  }, []);
+  }, [id]);
   
   useEffect(() => {
     if (authState === 'signedIn' && !hasStravaAccess) render = () => <Redirect to='/stravaAuth' />;
   }, [authState, hasStravaAccess])
+  
   
   return (
     <ProtectedRoute
