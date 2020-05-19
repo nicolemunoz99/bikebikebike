@@ -167,7 +167,7 @@ const updateValidation = (dataArr) => (dispatch) => {
 
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
-  await dispatch(httpReq('post', `/api/part?distUnit=${distUnit}`, data));
+  await dispatch(httpReq('post', `/part?distUnit=${distUnit}`, data));
   dispatch(closeModal('newPartForm'));
   dispatch(getUserData());
 };
@@ -192,7 +192,7 @@ export const submitEditedPart = (data) => async (dispatch, getState) => {
 
   data.part_id = partId;
 
-  await dispatch(httpReq('put', `/api/part?distUnit=${distUnit}`, data));
+  await dispatch(httpReq('put', `/part?distUnit=${distUnit}`, data));
   dispatch(getUserData());
 
 };

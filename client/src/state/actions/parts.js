@@ -45,13 +45,13 @@ export const setPartsToSort = (partIds) => {
 // default tracking metrics
 export const getDefaults = () => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
-  let defaults = (await axios.get(`${process.env.THIS_API}/api/defaultMetric?distUnit=${distUnit}`)).data;
+  let defaults = (await axios.get(`${process.env.THIS_API}/defaultMetric?distUnit=${distUnit}`)).data;
 
   dispatch(setDefaultParts(defaults));
 }
 
 export const retirePart = (partId) => async (dispatch) => {
-  await dispatch(httpReq('put', `/api/part/retire?partId=${partId}`));
+  await dispatch(httpReq('put', `/part/retire?partId=${partId}`));
   dispatch(getUserData());
   dispatch(closeModal('confirmRetire'));
 };

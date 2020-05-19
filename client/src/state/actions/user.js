@@ -31,7 +31,7 @@ thunks
 export const getUserData = () => async (dispatch) => {
 
     
-    let response = await dispatch(httpReq('get', '/api/login'))
+    let response = await dispatch(httpReq('get', '/login'))
 
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));

@@ -15,7 +15,6 @@ app.use('*', cors());
 
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname + '/client/dist'));
 
 // ...api routes...
 app.use('/api', api);
