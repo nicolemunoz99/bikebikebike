@@ -55,7 +55,7 @@ const StravaAuth = ({ history }) => {
             href={`https://www.strava.com/oauth/authorize` +
             `?client_id=${process.env.STRAVA_CLIENT_ID}` +
             `&response_type=code` +
-            `&redirect_uri=${process.env.THIS_API}/api/stravaAuth?username=${username}` +
+            `&redirect_uri=${process.env.THIS_API}/api/oauth2?username=${username}` +
             `&approval_prompt=force&scope=activity:read_all,profile:read_all`}
           >
             Go to Strava's site to grant access. 
