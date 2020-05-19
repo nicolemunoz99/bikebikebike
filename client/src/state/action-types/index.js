@@ -3,6 +3,8 @@ app controls
 ********/
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";
+export const LOG_ERR = "LOG_ERR";
+export const CLEAR_ERRS = "CLEAR_ERRS";
 export const SET_REDIRECT_ROUTE = "SET_REDIRECT_ROUTE";
 export const RESET_REDIRECT_ROUTE = "RESET_REDIRECT_ROUTE";
 

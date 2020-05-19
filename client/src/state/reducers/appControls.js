@@ -1,5 +1,6 @@
 import{
   OPEN_MODAL, CLOSE_MODAL,
+  LOG_ERR, CLEAR_ERRS,
   SET_REDIRECT_ROUTE, RESET_REDIRECT_ROUTE
 } from '../action-types/';
 
@@ -15,7 +16,8 @@ import{
     confirmService: false,
     limitedAccess: false
   },
-  redirectRoute: '/bikes'
+  redirectRoute: '/bikes',
+  errs: []
  }
 
 const appControlsReducer = (state = initialAppState, action) => {
@@ -26,6 +28,14 @@ const appControlsReducer = (state = initialAppState, action) => {
   }
   if (action.type === CLOSE_MODAL) {
     return { ...state, modal: { ...state.modal, [action.modalName]: false} };
+  }
+
+  // ... log errors ...
+  if (action.type === LOG_ERR) {
+    return { ...state, errs: [ ...state.errs, action.payload ]};
+  }
+  if (action.type === CLEAR_ERRS) {
+    return { ...state, errs: initialAppState.errs };
   }
 
   // ... redirect ...

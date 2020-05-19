@@ -10,8 +10,9 @@ import {
 
 import { getUserData } from './user.js';
 import { setSelectedBike } from './bikes.js';
-import { setDefaultParts, setEditingPart } from './parts.js';
+import { setEditingPart } from './parts.js';
 import { openModal, closeModal } from './appControls.js';
+import { httpReq } from './httpReqs.js';
 
 
 import axios from 'axios';
@@ -173,22 +174,9 @@ const updateValidation = (dataArr) => (dispatch) => {
 
 export const submitNewPart = (data) => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
-  dispatch(openModal('dataWait'));
-
-  try {
-    let authData = await Auth.currentAuthenticatedUser();
-
-    await axios.post(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
-      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    });
-    dispatch(closeModal('newPartForm'));
-    dispatch(closeModal('dataWait'));
-    dispatch(getUserData());
-  }
-  catch (err) {
-    dispatch(closeModal('dataWait'));
-    dispatch(openModal('err'));
-  }
+  await dispatch(httpReq('post', `/api/part?distUnit=${distUnit}`, data));
+  dispatch(closeModal('newPartForm'));
+  dispatch(getUserData());
 };
 
 export const submitEditedPart = (data) => async (dispatch, getState) => {
@@ -211,18 +199,7 @@ export const submitEditedPart = (data) => async (dispatch, getState) => {
 
   data.part_id = partId;
 
-  try {
-    let authData = await Auth.currentAuthenticatedUser();
-    await axios.put(`${process.env.THIS_API}/api/part?distUnit=${distUnit}`, { data }, {
-      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    });
-    
-    dispatch(getUserData());
-    dispatch(closeModal('dataWait'));
-  }
-  catch (err) {
-    console.log('err', err)
-    dispatch(closeModal('dataWait'));
-    dispatch(openModal('err'));
-  }
+  await dispatch(httpReq('put', `/api/part?distUnit=${distUnit}`, data));
+  dispatch(getUserData());
+
 };

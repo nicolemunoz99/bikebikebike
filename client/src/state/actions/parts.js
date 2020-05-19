@@ -7,6 +7,8 @@ import {
   SET_DEFAULT_PARTS,
   SET_PARTS_TO_SORT
 } from '../action-types/';
+
+import { httpReq } from './httpReqs.js';
 import { openModal, closeModal } from './appControls.js';
 import { getUserData } from './user.js';
 import axios from 'axios';
@@ -43,8 +45,6 @@ export const setPartsToSort = (partIds) => {
   return { type: SET_PARTS_TO_SORT, partIds};
 };
 
-// ... async / thunks ...
-
 // default tracking metrics
 export const getDefaults = () => async (dispatch, getState) => {
   let distUnit = getState().user.measure_pref;
@@ -54,39 +54,12 @@ export const getDefaults = () => async (dispatch, getState) => {
 }
 
 export const retirePart = (partId) => async (dispatch) => {
-  try {
-    dispatch(openModal('dataWait'));
-    let authData = await Auth.currentAuthenticatedUser();
-
-    await axios.put(`${process.env.THIS_API}/api/part/retire?partId=${partId}`, {}, {
-      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    });
-
-    dispatch(getUserData());
-    dispatch(closeModal('dataWait'));
-    dispatch(closeModal('confirmRetire'));
-  }
-  catch (err) {
-    console.log('err', err)
-    dispatch(openModal('err'))
-  }
+  await dispatch(httpReq('put', `/api/part/retire?partId=${partId}`));
+  dispatch(getUserData());
+  dispatch(closeModal('confirmRetire'));
 };
 
 export const servicePart = (partId) => async (dispatch) => {
-  dispatch(openModal('dataWait'));
-  try {
-    let authData = await Auth.currentAuthenticatedUser();
-
-    await axios.put(`${process.env.THIS_API}/api/part/service?partId=${partId}`, {}, {
-      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    });
-    
-    dispatch(getUserData());
-    dispatch(closeModal('dataWait'));
-  }
-  catch (err) {
-    console.log('err', err);
-    dispatch(closeModal('dataWait'));
-    dispatch(openModal('err'));
-  }
+  await dispatch(httpReq('put', `/api/part/service?partId=${partId}`));
+  dispatch(getUserData());
 };

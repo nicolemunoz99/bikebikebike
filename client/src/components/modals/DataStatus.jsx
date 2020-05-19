@@ -1,5 +1,7 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
+// import { clearErrs } from '../../../state/actions/appControls.js';
 
 export const DataWait = () => {
 
@@ -15,12 +17,21 @@ export const DataWait = () => {
 };
 
 export const Err = () => {
-
+  const dispatch = useDispatch();
+  // const { errs } = useSelector(state => state.appControl)
   return (
     <ModalWrapper title="Ooops" modal="err">
       <div className="row align-items-center">
-        <div className="col text-center">
-          There was an error.
+        <div className="col-12 text-center">
+          There was an problem.
+        </div>
+        <div className="col-10">
+          {/* <ul>
+            {
+              errs.map(err => <li>{err}</li>)
+            }
+          </ul> */}
+
         </div>
       </div>
     </ModalWrapper>

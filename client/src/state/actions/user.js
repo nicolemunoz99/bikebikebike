@@ -2,16 +2,13 @@ import {
   SET_AUTH_STATE, SET_STRAVA_ACCESS_STATUS, SET_USER
 } from '../action-types/';
 
+import { httpReq } from './httpReqs.js'
 import { setBikes } from './bikes.js';
 import { setParts, getDefaults } from './parts.js';
 import { openModal, closeModal } from './appControls.js';
 
-import axios from 'axios';
 import { normalize, schema } from 'normalizr';
 
-import Amplify, { Auth } from "aws-amplify";
-import config from "../../aws-exports.js";
-Amplify.configure(config);
 
 
 export const setAuthState2 = (authState) => {
@@ -32,14 +29,13 @@ thunks
 ********/
 
 export const getUserData = () => async (dispatch) => {
-  dispatch(openModal('dataWait'));
-  let userData;
-  try {
-    let authData = await Auth.currentAuthenticatedUser();
 
-    let response = await axios.get(`${process.env.THIS_API}/api/login`, {
-      headers: { accesstoken: authData.signInUserSession.accessToken.jwtToken }
-    });
+
+  dispatch(openModal('dataWait'));
+
+  try {
+    
+    let response = await dispatch(httpReq('get', '/api/login'))
 
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));
@@ -50,7 +46,7 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setStravaAccessStatus(true));
     
     // normalize state
-    userData = response.data;
+    let userData = response.data;
 
     const part = new schema.Entity('parts',
       {},
@@ -75,14 +71,10 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(normalUserData.entities.user[normalUserData.result]));
     if (normalUserData.entities.parts) dispatch(setParts(normalUserData.entities.parts));
     await dispatch(getDefaults());
-    dispatch(closeModal('dataWait'));
   }
 
   catch (err) {
-    
-    dispatch(closeModal('dataWait'));
-    dispatch(openModal('err'))
-
+    console.log('err', err);
   }
 
-}
+};

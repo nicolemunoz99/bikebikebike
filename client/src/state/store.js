@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 import rootReducer from './reducers/index.js';
 
+
 const composeEnhancers = composeWithDevTools({ 
   trace: true, 
   traceLimit: 5 
