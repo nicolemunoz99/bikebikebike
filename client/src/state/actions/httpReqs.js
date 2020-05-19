@@ -20,6 +20,7 @@ export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
       response = await axios[reqType](`${process.env.THIS_API}${endpoint}`, { data }, { headers });
     }
     dispatch(closeModal('dataWait'));
+    if (response.status === 204) dispatch(openModal('limitedAccess'));
     return response;
   }
   catch (err) {

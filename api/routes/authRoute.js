@@ -73,7 +73,7 @@ authRoute.get('/login', login.get );
 authRoute.use( (req,res, next) => {
   // scoped down permissions - can't modify data
   if (req.body.limitedAccess) {
-    return res.status(403).send('limitedAccess')
+    return res.status(204).send('limitedAccess')
   }
   next();
 });
