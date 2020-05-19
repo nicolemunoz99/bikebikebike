@@ -45,7 +45,8 @@ export const LimitedAccess = () => {
       <div className="row align-items-center">
         <div className="col text-center">
           You are using a demo account that has been granted limited access. If you would like to
-          access API endpoints, you'll have to create BikeBikeBike and <a href="http://strava.com" target="NONE">Strava</a> accounts.  
+          demo API endpoints, sign in using credentials (u/n) demo_api, (p/w) demo123, OR
+         create BikeBikeBike and <a href="http://strava.com" target="NONE">Strava</a> accounts.  
         </div>
       </div>
     </ModalWrapper>
