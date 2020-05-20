@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { closeModal } from '../../state/actions/appControls.js';
 import useLockBodyScroll from '../../hooks/useLockBodyScroll.js';
 
-const ModalWrapper = ({modal, children, title, minHeight = "50%", cancelClose = false }) => {
+const ModalWrapper = ({modal, children, title, minHeight="50%", cancelClose=false, closeAction=()=>{} }) => {
   useLockBodyScroll(); // prevent scrolling under modal
   const [isAtBottom, setIsAtBottom] = useState(false);
   const [indicatorY, setIndicatorY] = useState('0px');
@@ -11,6 +11,7 @@ const ModalWrapper = ({modal, children, title, minHeight = "50%", cancelClose = 
 
   const closeHandler = (e) => {
     if (cancelClose) return;
+    closeAction();
     if (e.target === e.currentTarget) {
       dispatch(closeModal(modal));
     };

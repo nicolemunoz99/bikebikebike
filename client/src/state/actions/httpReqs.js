@@ -7,11 +7,12 @@ Amplify.configure(config);
 
 export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
   dispatch(openModal('dataWait'));
-  let authData = await Auth.currentAuthenticatedUser();
-
-  let headers = { accesstoken: authData.signInUserSession.accessToken.jwtToken }
   
   try {
+    let authData = await Auth.currentAuthenticatedUser();
+
+    let headers = { accesstoken: authData.signInUserSession.accessToken.jwtToken }
+  
     let response;
     if (reqType === 'get') {
       response = await axios[reqType](`${process.env.THIS_API}${endpoint}`, { headers });
@@ -21,12 +22,15 @@ export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
     }
     dispatch(closeModal('dataWait'));
     if (response.status === 204) dispatch(openModal('limitedAccess'));
+    
+
+    if (typeof response.data === 'string') throw(`problem accessing ${process.env.THIS_API}${endpoint}`)
+
     return response;
   }
   catch (err) {
     dispatch(closeModal('dataWait'));
-    dispatch(logErr(err));
-    dispatch(openModal('err'));
+    dispatch(logErr(err.message || err));
   }
 }
 

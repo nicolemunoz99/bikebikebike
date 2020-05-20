@@ -5,7 +5,7 @@ import {
 import { httpReq } from './httpReqs.js'
 import { setBikes } from './bikes.js';
 import { setParts, getDefaults } from './parts.js';
-import { openModal, closeModal } from './appControls.js';
+import { logErr } from './appControls.js';
 
 import { normalize, schema } from 'normalizr';
 
@@ -30,15 +30,14 @@ thunks
 
 export const getUserData = () => async (dispatch) => {
 
-    
+  // try {
     let response = await dispatch(httpReq('get', '/login'))
 
     if (response.status === 201) { // user hasn't granted strava permissions
       dispatch(setStravaAccessStatus(false));
       return;
     } 
-    
-    // dispatch(setStravaAccessStatus(true));
+  
     
     // normalize state
     let userData = response.data;
@@ -68,7 +67,10 @@ export const getUserData = () => async (dispatch) => {
     userState.hasStravaAccess = true;
     dispatch(setUser(userState));
     
+    // if any parts in db
     if (normalUserData.entities.parts) dispatch(setParts(normalUserData.entities.parts));
-
-
+  // }
+  // catch (err) {
+  //   dispatch(logErr(err.message))
+  // }
 };

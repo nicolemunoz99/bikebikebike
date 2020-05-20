@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
-// import { clearErrs } from '../../../state/actions/appControls.js';
+import { clearErrs } from '../../state/actions/appControls.js';
 
 export const DataWait = () => {
 
@@ -18,19 +18,21 @@ export const DataWait = () => {
 
 export const Err = () => {
   const dispatch = useDispatch();
-  // const { errs } = useSelector(state => state.appControl)
+  const { errs } = useSelector(state => state.appControls)
+
+
   return (
-    <ModalWrapper title="Ooops" modal="err">
+    <ModalWrapper title="Ooops" modal="err" closeAction={()=>dispatch(clearErrs())}>
       <div className="row align-items-center">
         <div className="col-12 text-center">
-          There was an problem.
+          Error.
         </div>
-        <div className="col-10">
-          {/* <ul>
+        <div className="col-10 mt-3">
+          <ul>
             {
-              errs.map(err => <li>{err}</li>)
+              errs.map((err, i) => <li key={i}>{err}</li>)
             }
-          </ul> */}
+          </ul>
 
         </div>
       </div>

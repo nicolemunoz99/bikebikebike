@@ -32,7 +32,7 @@ const appControlsReducer = (state = initialAppState, action) => {
 
   // ... log errors ...
   if (action.type === LOG_ERR) {
-    return { ...state, errs: [ ...state.errs, action.payload ]};
+    return { ...state, errs: [ action.payload, ...state.errs ]};
   }
   if (action.type === CLEAR_ERRS) {
     return { ...state, errs: initialAppState.errs };
