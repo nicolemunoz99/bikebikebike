@@ -26,7 +26,7 @@ const ModalIndex = () => {
       { confirmService && <ConfirmService /> }
       { limitedAccess && <LimitedAccess /> }
 
-      { errs.length && <Err /> }
+      { errs.length > 0  && <Err /> }
     </>
   );
 };
