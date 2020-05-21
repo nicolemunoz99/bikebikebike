@@ -9,13 +9,12 @@ const ModalIndex = () => {
     newPartForm,  
     editPartForm,
     dataWait,
-    err,
     confirmRetire,
     confirmService,
     limitedAccess
   } = useSelector(state => state.appControls.modal);
 
-  const { errs } = useSelector(state => state.appControls )
+  const { err } = useSelector(state => state.appControls)
 
   return (
     <>
@@ -26,7 +25,7 @@ const ModalIndex = () => {
       { confirmService && <ConfirmService /> }
       { limitedAccess && <LimitedAccess /> }
 
-      { errs.length > 0  && <Err /> }
+      { err && <Err /> }
     </>
   );
 };

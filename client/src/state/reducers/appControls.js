@@ -17,7 +17,7 @@ import{
     limitedAccess: false
   },
   redirectRoute: '/bikes',
-  errs: []
+  err: ''
  }
 
 const appControlsReducer = (state = initialAppState, action) => {
@@ -32,10 +32,10 @@ const appControlsReducer = (state = initialAppState, action) => {
 
   // ... log errors ...
   if (action.type === LOG_ERR) {
-    return { ...state, errs: [ action.payload, ...state.errs ]};
+    return { ...state, err: action.payload};
   }
   if (action.type === CLEAR_ERRS) {
-    return { ...state, errs: initialAppState.errs };
+    return { ...state, err: initialAppState.errs };
   }
 
   // ... redirect ...

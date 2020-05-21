@@ -10,7 +10,6 @@ import { getDefaults } from '../../state/actions/parts.js';
 // ... wrapper for routes requiring auth
 export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps }) => {
   const { authState, id, hasStravaAccess } = useSelector(state => state.user);
-  const state = useSelector (state => state);
   const dispatch = useDispatch();
   useEffect(() => {
     // if not logged in, set route to redirect to after successfull login

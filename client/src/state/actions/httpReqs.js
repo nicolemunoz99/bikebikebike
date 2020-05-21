@@ -15,7 +15,7 @@ export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
   
     let response;
     if (reqType === 'get') {
-      response = await axios[reqType](`${process.env.THIS_API}${endpoint}`, { headers });
+      response = await axios[reqType](`${process.env.THIS_API}d${endpoint}`, { headers });
     } else {
       data = data !== undefined ? data : {};
       response = await axios[reqType](`${process.env.THIS_API}${endpoint}`, { data }, { headers });

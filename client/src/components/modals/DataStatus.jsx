@@ -16,23 +16,20 @@ export const DataWait = () => {
   );
 };
 
-export const Err = () => {
+export const Err = ({ subheading }) => {
   const dispatch = useDispatch();
-  const { errs } = useSelector(state => state.appControls)
+  const { err } = useSelector(state => state.appControls)
 
 
   return (
     <ModalWrapper title="Ooops" modal="err" closeAction={()=>dispatch(clearErrs())}>
-      <div className="row align-items-center">
-        <div className="col-12 text-center">
-          Error.
+      <div className="row align-items-center text-center">
+        <div className="col-12 ">
+          Error:
         </div>
-        <div className="col-10 mt-3">
-          <ul>
-            {
-              errs.map((err, i) => <li key={i}>{err}</li>)
-            }
-          </ul>
+        <div className="col-10 mx-auto mt-3">
+
+          { err }
 
         </div>
       </div>
