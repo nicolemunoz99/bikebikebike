@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { setAuthState2 } from '../state/actions/user.js';
-import { logErr } from '../state/actions/appControls.js';
+import { logErr, openModal } from '../state/actions/appControls.js';
 
 // Amplify auth components
 import { Authenticator, SignIn, SignUp, ConfirmSignUp, ForgotPassword } from 'aws-amplify-react';
@@ -15,21 +15,32 @@ const Login = ({ history }) => {
 
 
   useEffect(() => {
-    // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
-    if (authState === 'signedIn') history.replace(redirectRoute ? redirectRoute : '/bikes');
 
-    if (authState === 'confirmSignUp') dispatch(setModal('confirmSignUp'))
+    if (authState) {
+
+      // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
+      if (authState === 'signedIn') {history.replace(redirectRoute ? redirectRoute : '/bikes');}
+      
+      else {
+        if (authState === 'confirmSignUp') dispatch(openModal('actionRequired'));
+
+        Hub.listen('auth', res => { // Amplify utility
+          // listen for login errors         
+          if (/failure/.test(res.payload.event)) {
+
+            if (res.payload.data.name === 'UserNotConfirmedException') {
+              dispatch(openModal('actionRequired'));
+              return;
+            }
+
+            dispatch(logErr( `${res.payload.data.message} Be sure your password is at least 6 characters long.` ));
+          }
+        });
+      }
+    }
 
   }, [authState]);
 
-  // Amplify utility
-  Hub.listen('auth', res => {
-    // listen for login errors
-    console.log('res: ', res)
-    if (/failure/.test(res.payload.event)) dispatch(logErr(
-      `${res.payload.data.message} Be sure your password is at least 6 characters long.`
-    ));
-  });
   
   const handleAuthStateChange = (state) => dispatch(setAuthState2(state));
 
@@ -53,7 +64,7 @@ const Login = ({ history }) => {
 };
 
 
-// ...Amplify UI config..
+// ...Amplify UI config ...
 const signUpConfig = {
   header: 'Create Account',
   hideAllDefaults: true,
@@ -73,7 +84,7 @@ const signUpConfig = {
       type: 'string'
     },
     {
-      label: 'Password',
+      label: 'Password (6 characters. Nothing fancy.)',
       key: 'password',
       required: true,
       displayOrder: 2,

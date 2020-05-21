@@ -14,7 +14,8 @@ import{
     err: false,
     confirmRetire: false,
     confirmService: false,
-    limitedAccess: false
+    limitedAccess: false,
+    actionRequired: false
   },
   redirectRoute: '/bikes',
   err: ''
