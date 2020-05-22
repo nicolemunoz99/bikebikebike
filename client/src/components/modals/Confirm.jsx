@@ -50,7 +50,7 @@ export const ConfirmService = () => {
       confirmAction={() => dispatch(servicePart(partId))}
     >
       <p className="h4">
-        <strong> {_.upperFirst(partTypeRender)}</strong> on <strong>{bikeName}</strong>
+        <strong> {partTypeRender} </strong> on <strong>{bikeName}</strong>
       </p>
       <p>
         Reset distance and ride time to zero?
@@ -73,11 +73,7 @@ const Confirm = ({ modal, children, confirmAction }) => {
   return (
     <ModalWrapper modal={modal} title='Confirm'>
 
-      <Row className="align-items-center my-5">
-        <Col className="text-center">
-          {children}
-        </Col>
-      </Row>
+      { children }
 
       <Row className="justify-content-center" xs={2} sm={3} md={4}>
         <Col>

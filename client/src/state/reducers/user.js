@@ -11,7 +11,7 @@ const initialUserState = {
   join_date: '',
   bikes: [],
   authState: '',
-  hasStravaAccess: false
+  hasStravaAccess: false,
 };
 
 const userReducer = (state = initialUserState, action) => {

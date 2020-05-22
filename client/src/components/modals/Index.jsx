@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NewPartForm, EditPartForm } from './PartForms.jsx';
-import { DataWait, Err, LimitedAccess, ActionRequired } from './DataStatus.jsx';
+import { DataWait, Err, LimitedAccess } from './DataStatus.jsx';
+import ActionRequired from './ActionRequired.jsx';
 import { ConfirmRetire, ConfirmService } from './Confirm.jsx';
 
 const ModalIndex = () => {

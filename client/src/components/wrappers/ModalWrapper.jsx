@@ -48,7 +48,7 @@ const ModalWrapper = ({modal, children, title, minHeight="50%", cancelClose=fals
         </div>
 
         <Row noGutters>
-          <Col xs={12}>
+          <Col xs={12} className="text-center">
             {children}
           </Col>
         </Row>

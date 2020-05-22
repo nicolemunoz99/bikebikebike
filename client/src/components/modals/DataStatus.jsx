@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { InputGroup,Button, FormControl } from 'react-bootstrap';
 import ModalWrapper from '../wrappers/ModalWrapper.jsx';
 import { clearErrs } from '../../state/actions/appControls.js';
 
-import { Auth } from 'aws-amplify';
 
 export const DataWait = () => {
 
@@ -30,7 +28,7 @@ export const Err = () => {
         <div className="col-12 text-center">
           Error:
         </div>
-        <div className="col-10 mx-auto mt-3 tet-center">
+        <div className="col-10 mx-auto mt-3 text-center">
 
           {err}
 
@@ -55,45 +53,4 @@ export const LimitedAccess = () => {
   );
 };
 
-export const ActionRequired = () => {
-  const [code, setCode] = useState('');
 
-  const handleChange = (e) => {
-    setCode(e.target.value);
-  }
-
-  const handleSubmit = async () => {
-    try {
-      await Auth.confirmSignUp('muno002', code);
-    } catch (error) {
-        console.log('error confirming sign up', error);
-    }
-  };
-
-  return (
-    <ModalWrapper title="Action Required" modal="actionRequired">
-      <div className="row align-items-center">
-        <div className="col-12 text-center">
-          Check your email for your confirmation code.
-        </div>
-        <div className="col-12 text-center">
-
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="Confirmation code"
-              aria-label="Confirmation code"
-              aria-describedby="Confirmation code"
-              onChange={handleChange}
-              value={code}
-            />
-            <InputGroup.Append>
-              <Button onClick={handleSubmit} variant="outline-secondary">Submit</Button>
-            </InputGroup.Append>
-          </InputGroup>
-
-
-        </div>
-      </div>
-    </ModalWrapper>
-  )
-}
