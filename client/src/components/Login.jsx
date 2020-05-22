@@ -84,7 +84,7 @@ const signUpConfig = {
       type: 'string'
     },
     {
-      label: 'Password (6 characters. Nothing fancy.)',
+      label: 'Password (6 chars for demo purposes. Nothing fancy.)',
       key: 'password',
       required: true,
       displayOrder: 2,

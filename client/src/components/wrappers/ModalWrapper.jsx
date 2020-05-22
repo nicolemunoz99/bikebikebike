@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../state/actions/appControls.js';
+import { Row, Col } from 'react-bootstrap';
 import useLockBodyScroll from '../../hooks/useLockBodyScroll.js';
 
 const ModalWrapper = ({modal, children, title, minHeight="50%", cancelClose=false, closeAction=()=>{} }) => {
@@ -46,7 +47,11 @@ const ModalWrapper = ({modal, children, title, minHeight="50%", cancelClose=fals
           {title}
         </div>
 
-        {children}
+        <Row noGutters>
+          <Col xs={12}>
+            {children}
+          </Col>
+        </Row>
 
         {!isAtBottom &&
           <div className="row no-gutters scroll-more" style={{ bottom: indicatorY }} />

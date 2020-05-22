@@ -256,6 +256,6 @@ button:focus {
 /* Amplify UI */
 
 .Button__button___vS7Mv, .Button__button___vS7Mv:active {
-  background-color: rgb(187, 190, 3);
+  background-color: rgb(var(--theme)) !important;
   color: black;
 }

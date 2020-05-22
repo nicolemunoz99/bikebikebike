@@ -21,8 +21,10 @@ export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
       response = await axios[reqType](`${process.env.THIS_API}${endpoint}`, { data }, { headers });
     }
     dispatch(closeModal('dataWait'));
-    if (response.status === 204) dispatch(openModal('limitedAccess'));
     
+    if (response.status === 204) dispatch(openModal('limitedAccess')); // demo: scoped down permissions
+    
+    if (response.status === 201) return response; // user hasn't granted strava permissions
 
     if (typeof response.data === 'string') throw(`problem accessing ${process.env.THIS_API}${endpoint}`)
 
