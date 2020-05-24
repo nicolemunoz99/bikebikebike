@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NewPartForm, EditPartForm } from './PartForms.jsx';
-import { DataWait, Err, LimitedAccess } from './DataStatus.jsx';
-import ActionRequired from './ActionRequired.jsx';
+import { DataWait, Err, LimitedAccess, Success } from './DataStatus.jsx';
 import { ConfirmRetire, ConfirmService } from './Confirm.jsx';
 
 const ModalIndex = () => {
@@ -10,24 +9,26 @@ const ModalIndex = () => {
     newPartForm,  
     editPartForm,
     dataWait,
+    success,
     confirmRetire,
     confirmService,
     limitedAccess,
-    actionRequired
   } = useSelector(state => state.appControls.modal);
 
-  const { err } = useSelector(state => state.appControls)
+  const { err } = useSelector(state => state.appControls);
 
   return (
     <>
       { newPartForm && <NewPartForm /> }
       { editPartForm && <EditPartForm /> }
-      { dataWait && <DataWait /> }
+
+      {/* { actionRequired && <ActionRequired /> } */}
+      { limitedAccess && <LimitedAccess /> }
       { confirmRetire && <ConfirmRetire /> }
       { confirmService && <ConfirmService /> }
-      { limitedAccess && <LimitedAccess /> }
-      { actionRequired && <ActionRequired />}
 
+      { dataWait && <DataWait /> }
+      { success && <Success /> }
       { err && <Err /> }
     </>
   );

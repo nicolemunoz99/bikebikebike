@@ -4,8 +4,7 @@ import {
 
 import { httpReq } from './httpReqs.js'
 import { setBikes } from './bikes.js';
-import { setParts, getDefaults } from './parts.js';
-import { logErr } from './appControls.js';
+import { setParts } from './parts.js';
 
 import { normalize, schema } from 'normalizr';
 

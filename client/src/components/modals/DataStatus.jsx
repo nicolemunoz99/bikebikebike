@@ -38,6 +38,14 @@ export const Err = () => {
   );
 };
 
+export const Success = () => {
+  return (
+    <ModalWrapper title="Success" modal="success">
+      Yay.
+    </ModalWrapper>
+  )
+}
+
 export const LimitedAccess = () => {
 
   return (
