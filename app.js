@@ -22,7 +22,6 @@ app.use('/api', api);
 
 // ...client routes...
 app.get('*', (req, res) => { 
-  console.log('routing to client')
   res.sendFile(path.join(__dirname, './client/dist/index.html'));
 });
 

@@ -7,7 +7,7 @@ const part = {
   post: async (req, res) => {
     let { access_token } = req.body.permissions;
     let newPart = convertToDbUnits(req.body.data, req.query.distUnit);
-    console.log('newPart', newPart)
+
     newPart.p_date_added = xDate().getTime();
     newPart.p_status = 'active';
     if (newPart.new_at_add === 'y') {
@@ -42,7 +42,7 @@ const part = {
   },
 
   service: async (req, res) => {
-    console.log('service endpoint')
+
     // reset distance, time and date of last service
     await update('parts', {
       whereVar: {part_id: req.query.partId},

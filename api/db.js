@@ -77,7 +77,6 @@ const get = async (table, conditions) => {
   // whereVar: object of condition to match (single condition)
   // updateVars: key/values to update
   const update = async (table, data) => { 
-    console.log(table, data);
     let { whereVar, updateVars } = data;
     let setStr = [];
     for (item in updateVars) {
@@ -91,7 +90,7 @@ const get = async (table, conditions) => {
     let whereKey = Object.keys(whereVar)[0];
     let whereStr = typeof whereVar[whereKey] === 'string' ?  `${whereKey} = '${whereVar[whereKey]}'` : `${whereKey} = ${whereVar[whereKey]}`;
     let params = {text: `UPDATE ${table} SET ${setStr} WHERE ${whereStr} RETURNING *`};
-    console.log('params', params)
+
     let updatedEntry = await dbQuery(params);
     return updatedEntry;
   };

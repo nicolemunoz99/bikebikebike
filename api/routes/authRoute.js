@@ -16,7 +16,7 @@ const cognitoExpress = new CognitoExpress({
 
 // verify tokens with AWS Cognito
 authRoute.use((req, res, next) => {
-  console.log('auth route')
+
   let accessTokenFromClient = req.headers.accesstoken;
   if (!accessTokenFromClient) return res.status(401).send('Cognito Access Token missing from headers');
   
@@ -39,7 +39,7 @@ authRoute.use((req, res, next) => {
 authRoute.use( async (req, res, next) => {
 
   let permissions = await get('strava', {username: req.query.username});
-  console.log('permissions: ', permissions)
+
   if (permissions.length === 0 || permissions[0].scope !== 'read,activity:read_all,profile:read_all') {
     res.status(201).send('user has not granted strava permissions');
     return;

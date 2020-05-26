@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ConfirmSignUp from './authComponents/ConfirmSignUp.jsx';
-// import SignUp from './authComponents/SignUp.jsx';
-import { Row, Col } from 'react-bootstrap';
 import { setAuthState2 } from '../state/actions/user.js';
 import { logErr } from '../state/actions/appControls.js';
 
@@ -16,7 +14,7 @@ const Login = ({ history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      console.log('authState2', authState2)
+
       // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
       if (authState2 === 'signedIn') {history.replace(redirectRoute ? redirectRoute : '/bikes');}
   }, [authState2]);

@@ -22,7 +22,7 @@ export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
     }
     dispatch(closeModal('dataWait'));
     
-    if (response.status === 204) dispatch(openModal('limitedAccess')); // demo: scoped down permissions
+    if (response.status === 204) { dispatch(openModal('limitedAccess')); return }; // demo: scoped down permissions
     
     if (response.status === 201) return response; // user hasn't granted strava permissions
 
