@@ -6,7 +6,6 @@ import Login from './Login.jsx';
 import BikeList from './BikeList/Index.jsx';
 import StravaAuth from './StravaAuth.jsx';
 import NavBar from './NavBar.jsx';
-import Footer from './Footer.jsx';
 import PartList from './PartList/Index.jsx';
 import ModalIndex from './modals/Index.jsx'
 
