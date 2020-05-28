@@ -1,7 +1,6 @@
 bundle.js
 node_modules
 strava.js
-dbAccess.js
 .env.*
 
 #amplify
