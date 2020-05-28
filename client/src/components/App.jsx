@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PageWrapper from './wrappers/PageWrapper.jsx';
 import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import BikeList from './BikeList/Index.jsx';
@@ -11,7 +12,7 @@ import ModalIndex from './modals/Index.jsx'
 
 import { ProtectedRoute, StravaPermissionsRoute } from './wrappers/ProtectedRoute.jsx'
 
-const App = () => {
+export const App = () => {
   const { modal } = useSelector(state => state.appControls);
 
 return (
@@ -25,7 +26,7 @@ return (
         <ProtectedRoute exact path="/stravaAuth" render={StravaAuth} />
         <StravaPermissionsRoute exact path="/bikes" key="bikes" render={BikeList} />
         <StravaPermissionsRoute exact path="/bikes/:bikeId" key='parts' render={PartList} />
-        <Route component={Landing} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
 
@@ -35,4 +36,4 @@ return (
 )
 };
 
-export default App;
+const NotFound = () => <PageWrapper title="404 Not Found"/>
