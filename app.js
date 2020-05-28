@@ -11,7 +11,9 @@ const cors = require('cors'),
 const api = require('./api');
 
 
-app.use('*', cors());
+
+
+// app.use('*', cors());
 
 app.use(bodyParser.json());
 
