@@ -47,7 +47,7 @@ module.exports = (env) => {
     ],
     devtool: 'inline-source-map',
     output: {
-      path: __dirname + '/client/dist/',
+      path: __dirname + '/client/dist',
       filename: 'bundle.js'
     },
     devServer: {

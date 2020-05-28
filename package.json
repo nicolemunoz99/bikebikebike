@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "fe-dev": "webpack-dev-server --env.ENVIRONMENT=development",
-    "build": "webpack --env.ENVIRONMENT=production --mode production",
+    "build": "webpack --env.ENVIRONMENT=development --mode production",
     "be-dev": "NODE_ENV=development nodemon app.js",
     "start": "NODE_ENV=production node app.js"
   },

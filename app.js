@@ -11,7 +11,7 @@ const cors = require('cors'),
 const api = require('./api');
 
 
-
+app.use(express.static(__dirname + '/client/dist'));
 
 // app.use('*', cors());
 
@@ -21,10 +21,9 @@ app.use(bodyParser.json());
 // ...api routes...
 app.use('/api', api);
 
-
 // ...client routes...
 app.get('*', (req, res) => { 
-  res.sendFile(path.join(__dirname, './client/dist/index.html'));
+  res.sendFile(path.join(__dirname, '/client/dist/index.html'));
 });
 
 app.listen(port, () => console.log('Server listening on port ' + port));
