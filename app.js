@@ -13,7 +13,6 @@ const api = require('./api');
 
 app.use(express.static(__dirname + '/client/dist'));
 
-// app.use('*', cors());
 
 app.use(bodyParser.json());
 

@@ -60,9 +60,7 @@ export const StravaPermissionsRoute = withRouter( ({ history, exact, path, rende
   }, [id]);
   
   useEffect(() => {
-    console.log('here: ', authState, hasStravaAccess, id)
     if (authState === 'signedIn' && !hasStravaAccess) {
-      console.log('redirect to /stravaAuth', history)
       history.replace('/stravaAuth')
     };
   }, [authState, hasStravaAccess, id])
