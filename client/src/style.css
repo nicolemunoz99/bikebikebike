@@ -21,11 +21,11 @@ p {
   margin: 1.5rem 0rem 1.5rem 0rem;
 }
 
-a {
+a, .text-link {
   color: rgb(24, 6, 184);
 }
-a:hover {
-  font-style: underline;
+a:hover, .text-link:hover {
+  text-decoration: underline;
   color: inherit
 }
 
