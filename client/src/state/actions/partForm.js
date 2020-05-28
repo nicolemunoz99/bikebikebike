@@ -1,3 +1,5 @@
+import xDate from 'xdate';
+
 import {
   FORM_INPUT, 
   RESET_FIELDS, 

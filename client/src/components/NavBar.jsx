@@ -27,7 +27,7 @@ const NavNav = () => {
     <Navbar sticky="top" collapseOnSelect expand="sm">
 
       <Navbar.Brand>
-        <span className="d-none d-sm-inline-block">BikeBikeBike!</span>
+        <span className="d-none d-sm-inline-block">{process.env.APP_NAME}</span>
         <span className="d-inline-block d-sm-none">
           <span className="material-icons mr-1">directions_bike</span>
           <span className="material-icons mr-1">directions_bike</span>

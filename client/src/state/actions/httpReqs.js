@@ -26,8 +26,6 @@ export const httpReq = (reqType, endpoint, data) => async (dispatch) => {
     
     if (response.status === 201) return response; // user hasn't granted strava permissions
 
-    if (typeof response.data === 'string') throw(`problem accessing ${process.env.THIS_API}${endpoint}`)
-
     return response;
   }
   catch (err) {

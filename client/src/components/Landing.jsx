@@ -11,7 +11,7 @@ const Landing = () => {
       <Row>
         <Col>
           <p>
-            BikeBikeBike! is born out of my tendency of ruining entire drivetrains by not replacing my chains 
+            {process.env.APP_NAME} is born out of my tendency of ruining entire drivetrains by not replacing my chains 
             in a timely manner. By reading in your activity data from <a href="http://strava.com" target="NONE">
               Strava
             </a> this app goes beyond chains and lets you 
@@ -19,12 +19,12 @@ const Landing = () => {
           </p>
           <p>
             Strava allows you to add bikes to your profile and select which bike you use for each
-            ride you do. BikeBikeBike! allows you add parts to each of the bikes you have in your Strava
+            ride you do. {process.env.APP_NAME} allows you add parts to each of the bikes you have in your Strava
             account and keeps a running tab of the distance and ride time incurred on each bike,
             and therefore, on each bike component.
           </p>
           <p>
-            While you can add a narrow selection of parts to your bikes on Strava, BikeBikeBike! 
+            While you can add a narrow selection of parts to your bikes on Strava, {process.env.APP_NAME} 
             is different in that you can:
           </p>
           <ul>
@@ -39,7 +39,7 @@ const Landing = () => {
                 add custom parts beyond what Strava offers;
               </li>
               <li>
-                back-date when a part was new and BikeBikeBike! will calculate your part's current
+                back-date when a part was new and {process.env.APP_NAME} will calculate your part's current
                 wear (useful for user new to BBB but have tracking their bikes on Strava for a while); 
               </li>
               <li>

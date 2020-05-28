@@ -39,10 +39,10 @@ const StravaAuth = ({ history }) => {
       
       <PageWrapper>
         <p>
-          Looks like you haven't given BikeBikeBike! access to your Strava activity data.
+          Looks like you haven't given {process.env.APP_NAME} access to your Strava activity data.
         </p>
         <p>
-          In order to track component usage via your strava activities, click the link below to grant BikeBikeBike! permission to
+          In order to track component usage via your strava activities, click the link below to grant {process.env.APP_NAME} permission to
           access to your activity data. You'll be redirected to Strava's site for authorization.
         </p>
         <p>

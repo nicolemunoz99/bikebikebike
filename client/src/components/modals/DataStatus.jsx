@@ -54,7 +54,7 @@ export const LimitedAccess = () => {
         <div className="col-12 text-center">
           You are using a demo account that has been granted limited access. If you would like to
           demo API endpoints, sign in using credentials (u/n) demo_api, (p/w) demo123, OR
-         create BikeBikeBike and <a href="http://strava.com" target="NONE">Strava</a> accounts.
+         create {process.env.APP_NAME} and <a href="http://strava.com" target="NONE">Strava</a> accounts.
         </div>
       </div>
     </ModalWrapper>
