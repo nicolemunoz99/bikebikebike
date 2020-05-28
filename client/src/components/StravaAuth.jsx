@@ -15,7 +15,6 @@ const StravaAuth = ({ history }) => {
   const hasStravaAccess = useSelector(state => state.user.hasStravaAccess);
   const { redirectRoute } = useSelector(state => state.appControls);
 
-
   useEffect(() => {
     // get username to put in redirectURL query
     if (!hasStravaAccess) {

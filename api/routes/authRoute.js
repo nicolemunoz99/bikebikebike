@@ -41,6 +41,7 @@ authRoute.use( async (req, res, next) => {
   let permissions = await get('strava', {username: req.query.username});
 
   if (permissions.length === 0 || permissions[0].scope !== 'read,activity:read_all,profile:read_all') {
+    console.log('no strava permissions')
     res.status(201).send('user has not granted strava permissions');
     return;
   }

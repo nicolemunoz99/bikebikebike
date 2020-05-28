@@ -16,7 +16,7 @@ const Login = ({ history }) => {
   useEffect(() => {
 
       // redirect after successful login to this route if specified, otherwise to /bikes if /login accessed directly
-      if (authState2 === 'signedIn') {history.replace(redirectRoute ? redirectRoute : '/bikes');}
+      if (authState2 === 'signedIn') {console.log('here'); history.replace(redirectRoute ? redirectRoute : '/bikes');}
   }, [authState2]);
 
   Hub.listen('auth', res => { // Amplify utility
@@ -40,7 +40,7 @@ const Login = ({ history }) => {
       <Authenticator
         hideDefault={true}
         onStateChange={handleAuthStateChange}
-        authState='signIn'
+        authState={history.location.pathname === '/signup' ? 'signUp' : 'signIn'}
         usernameAttributes="Username"
       >
 

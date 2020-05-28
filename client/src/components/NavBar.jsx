@@ -91,7 +91,7 @@ const NavPartsByBikeDropdown = () => {
 
   return (
     <>
-      {bikes && 
+      {Object.keys(bikes).length > 0 && 
         <NavDropdown title="Parts" id="parts-dropdown">
           
           {bikeIds.map(id => (
@@ -102,9 +102,9 @@ const NavPartsByBikeDropdown = () => {
 
           }
 
-          <NavDropdown.Divider />
+          {/* <NavDropdown.Divider />
 
-          <NavDropdown.Item disabled eventKey="parts-retired">Retired (future feature)</NavDropdown.Item>
+          <NavDropdown.Item disabled eventKey="parts-retired">Retired (future feature)</NavDropdown.Item> */}
 
         </NavDropdown>
       }

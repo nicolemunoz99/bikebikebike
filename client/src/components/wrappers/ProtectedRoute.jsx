@@ -26,7 +26,7 @@ export const ProtectedRoute = withRouter( ({ exact, path, render, ...routeProps 
     };
 
 
-}, [authState, hasStravaAccess]);
+  }, [authState, hasStravaAccess]);
 
 
  
@@ -60,8 +60,12 @@ export const StravaPermissionsRoute = withRouter( ({ history, exact, path, rende
   }, [id]);
   
   useEffect(() => {
-    if (authState === 'signedIn' && !hasStravaAccess) render = () => <Redirect to='/stravaAuth' />;
-  }, [authState, hasStravaAccess])
+    console.log('here: ', authState, hasStravaAccess, id)
+    if (authState === 'signedIn' && !hasStravaAccess) {
+      console.log('redirect to /stravaAuth', history)
+      history.replace('/stravaAuth')
+    };
+  }, [authState, hasStravaAccess, id])
   
   
   return (
