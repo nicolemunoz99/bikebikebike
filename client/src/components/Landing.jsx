@@ -10,6 +10,19 @@ const Landing = () => {
       
       <Row>
         <Col>
+          <h2>Demo</h2>
+          <p>
+            <CustomNavLink tag='span' to='/login' className='ins'>Sign in</CustomNavLink> using:
+          </p>
+          <ul>
+            <li>u/n: demo</li>
+            <li>p/w: demo123</li>
+          </ul>
+          <p className="small">
+            This is actually linked to my personal Strava account, so you won't be able to 
+            add or modify anything. However, feel free to sign up for your own account.
+          </p>
+          <h2>Motivation</h2>
           <p>
             {process.env.APP_NAME} is born out of my tendency of ruining entire drivetrains by not replacing my chains 
             in a timely manner. By reading in your activity data from <a href="http://strava.com" target="NONE">
@@ -23,9 +36,9 @@ const Landing = () => {
             account and keeps a running tab of the distance and ride time incurred on each bike,
             and therefore, on each bike component.
           </p>
+          <h2>Features</h2>
           <p>
-            While you can add a narrow selection of parts to your bikes on Strava, {process.env.APP_NAME} 
-            is different in that you can:
+            While you can add a narrow selection of parts to your bikes on Strava, {process.env.APP_NAME} is different in that you can:
           </p>
           <ul>
               <li>
