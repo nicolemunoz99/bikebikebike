@@ -1,5 +1,5 @@
 require('custom-env').env(true);
-const port = process.env.SERVER_PORT;
+const port = process.env.API_PORT;
 
 const express = require ('express'),
       app = express();
