@@ -8,7 +8,7 @@ module.exports = (env) => {
 
   const currentPath = path.join(__dirname);
 
-  const basePath = currentPath + '/.env';
+  const basePath = currentPath + '/../.env';
 
   const envPath = basePath + '.' + env.ENVIRONMENT;
 
@@ -25,7 +25,7 @@ module.exports = (env) => {
   }, {});
 
   return {
-    entry: './client/src/index.js',
+    entry: './src/index.js',
     module: {
       rules: [
         {
@@ -47,11 +47,11 @@ module.exports = (env) => {
     ],
     devtool: 'inline-source-map',
     output: {
-      path: __dirname + '/client/dist',
+      path: __dirname + 'dist/',
       filename: 'bundle.js'
     },
     devServer: {
-      contentBase: path.join(__dirname, 'client/dist/'),
+      contentBase: path.join(__dirname, 'dist/'),
       compress: true,
       port: 9000,
       historyApiFallback: true
