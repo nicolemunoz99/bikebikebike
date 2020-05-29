@@ -47,11 +47,11 @@ module.exports = (env) => {
     ],
     devtool: 'inline-source-map',
     output: {
-      path: __dirname + 'dist/',
+      path: __dirname + '/dist/',
       filename: 'bundle.js'
     },
     devServer: {
-      contentBase: path.join(__dirname, 'dist/'),
+      contentBase: path.join(__dirname, '/dist/'),
       compress: true,
       port: 9000,
       historyApiFallback: true

@@ -57,6 +57,6 @@ export const retirePart = (partId) => async (dispatch) => {
 };
 
 export const servicePart = (partId) => async (dispatch) => {
-  await dispatch(httpReq('put', `/api/part/service?partId=${partId}`));
+  await dispatch(httpReq('put', `/part/service?partId=${partId}`));
   dispatch(getUserData());
 };
