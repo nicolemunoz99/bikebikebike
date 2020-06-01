@@ -1,5 +1,3 @@
-DROP DATABASE bbb;
-
 CREATE DATABASE bbb;
 \c bbb;
 

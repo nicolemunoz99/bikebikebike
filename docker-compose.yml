@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  client:
+    container_name: client
+    build: ./client
+    ports: 
+      - '7500:7500'
+    env_file:
+      - .env.production
+    restart:
+      on-failure
+  
+  # api:
+  #   container_name: api
+  #   build: ./api
+  #   ports:
+  #     - '8080:8080'
+  #   env_file:
+  #     - .env.production
+  
+  # db:
+  #   container_name: db
+  #   build: ./db
+  #   ports:
+  #     - '${DB_PORT}:5432'

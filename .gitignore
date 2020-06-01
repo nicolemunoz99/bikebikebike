@@ -2,6 +2,8 @@ bundle.js
 node_modules
 strava.js
 .env.*
+.env
+
 
 #amplify
 amplify/\#current-cloud-backend

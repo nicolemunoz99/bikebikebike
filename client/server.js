@@ -1,5 +1,6 @@
+require('custom-env').env(true);
 const express = require ('express');
-const port = 7500;
+const port = process.env.CLIENT_PORT;
 const app = express();
 const path = require('path');
 
@@ -11,3 +12,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, () => console.log('Server listening on port ' + port))
+
+console.log('client port: ', process.env.CLIENT_PORT)
