@@ -1,4 +1,4 @@
-require('custom-env').env(true);
+require('custom-env').env(true, '../../');
 const axios = require('axios');
 const CognitoExpress = require("cognito-express");
 const authRoute = require('express').Router();

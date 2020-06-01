@@ -1,4 +1,4 @@
-require('custom-env').env(true);
+require('custom-env').env(true, '../');
 const _ = require('lodash');
 const{ Pool, Client } = require('pg');
 const types = require('pg').types;

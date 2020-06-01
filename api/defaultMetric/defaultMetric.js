@@ -2,7 +2,7 @@ const {convertToUserUnits} = require('../controller/convertUnits.js');
 const xDate = require('xdate');
 
 const defaultMetric = (req, res) => {
-  
+
   let { distUnit } = req.query;
 
   const partInfo = {
