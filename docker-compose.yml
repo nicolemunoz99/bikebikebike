@@ -6,9 +6,9 @@ services:
     container_name: client
     build: ./client
     ports: 
-      - '7500:7500'
+      - '$CLIENT_PORT:7500'
     env_file:
-      - .env.production
+      - .env
     restart:
       on-failure
   

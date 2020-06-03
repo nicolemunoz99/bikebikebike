@@ -1,4 +1,5 @@
-require('custom-env').env(true, '../../');
+const { CLIENT, STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET } = require('../config.js');
+
 const _ = require('lodash');
 const axios = require ('axios');
 
@@ -7,12 +8,12 @@ const { insert } = require('../db.js');
 const stravaAuth = async (req, res) => {
   // strava redirects here; recieve exchange token after user logs in on Strava
   if (req.query.scope !== 'read,activity:read_all,profile:read_all') {
-    res.redirect(`${process.env.CLIENT}/stravaAuth`);
+    res.redirect(`${CLIENT}/stravaAuth`);
     return;
   }
 
-  let stravaAccessQuery = `?client_id=${process.env.STRAVA_CLIENT_ID}` +
-  `&client_secret=${process.env.STRAVA_CLIENT_SECRET}` +
+  let stravaAccessQuery = `?client_id=${STRAVA_CLIENT_ID}` +
+  `&client_secret=${STRAVA_CLIENT_SECRET}` +
   `&code=${req.query.code}` +
   `&grant_type=authorization_code`;
 
@@ -33,7 +34,7 @@ const stravaAuth = async (req, res) => {
   }
 
 
-  res.redirect(status, `${process.env.CLIENT}/stravaAuth`);
+  res.redirect(status, `${CLIENT}/stravaAuth`);
 };
 
 module.exports = stravaAuth;

@@ -1,4 +1,5 @@
-require('custom-env').env(true, '../../');
+const { COGNITO_USER_POOL_ID, STRAVA_CLIENT_SECRET, STRAVA_CLIENT_ID  } = require('../config.js');
+
 const axios = require('axios');
 const CognitoExpress = require("cognito-express");
 const authRoute = require('express').Router();
@@ -9,7 +10,7 @@ const { get, update } = require('../db.js');
 
 const cognitoExpress = new CognitoExpress({
   region: "us-east-2",
-  cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID,
+  cognitoUserPoolId: COGNITO_USER_POOL_ID,
   tokenUse: "access", // access | id
   tokenExpiration: 3600000 // default expiration (3600000 ms)
 });
@@ -55,8 +56,8 @@ authRoute.use( async (req, res, next) => {
 
   if ( (permissions.expires_at*1000 - Date.now()) < 3600 ) {  // expires within 1 hr
         
-    let stravaRefreshQuery = `?client_id=${process.env.STRAVA_CLIENT_ID}` +
-      `&client_secret=${process.env.STRAVA_CLIENT_SECRET}` +
+    let stravaRefreshQuery = `?client_id=${STRAVA_CLIENT_ID}` +
+      `&client_secret=${STRAVA_CLIENT_SECRET}` +
       `&refresh_token=${permissions.refresh_token}` +
       `&grant_type=refresh_token`;
 

@@ -13,7 +13,7 @@ module.exports = (env) => {
   const envPath = basePath + '.' + env.ENVIRONMENT;
 
   // Check if the file exists, otherwise fall back to the production .env
-  const finalPath = fs.existsSync(envPath) ? envPath : basePath;
+  const finalPath = fs.existsSync(envPath) ? envPath : `${currentPath}/.env`;
 
   // Set the path parameter in the dotenv config
   const fileEnv = dotenvExpand(dotenv.config({ path: finalPath })).parsed;

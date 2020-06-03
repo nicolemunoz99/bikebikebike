@@ -1,4 +1,5 @@
-require('custom-env').env(true, '../');
+const { DB_USER, DB_HOST, DB_PW, DB_NAME, DB_PORT } = require('./config.js')
+
 const _ = require('lodash');
 const{ Pool, Client } = require('pg');
 const types = require('pg').types;
@@ -13,11 +14,11 @@ types.setTypeParser(20, function(val) { // convert pg 'bigint' to js numeric
 
 
 const pool = new Pool ({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PW,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+  user: DB_USER,
+  host: DB_HOST,
+  password: DB_PW,
+  database:DB_NAME,
+  port: DB_PORT,
   max: 10
 });
 

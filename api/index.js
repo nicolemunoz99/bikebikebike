@@ -1,6 +1,4 @@
-require('custom-env').env(true, '../');
-
-const port = process.env.API_PORT;
+const { API_PORT, CLIENT } = require('./config.js');
 
 const express = require ('express'),
       app = express();
@@ -9,14 +7,13 @@ const cors = require('cors'),
       path = require('path'),
       bodyParser = require('body-parser');
 
-
 const authRoute = require('./routes/authRoute.js');
 const oauth2 = require('./controller/oauth2.js');
 const defaultMetric = require('./defaultMetric/defaultMetric.js');
 
 
 const corsClientOptions = {
-  origin: process.env.CLIENT
+  origin: CLIENT
 };
 
 const corsStravaOptions = {
@@ -32,4 +29,4 @@ app.use('/api/', cors(corsClientOptions), authRoute); // protected route
 
 
 
-app.listen(port, () => console.log('Server listening on port ' + port));
+app.listen(API_PORT, () => console.log('Server listening on port ' + API_PORT));
