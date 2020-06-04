@@ -12,7 +12,7 @@ const getEnvVars = (env) => {
   const envPath = basePath + '.' + env;
 
   // Check if the file exists, otherwise fall back to .env
-  const finalPath = fs.existsSync(envPath) ? envPath : `${currentPath}/.env`;
+  const finalPath = fs.existsSync(envPath) ? envPath : basePath;
 
   // Set path in dotenv config
   const fileEnv = dotenvExpand(dotenv.config({ path: finalPath })).parsed;
