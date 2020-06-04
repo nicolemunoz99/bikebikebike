@@ -6,15 +6,15 @@ const dotenvExpand = require('dotenv-expand');
 const getEnvVars = (env) => {
   const currentPath = path.join(__dirname);
 
-  // when in development, .env is in parent dir
+  // .env in parent dir
   const basePath = currentPath + '/../.env';
 
   const envPath = basePath + '.' + env;
 
-  // Check if the file exists, otherwise fall back to the production .env
+  // Check if the file exists, otherwise fall back to .env
   const finalPath = fs.existsSync(envPath) ? envPath : `${currentPath}/.env`;
-  console.log('finalPath', finalPath)
-  // Set the path parameter in the dotenv config
+
+  // Set path in dotenv config
   const fileEnv = dotenvExpand(dotenv.config({ path: finalPath })).parsed;
 
   return fileEnv;

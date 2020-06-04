@@ -6,19 +6,17 @@ const dotenvExpand = require('dotenv-expand');
 
 module.exports = (env) => {
 
-  const currentPath = path.join(__dirname);
+  // ENV defined in parent dir
+  const basePath = `${path.join(__dirname)}/..`;
+  const envPath = `${basePath}/.env.${env.ENVIRONMENT}`;
 
-  const basePath = currentPath + '/../.env';
+  // check if the file exists, otherwise fall back to .env
+  const finalPath = fs.existsSync(envPath) ? envPath : `${basePath}/.env`;
 
-  const envPath = basePath + '.' + env.ENVIRONMENT;
-
-  // Check if the file exists, otherwise fall back to the production .env
-  const finalPath = fs.existsSync(envPath) ? envPath : `${currentPath}/.env`;
-
-  // Set the path parameter in the dotenv config
+  // define path parameter in dotenv config
   const fileEnv = dotenvExpand(dotenv.config({ path: finalPath })).parsed;
   
-  // reduce it to a nice object, the same as before (but with the variables from the file)
+  // reduce to object
   const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
     prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
     return prev;

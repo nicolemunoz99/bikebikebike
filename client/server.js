@@ -1,6 +1,5 @@
 const { CLIENT_PORT } = require('./config.js');
 
-// const CLIENT_PORT = process.env.CLIENT_PORT
 
 const express = require ('express');
 const app = express();
@@ -14,5 +13,3 @@ app.get('*', (req, res) => {
 });
 
 app.listen(CLIENT_PORT, () => console.log('Server listening on port ' + CLIENT_PORT))
-
-console.log('client port: ', CLIENT_PORT)
