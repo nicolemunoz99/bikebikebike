@@ -30,9 +30,9 @@ const PartSummary = () => {
 
         <Col xs={{ span: 8, offset: 4 }}>
           <div className='my-2 text-left'>
-            {lifespan_dist ? <li>{`${lifespan_dist} ${distUnit}`}</li> : ''}
-            {lifespan_time ? <li>{`${lifespan_time} hours (ride time)`}</li> : ''}
-            {lifespan_date ? <li>{`${xDate(lifespan_date).toString('MMM dd, yyyy')}`}</li> : ''}
+            {use_metric_dist ? <li>{`${lifespan_dist} ${distUnit}`}</li> : ''}
+            {use_metric_time ? <li>{`${lifespan_time} hours (ride time)`}</li> : ''}
+            {use_metric_date ? <li>{`${xDate(lifespan_date).toString('MMM dd, yyyy')}`}</li> : ''}
           </div>
 
         </Col>
