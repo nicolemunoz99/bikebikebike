@@ -12,8 +12,8 @@ const getEnvVars = (env) => {
   const envPath = basePath + '.' + env;
 
   // Check if the file exists, otherwise fall back to the production .env
-  const finalPath = fs.existsSync(envPath) ? envPath : basePath;
-
+  const finalPath = fs.existsSync(envPath) ? envPath : `${currentPath}/.env`;
+  console.log('finalPath', finalPath)
   // Set the path parameter in the dotenv config
   const fileEnv = dotenvExpand(dotenv.config({ path: finalPath })).parsed;
 

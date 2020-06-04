@@ -14,7 +14,7 @@ import { ProtectedRoute, StravaPermissionsRoute } from './wrappers/ProtectedRout
 
 export const App = () => {
   const { modal } = useSelector(state => state.appControls);
-
+  
 return (
   <>
     <Router>

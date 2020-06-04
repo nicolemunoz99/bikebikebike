@@ -1,5 +1,7 @@
 const { CLIENT_PORT } = require('./config.js');
 
+// const CLIENT_PORT = process.env.CLIENT_PORT
+
 const express = require ('express');
 const app = express();
 const path = require('path');
