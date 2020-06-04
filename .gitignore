@@ -3,6 +3,8 @@ node_modules
 strava.js
 .env.*
 .env
+Dockerfile
+.dockerignore
 
 
 #amplify
